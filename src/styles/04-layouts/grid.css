@@ -1,0 +1,51 @@
+/* 网格辅助布局文件：提供常用栅格和后台统计卡布局。
+   这里是布局工具，不负责卡片视觉外观。 */
+
+/* 通用网格容器：只设置 display grid 和统一间距。 */
+.pm-grid {
+  display: grid;
+  gap: var(--pm-space-4);
+}
+
+/* 二列网格：用于详情、表单、信息区等。 */
+.pm-grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* 三列网格：用于后台统计、功能入口等。 */
+.pm-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* 四列网格：用于分类入口、菜单入口等。 */
+.pm-grid-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* 商品网格：根据屏幕宽度自动排列商品卡。 */
+.pm-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--pm-space-4);
+}
+
+/* 后台统计网格：用于商品总数、在售数、库存预警等数据。 */
+.pm-admin-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--pm-space-3);
+}
+
+/* 后台统计卡：展示单个统计指标。 */
+.pm-admin-stat {
+  padding: var(--pm-space-4);
+  background: var(--pm-color-surface-warm);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+/* 后台统计卡数字：突出显示主要数值。 */
+.pm-admin-stat strong {
+  display: block;
+  font-size: var(--pm-text-2xl);
+  line-height: 1;
+}

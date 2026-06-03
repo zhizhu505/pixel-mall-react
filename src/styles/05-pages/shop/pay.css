@@ -1,0 +1,43 @@
+/* 支付页样式文件：定义模拟支付面板、倒计时、支付方式和支付结果布局。
+   订单信息展示可复用 pm-order-card。 */
+
+/* 支付页容器：居中显示支付流程内容。 */
+.pm-pay-page {
+  display: grid;
+  gap: var(--pm-space-5);
+  max-width: 760px;
+}
+
+/* 支付面板：承载订单金额、倒计时、支付方式和操作按钮。 */
+.pm-pay-panel {
+  display: grid;
+  gap: var(--pm-space-4);
+  padding: var(--pm-space-5);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-lg);
+}
+
+/* 支付倒计时：显示待支付剩余时间。 */
+.pm-pay-countdown {
+  width: fit-content;
+  padding: var(--pm-space-2) var(--pm-space-3);
+  font-weight: var(--pm-weight-black);
+  background: var(--pm-color-accent);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+/* 支付方式网格：展示余额、模拟支付、优惠券等支付选项。 */
+.pm-pay-methods {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--pm-space-3);
+}
+
+/* 单个支付方式：点击选择后可加 is-selected 状态。 */
+.pm-pay-method {
+  padding: var(--pm-space-4);
+  cursor: pointer;
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}

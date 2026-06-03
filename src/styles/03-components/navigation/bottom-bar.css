@@ -1,0 +1,29 @@
+/* 移动端底部栏组件文件：定义前台移动端首页、分类、购物车、订单、我的五栏导航。
+   适合移动优先页面，也可用于桌面手机预览容器。 */
+
+/* 底部栏外壳：五等分网格布局。 */
+.pm-bottom-bar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  min-height: var(--pm-bottom-bar-height);
+  background: var(--pm-color-surface);
+  border-top: var(--pm-border-width) solid var(--pm-color-line);
+}
+
+/* 底部栏单项：图标和文字可放在同一个入口内。 */
+.pm-bottom-bar-item {
+  display: grid;
+  place-items: center;
+  min-height: var(--pm-bottom-bar-height);
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-xs);
+  font-weight: var(--pm-weight-black);
+  text-decoration: none;
+  border-right: 2px solid var(--pm-soft-line);
+}
+
+/* 当前底部栏项：表示当前所在页面。 */
+.pm-bottom-bar-item.is-active {
+  color: var(--pm-color-primary-deep);
+  background: var(--pm-color-bg-soft);
+}

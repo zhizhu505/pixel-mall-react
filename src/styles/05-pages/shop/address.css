@@ -1,0 +1,28 @@
+/* 地址管理页样式文件：定义地址列表、地址表单和空状态布局。
+   单个地址卡片复用 03-components/commerce/address-card.css。 */
+
+/* 地址页容器：控制地址列表、表单和空状态之间的间距。 */
+.pm-address-page {
+  display: grid;
+  gap: var(--pm-space-5);
+}
+
+/* 地址列表：多个 pm-address-card 纵向排列。 */
+.pm-address-list {
+  display: grid;
+  gap: var(--pm-space-3);
+}
+
+/* 地址表单：新增或编辑地址时使用。 */
+.pm-address-form {
+  display: grid;
+  gap: var(--pm-space-3);
+  padding: var(--pm-space-4);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+}
+
+/* 地址空状态：无地址时预留展示高度。 */
+.pm-address-empty {
+  min-height: 280px;
+}

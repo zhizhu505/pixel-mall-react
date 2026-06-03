@@ -1,0 +1,58 @@
+/* 订单卡组件文件：定义订单列表、订单详情、我的页面订单预览和支付页共用结构。
+   订单相关页面优先复用此组件，避免每个页面写一套订单样式。 */
+
+/* 订单卡外壳：承载订单头部、商品信息和底部操作。 */
+.pm-order-card {
+  display: grid;
+  gap: var(--pm-space-3);
+  padding: var(--pm-space-4);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-md);
+}
+
+/* 订单头部和底部：两端对齐，适配订单号、状态、价格和按钮。 */
+.pm-order-head,
+.pm-order-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 订单号：用于突出订单编号。 */
+.pm-order-number {
+  font-weight: var(--pm-weight-black);
+}
+
+/* 订单商品行：左侧缩略图，右侧商品信息。 */
+.pm-order-product {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: var(--pm-space-3);
+  align-items: center;
+}
+
+/* 订单商品缩略图：统一尺寸和像素显示。 */
+.pm-order-product img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  image-rendering: pixelated;
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+/* 订单商品标题：用于商品名称或订单标题。 */
+.pm-order-title {
+  margin: 0;
+  font-size: var(--pm-text-base);
+}
+
+/* 订单描述与元信息：用于数量、时间、物流等弱信息。 */
+.pm-order-desc,
+.pm-order-meta {
+  margin: 0;
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-sm);
+}

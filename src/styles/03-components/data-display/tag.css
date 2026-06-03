@@ -1,0 +1,60 @@
+/* 标签组件文件：定义商品贴纸、订单状态、角色标签和主题标签。
+   标签只负责短文本状态，不要放长句说明。 */
+
+/* 基础标签：默认黄色像素贴纸。 */
+.pm-tag {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 28px;
+  padding: 3px 10px;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-xs);
+  font-weight: var(--pm-weight-black);
+  line-height: 1.2;
+  background: var(--pm-color-accent);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  border-radius: var(--pm-radius);
+  box-shadow: var(--pm-shadow-xs);
+}
+
+/* 热卖标签：用于热门商品、促销强提醒。 */
+.pm-tag-hot {
+  color: var(--pm-white);
+  background: var(--pm-color-primary);
+}
+
+/* 新品标签：用于新品上架或成功状态。 */
+.pm-tag-new {
+  background: var(--pm-color-accent-2);
+}
+
+/* 信息标签：用于推荐、分类、普通状态。 */
+.pm-tag-info {
+  background: var(--pm-color-accent-3);
+}
+
+/* 促销标签：用于限时、优惠、秒杀等活动。 */
+.pm-tag-sale {
+  background: var(--pm-color-promo);
+}
+
+/* 危险标签：用于下架、异常、删除提示。 */
+.pm-tag-danger {
+  color: var(--pm-white);
+  background: var(--pm-danger);
+}
+
+/* 弱标签：用于已完成、普通说明等低强调状态。 */
+.pm-tag-muted {
+  color: var(--pm-color-text-muted);
+  background: var(--pm-color-bg-soft);
+}
+
+/* 标签组：多个标签横向排列并自动换行。 */
+.pm-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-2);
+  align-items: center;
+}

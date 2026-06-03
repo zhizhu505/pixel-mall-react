@@ -1,0 +1,34 @@
+/* 移动端页面外壳文件：定义 mall1 参考图那种手机商城页面容器。
+   可用于真实移动端页面，也可用于桌面端展示手机预览稿。 */
+
+/* 移动端页面容器：限制手机宽度并保留左右像素描边。 */
+.pm-mobile-page {
+  width: min(100%, var(--pm-mobile-max));
+  min-height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--pm-color-surface);
+  border-inline: var(--pm-border-width) solid var(--pm-color-line);
+}
+
+/* 移动端头部：承载状态栏、标题、搜索框和 Banner 区。 */
+.pm-mobile-header {
+  display: grid;
+  gap: var(--pm-space-3);
+  padding: var(--pm-space-3);
+  color: var(--pm-white);
+  background: var(--pm-color-primary);
+  border-bottom: var(--pm-border-width) solid var(--pm-color-line);
+}
+
+/* 移动端标题栏：左右排列页面标题与功能入口。 */
+.pm-mobile-titlebar {
+  display: flex;
+  justify-content: space-between;
+  font-weight: var(--pm-weight-black);
+}
+
+/* 移动端内容区：统一页面主体内边距。 */
+.pm-mobile-content {
+  padding: var(--pm-space-3);
+}

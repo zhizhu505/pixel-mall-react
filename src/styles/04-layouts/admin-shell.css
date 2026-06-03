@@ -1,0 +1,71 @@
+/* 后台管理外壳布局文件：定义后台登录后管理页面的侧边栏和主内容区。
+   后台商品管理、角色权限、后台首页都应使用这套简化像素风布局。 */
+
+/* 后台应用根容器：提供全屏高度和后台背景。 */
+.pm-admin-app {
+  min-height: 100vh;
+  background: var(--pm-color-bg);
+}
+
+/* 后台主布局：左侧菜单，右侧内容。 */
+.pm-admin-layout {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--pm-color-surface);
+}
+
+/* 后台侧边栏：放置后台 logo 和菜单入口。 */
+.pm-admin-side {
+  display: grid;
+  align-content: start;
+  gap: var(--pm-space-2);
+  padding: var(--pm-space-4);
+  background: var(--pm-color-bg-soft);
+  border-right: var(--pm-border-width) solid var(--pm-color-line);
+}
+
+/* 后台 logo：显示管理端名称。 */
+.pm-admin-logo {
+  margin-bottom: var(--pm-space-2);
+  font-size: var(--pm-text-xl);
+  font-weight: var(--pm-weight-black);
+}
+
+/* 后台导航链接：商品管理、角色权限等菜单项。 */
+.pm-admin-nav-link {
+  padding: 9px;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-sm);
+  font-weight: var(--pm-weight-black);
+  text-decoration: none;
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+/* 后台当前菜单：表示当前所在后台模块。 */
+.pm-admin-nav-link.is-active {
+  background: var(--pm-color-accent);
+}
+
+/* 后台主内容区：承载表格、表单和统计信息。 */
+.pm-admin-main {
+  min-width: 0;
+  padding: var(--pm-space-5);
+}
+
+/* 后台内容头部：标题、筛选和新增按钮的公共排列。 */
+.pm-admin-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-3);
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--pm-space-5);
+}
+
+/* 后台页面标题：商品管理、角色权限等模块标题。 */
+.pm-admin-title {
+  margin: 0;
+  font-size: var(--pm-text-2xl);
+}

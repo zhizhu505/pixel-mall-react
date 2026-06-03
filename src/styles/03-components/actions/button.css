@@ -1,0 +1,95 @@
+/* 按钮组件文件：定义所有可点击命令按钮的统一像素风样式。
+   页面中凡是购买、提交、删除、返回、筛选等操作，都优先使用这里的按钮类。 */
+
+/* 基础按钮：所有按钮必须先使用 pm-btn，再叠加颜色或尺寸变体。 */
+.pm-btn {
+  --pm-btn-bg: var(--pm-color-surface);
+  --pm-btn-fg: var(--pm-color-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 8px 18px;
+  color: var(--pm-btn-fg);
+  font-weight: var(--pm-weight-black);
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  background: var(--pm-btn-bg);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  border-radius: var(--pm-radius);
+  box-shadow: var(--pm-shadow-sm);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+
+/* 按钮悬停态：模拟像素按钮被按下前的轻微位移。 */
+.pm-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--pm-color-line);
+  filter: saturate(1.05);
+}
+
+/* 按钮按下态：阴影归零，表现为按钮真正被压下。 */
+.pm-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--pm-color-line);
+}
+
+/* 主按钮：用于立即购买、提交订单、登录等主操作。 */
+.pm-btn-primary {
+  --pm-btn-bg: var(--pm-color-primary);
+  --pm-btn-fg: var(--pm-white);
+}
+
+/* 强调按钮：用于优惠券、活动入口、次级高亮操作。 */
+.pm-btn-accent {
+  --pm-btn-bg: var(--pm-color-accent);
+}
+
+/* 薄荷按钮：用于加入购物车、成功操作或轻量辅助操作。 */
+.pm-btn-mint {
+  --pm-btn-bg: var(--pm-color-accent-2);
+}
+
+/* 深色按钮：用于后台保存、重要管理操作或深色反差区域。 */
+.pm-btn-dark {
+  --pm-btn-bg: var(--pm-color-text);
+  --pm-btn-fg: var(--pm-white);
+}
+
+/* 幽灵按钮：用于查看详情、取消、返回等弱操作。 */
+.pm-btn-ghost {
+  --pm-btn-bg: var(--pm-color-surface);
+  box-shadow: 4px 4px 0 var(--pm-color-primary-soft);
+}
+
+/* 危险按钮：用于删除商品、删除地址、退出等风险操作。 */
+.pm-btn-danger {
+  --pm-btn-bg: var(--pm-danger);
+  --pm-btn-fg: var(--pm-white);
+}
+
+/* 图标按钮：用于收藏、加减、关闭等正方形小按钮。 */
+.pm-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+}
+
+/* 通栏按钮：用于登录表单、支付页、移动端底部操作。 */
+.pm-btn-block {
+  width: 100%;
+}
+
+/* 禁用按钮：用于售罄、不可提交、加载不可操作等状态。 */
+.pm-btn:disabled,
+.pm-btn-disabled {
+  color: #a9949f;
+  pointer-events: none;
+  background: #eadfe5;
+  box-shadow: 4px 4px 0 #b9a8b1;
+}

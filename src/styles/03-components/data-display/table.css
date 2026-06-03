@@ -1,0 +1,37 @@
+/* 表格组件文件：定义后台商品管理、订单管理等数据表格样式。
+   后台页面使用此表格，不要在页面文件里重新写表格外观。 */
+
+/* 表格滚动容器：小屏时允许横向滚动，避免内容挤压。 */
+.pm-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* 基础表格：像素风边框表格。 */
+.pm-table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  background: var(--pm-color-surface);
+}
+
+/* 表头和单元格：统一内边距、对齐和描边。 */
+.pm-table th,
+.pm-table td {
+  padding: 10px;
+  text-align: left;
+  vertical-align: middle;
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+/* 表头：使用主题浅色强调列名。 */
+.pm-table th {
+  background: var(--pm-color-primary-soft);
+}
+
+/* 表格操作区：编辑、删除、上下架等按钮集合。 */
+.pm-table-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-2);
+}

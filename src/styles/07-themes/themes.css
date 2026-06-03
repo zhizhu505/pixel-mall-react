@@ -1,0 +1,105 @@
+/* 主题配置文件：提供预置主题和用户 DIY 配色能力。
+   使用方式：在 html、body 或应用根节点上添加 data-theme。
+   示例：<div id="root" data-theme="mint">...</div>
+   DIY 主题通过 --pm-diy-* 变量注入颜色。 */
+
+/* 樱花粉主题：默认主题，符合 PRD 的粉白可爱像素商城方向。 */
+:root,
+[data-theme="sakura"] {
+  --pm-theme-name: "sakura";
+  --pm-color-primary: #ff6fa8;
+  --pm-color-primary-soft: #ffd7e8;
+  --pm-color-primary-deep: #d94f86;
+  --pm-color-bg: #fff9ec;
+  --pm-color-bg-soft: #fff1f7;
+  --pm-color-surface: #ffffff;
+  --pm-color-surface-warm: #fff9ec;
+  --pm-color-accent: #ffd765;
+  --pm-color-accent-2: #7be0c3;
+  --pm-color-accent-3: #8fd7ff;
+  --pm-color-promo: #ff8a6b;
+  --pm-color-text: #3b2f3a;
+  --pm-color-text-muted: #8b7280;
+  --pm-color-line: #3b2f3a;
+  --pm-color-shadow: rgba(59, 47, 58, 0.18);
+}
+
+/* 薄荷主题：主色偏清爽绿色，适合夏日、生活、家居分类。 */
+[data-theme="mint"] {
+  --pm-theme-name: "mint";
+  --pm-color-primary: #55d6b2;
+  --pm-color-primary-soft: #d7fff1;
+  --pm-color-primary-deep: #2f9b7d;
+  --pm-color-bg: #f4fff9;
+  --pm-color-bg-soft: #e7fff5;
+  --pm-color-surface: #ffffff;
+  --pm-color-surface-warm: #fff9ec;
+  --pm-color-accent: #ffd765;
+  --pm-color-accent-2: #ff9fc7;
+  --pm-color-accent-3: #8fd7ff;
+  --pm-color-promo: #ff8a6b;
+  --pm-color-text: #2d3c37;
+  --pm-color-text-muted: #6f8a80;
+  --pm-color-line: #2d3c37;
+  --pm-color-shadow: rgba(45, 60, 55, 0.18);
+}
+
+/* 天空蓝主题：主色偏蓝，适合数码、清新、轻量页面。 */
+[data-theme="sky"] {
+  --pm-theme-name: "sky";
+  --pm-color-primary: #6bc7ff;
+  --pm-color-primary-soft: #dff4ff;
+  --pm-color-primary-deep: #348fc4;
+  --pm-color-bg: #f7fcff;
+  --pm-color-bg-soft: #eaf7ff;
+  --pm-color-surface: #ffffff;
+  --pm-color-surface-warm: #fff9ec;
+  --pm-color-accent: #ffd765;
+  --pm-color-accent-2: #7be0c3;
+  --pm-color-accent-3: #ff9fc7;
+  --pm-color-promo: #ff8a6b;
+  --pm-color-text: #2f3440;
+  --pm-color-text-muted: #768093;
+  --pm-color-line: #2f3440;
+  --pm-color-shadow: rgba(47, 52, 64, 0.18);
+}
+
+/* 糖果紫主题：主色偏紫，适合二次元、收藏卡片感页面。 */
+[data-theme="candy"] {
+  --pm-theme-name: "candy";
+  --pm-color-primary: #b9a7ff;
+  --pm-color-primary-soft: #ece7ff;
+  --pm-color-primary-deep: #7d67d8;
+  --pm-color-bg: #fff8fe;
+  --pm-color-bg-soft: #f8efff;
+  --pm-color-surface: #ffffff;
+  --pm-color-surface-warm: #fff9ec;
+  --pm-color-accent: #ffd765;
+  --pm-color-accent-2: #7be0c3;
+  --pm-color-accent-3: #ff9fc7;
+  --pm-color-promo: #ff8a6b;
+  --pm-color-text: #3a314a;
+  --pm-color-text-muted: #80758f;
+  --pm-color-line: #3a314a;
+  --pm-color-shadow: rgba(58, 49, 74, 0.18);
+}
+
+/* DIY 主题：由用户选择颜色后写入 --pm-diy-* 变量。 */
+[data-theme="diy"] {
+  --pm-theme-name: "diy";
+  --pm-color-primary: var(--pm-diy-primary, #ff6fa8);
+  --pm-color-primary-soft: var(--pm-diy-primary-soft, #ffd7e8);
+  --pm-color-primary-deep: var(--pm-diy-primary-deep, #d94f86);
+  --pm-color-bg: var(--pm-diy-bg, #fff9ec);
+  --pm-color-bg-soft: var(--pm-diy-bg-soft, #fff1f7);
+  --pm-color-surface: var(--pm-diy-surface, #ffffff);
+  --pm-color-surface-warm: var(--pm-diy-surface-warm, #fff9ec);
+  --pm-color-accent: var(--pm-diy-accent, #ffd765);
+  --pm-color-accent-2: var(--pm-diy-accent-2, #7be0c3);
+  --pm-color-accent-3: var(--pm-diy-accent-3, #8fd7ff);
+  --pm-color-promo: var(--pm-diy-promo, #ff8a6b);
+  --pm-color-text: var(--pm-diy-text, #3b2f3a);
+  --pm-color-text-muted: var(--pm-diy-muted, #8b7280);
+  --pm-color-line: var(--pm-diy-line, #3b2f3a);
+  --pm-color-shadow: var(--pm-diy-shadow, rgba(59, 47, 58, 0.18));
+}

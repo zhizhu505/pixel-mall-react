@@ -1,0 +1,69 @@
+/* 前台首页样式文件：定义首页 Hero、分类入口、楼层区块和活动 Banner 的页面布局。
+   商品卡、按钮、标签等公共组件不要在这里重写，统一复用 03-components。 */
+
+/* 首页页面容器：控制首页各楼层之间的垂直间距。 */
+.pm-home-page {
+  display: grid;
+  gap: var(--pm-space-6);
+}
+
+/* 首页主视觉区：承载商城主题、搜索引导、活动信息或轮播首屏。 */
+.pm-home-hero {
+  position: relative;
+  min-height: 320px;
+  padding: var(--pm-space-6);
+  overflow: hidden;
+  color: var(--pm-white);
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 10px, transparent 10px 20px),
+    linear-gradient(135deg, var(--pm-color-primary), var(--pm-color-promo));
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-lg);
+}
+
+/* 首页主视觉标题：用于 Pixel Mall 或活动主标题。 */
+.pm-home-hero-title {
+  max-width: 620px;
+  margin: 0 0 var(--pm-space-3);
+  font-size: clamp(36px, 7vw, 72px);
+  line-height: 1.05;
+}
+
+/* 首页主视觉说明：用于一句话介绍活动或商城主题。 */
+.pm-home-hero-desc {
+  max-width: 520px;
+  margin: 0;
+  font-size: var(--pm-text-lg);
+}
+
+/* 首页分类入口行：四个快捷分类入口的网格容器。 */
+.pm-home-category-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--pm-space-3);
+}
+
+/* 首页单个分类入口：用于新品、热卖、优惠、家居等快捷入口。 */
+.pm-home-category {
+  display: grid;
+  gap: var(--pm-space-2);
+  justify-items: center;
+  padding: var(--pm-space-3);
+  text-align: center;
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-xs);
+}
+
+/* 首页楼层区块：用于热门商品、新品上架、主题推荐等区域。 */
+.pm-home-section {
+  display: grid;
+  gap: var(--pm-space-4);
+}
+
+/* 首页活动 Banner：用于优惠券、会员卡、限时活动等横幅。 */
+.pm-home-banner {
+  padding: var(--pm-space-5);
+  background: var(--pm-color-primary-soft);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+}

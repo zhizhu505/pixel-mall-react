@@ -1,0 +1,68 @@
+/* 弹窗与提示组件文件：定义确认弹窗、表单弹窗、提示条等反馈样式。
+   只有需要遮罩层时才使用 pm-modal-mask。 */
+
+/* 弹窗遮罩：覆盖全屏并居中放置弹窗。 */
+.pm-modal-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: var(--pm-space-4);
+  background: rgba(59, 47, 58, 0.28);
+}
+
+/* 弹窗主体：像素描边白底面板。 */
+.pm-modal {
+  width: min(100%, 420px);
+  padding: var(--pm-space-5);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-lg);
+}
+
+/* 弹窗头部：标题和关闭按钮左右排列。 */
+.pm-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pm-space-3);
+  margin-bottom: var(--pm-space-3);
+}
+
+/* 弹窗标题：用于确认删除、加入购物车成功等标题。 */
+.pm-modal-title {
+  margin: 0;
+  font-size: var(--pm-text-xl);
+  line-height: var(--pm-line-tight);
+}
+
+/* 弹窗关闭按钮：右上角方形关闭控件。 */
+.pm-modal-close {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  font-weight: var(--pm-weight-black);
+  cursor: pointer;
+  background: var(--pm-color-primary-soft);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+/* 弹窗操作区：确认、取消等按钮靠右排列。 */
+.pm-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-3);
+  justify-content: flex-end;
+  margin-top: var(--pm-space-4);
+}
+
+/* 提示条：用于成功、说明、未登录提示等轻量反馈。 */
+.pm-alert {
+  padding: var(--pm-space-3);
+  color: var(--pm-color-text);
+  background: var(--pm-color-surface-warm);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: inset 4px 0 0 var(--pm-color-accent);
+}

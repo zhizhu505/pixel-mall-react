@@ -1,0 +1,49 @@
+/* 浏览器重置文件：统一不同浏览器的默认表现。
+   这里只做轻量 reset，不破坏 HTML 语义和可访问性。 */
+
+/* 全局盒模型：让宽高计算包含 padding 和 border。 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* HTML 根元素：保证页面最小高度和移动端字号稳定。 */
+html {
+  min-height: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* body 基础重置：去掉默认外边距。 */
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+/* 表单控件重置：继承项目字体，避免控件字体突兀。 */
+button,
+input,
+select,
+textarea {
+  margin: 0;
+  font: inherit;
+}
+
+/* 按钮重置：具体边框由 pm-btn 组件负责。 */
+button {
+  border: 0;
+}
+
+/* 媒体元素重置：防止图片和视频超出容器。 */
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+/* 链接重置：默认继承当前文字颜色。 */
+a {
+  color: inherit;
+}

@@ -1,0 +1,39 @@
+/* 间距与尺寸变量文件：定义全站间距、边框、阴影和页面宽度。
+   组件应使用这些变量，不要在页面里随意硬编码间距。 */
+
+/* 全局尺寸变量：所有页面和组件共享。 */
+:root {
+  /* 基础间距：按照 4px 栅格递增，保证像素风页面整齐。 */
+  --pm-space-1: 4px;
+  --pm-space-2: 8px;
+  --pm-space-3: 12px;
+  --pm-space-4: 16px;
+  --pm-space-5: 20px;
+  --pm-space-6: 24px;
+  --pm-space-8: 32px;
+  --pm-space-10: 40px;
+  --pm-space-12: 48px;
+
+  /* 圆角变量：像素风默认直角，后续确需圆角时统一改变量。 */
+  --pm-radius-none: 0;
+  --pm-radius: var(--pm-radius-none);
+
+  /* 描边粗细：像素组件使用粗描边，细描边用于表格和内部区域。 */
+  --pm-border-width: 4px;
+  --pm-border-width-thin: 3px;
+
+  /* 块状阴影：使用硬边错位阴影，不使用模糊投影。 */
+  --pm-shadow-xs: 3px 3px 0 rgba(59, 47, 58, 0.12);
+  --pm-shadow-sm: 4px 4px 0 var(--pm-color-line);
+  --pm-shadow-md: 6px 6px 0 rgba(255, 111, 168, 0.24);
+  --pm-shadow-lg: 8px 8px 0 var(--pm-color-shadow);
+
+  /* 页面宽度：前台、后台和移动预览统一从这里取值。 */
+  --pm-page-max: 1200px;
+  --pm-admin-max: 1280px;
+  --pm-mobile-max: 430px;
+
+  /* 固定栏高度：用于顶部栏、底部栏和 sticky 布局计算。 */
+  --pm-header-height: 64px;
+  --pm-bottom-bar-height: 60px;
+}

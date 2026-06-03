@@ -1,0 +1,40 @@
+/* 空状态组件文件：用于购物车、订单、收藏、搜索结果、地址列表无数据时展示。
+   空状态应提供说明和下一步操作按钮。 */
+
+/* 空状态外壳：居中展示图标、标题、说明和操作。 */
+.pm-empty-state {
+  display: grid;
+  gap: var(--pm-space-3);
+  justify-items: center;
+  padding: var(--pm-space-8) var(--pm-space-4);
+  text-align: center;
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-md);
+}
+
+/* 空状态图标：可放文字、图标或像素素材占位。 */
+.pm-empty-icon {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-2xl);
+  font-weight: var(--pm-weight-black);
+  background: var(--pm-color-primary-soft);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+}
+
+/* 空状态标题：说明当前为空的对象。 */
+.pm-empty-title {
+  margin: 0;
+  font-size: var(--pm-text-xl);
+}
+
+/* 空状态描述：给出简短解释或行动建议。 */
+.pm-empty-desc {
+  max-width: 360px;
+  margin: 0;
+  color: var(--pm-color-text-muted);
+}

@@ -1,0 +1,41 @@
+/* 购物车页样式文件：定义购物车列表和底部结算栏的页面布局。
+   单个购物车商品项外观在 03-components/commerce/cart-item.css 中维护。 */
+
+/* 购物车页面容器：控制列表、空状态和结算栏之间的间距。 */
+.pm-cart-page {
+  display: grid;
+  gap: var(--pm-space-5);
+}
+
+/* 购物车列表：多个 pm-cart-item 纵向排列。 */
+.pm-cart-list {
+  display: grid;
+  gap: var(--pm-space-3);
+}
+
+/* 购物车结算栏：显示全选、合计金额和去结算按钮。 */
+.pm-cart-summary {
+  position: sticky;
+  bottom: var(--pm-space-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-3);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--pm-space-4);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-lg);
+}
+
+/* 购物车合计金额区：用于“合计：¥xx”的基线对齐。 */
+.pm-cart-total {
+  display: flex;
+  gap: var(--pm-space-2);
+  align-items: baseline;
+}
+
+/* 空购物车状态：无商品时预留展示高度。 */
+.pm-cart-empty {
+  min-height: 320px;
+}

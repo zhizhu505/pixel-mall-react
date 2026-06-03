@@ -1,0 +1,50 @@
+/* 后台角色权限页样式文件：定义管理员、运营角色和权限列表布局。
+   本项目只做简化 RBAC 展示，不做复杂权限系统。 */
+
+/* 角色权限页容器：控制角色列表和权限说明间距。 */
+.pm-admin-roles-page {
+  display: grid;
+  gap: var(--pm-space-5);
+}
+
+/* 角色列表：展示管理员、运营等角色卡片。 */
+.pm-role-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--pm-space-4);
+}
+
+/* 角色卡片：显示角色名称、权限说明和可见菜单。 */
+.pm-role-card {
+  display: grid;
+  gap: var(--pm-space-3);
+  padding: var(--pm-space-4);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-md);
+}
+
+/* 角色标题：显示管理员、运营等角色名称。 */
+.pm-role-title {
+  margin: 0;
+  font-size: var(--pm-text-xl);
+}
+
+/* 权限列表：列出该角色可访问的菜单或按钮权限。 */
+.pm-permission-list {
+  display: grid;
+  gap: var(--pm-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 单条权限：展示某个具体权限项。 */
+.pm-permission-item {
+  display: flex;
+  gap: var(--pm-space-2);
+  align-items: center;
+  padding: var(--pm-space-2);
+  background: var(--pm-color-bg-soft);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}

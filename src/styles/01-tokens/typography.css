@@ -1,0 +1,29 @@
+/* 字体变量文件：定义字体族、字号、行高和字重。
+   使用系统中文字体，保证课堂电脑和答辩环境都能稳定显示。 */
+
+/* 全局字体变量：组件和页面标题都从这里取值。 */
+:root {
+  /* 字体族：正文和标题暂时保持同一套中文系统字体。 */
+  --pm-font-body: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
+  --pm-font-title: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+
+  /* 字号阶梯：避免页面成员随意写不同字号。 */
+  --pm-text-xs: 12px;
+  --pm-text-sm: 13px;
+  --pm-text-md: 14px;
+  --pm-text-base: 16px;
+  --pm-text-lg: 18px;
+  --pm-text-xl: 22px;
+  --pm-text-2xl: 28px;
+  --pm-text-3xl: 36px;
+
+  /* 行高：标题更紧凑，正文和卡片内容保持可读。 */
+  --pm-line-tight: 1.18;
+  --pm-line-base: 1.65;
+  --pm-line-card: 1.42;
+
+  /* 字重：像素风重要文字使用粗体强调。 */
+  --pm-weight-normal: 400;
+  --pm-weight-bold: 800;
+  --pm-weight-black: 900;
+}

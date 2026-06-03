@@ -1,0 +1,97 @@
+/* 商品卡组件文件：定义前台首页、分类页、收藏页、推荐区和后台预览共用的商品卡。
+   商品卡是商城最核心组件，页面里不要重复定义商品卡外观。 */
+
+/* 商品卡外壳：统一像素描边、白底和粉色块状阴影。 */
+.pm-product-card {
+  position: relative;
+  display: grid;
+  gap: var(--pm-space-3);
+  min-width: 0;
+  padding: var(--pm-space-3);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  border-radius: var(--pm-radius);
+  box-shadow: var(--pm-shadow-md);
+}
+
+/* 商品卡右上角装饰块：增强像素贴纸感。 */
+.pm-product-card::before {
+  position: absolute;
+  top: calc(var(--pm-border-width) * -1);
+  right: calc(var(--pm-border-width) * -1);
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: var(--pm-color-accent);
+  border-left: var(--pm-border-width) solid var(--pm-color-line);
+  border-bottom: var(--pm-border-width) solid var(--pm-color-line);
+}
+
+/* 商品图片区域：固定正方形比例，防止商品列表高度混乱。 */
+.pm-product-media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background:
+    linear-gradient(45deg, transparent 0 46%, rgba(255, 255, 255, 0.35) 46% 54%, transparent 54%),
+    var(--pm-color-bg-soft);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+/* 商品图片：保持像素硬边显示，避免浏览器模糊缩放。 */
+.pm-product-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+/* 商品卡标签：默认贴在图片左上角。 */
+.pm-product-card > .pm-tag {
+  position: absolute;
+  top: var(--pm-space-3);
+  left: var(--pm-space-3);
+  z-index: 1;
+}
+
+/* 商品标题：允许长词换行，避免卡片撑破。 */
+.pm-product-title {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: var(--pm-text-base);
+  line-height: var(--pm-line-card);
+}
+
+/* 商品描述：弱化显示，用于一句话卖点或规格摘要。 */
+.pm-product-desc {
+  min-height: 38px;
+  margin: 0;
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-sm);
+  line-height: var(--pm-line-card);
+}
+
+/* 商品卡底部：价格和操作按钮左右分布。 */
+.pm-product-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pm-space-3);
+}
+
+/* 当前价格：全站价格主视觉，使用主题深色。 */
+.pm-price {
+  color: var(--pm-color-primary-deep);
+  font-size: var(--pm-text-xl);
+  font-weight: var(--pm-weight-black);
+  line-height: 1;
+}
+
+/* 原价：用于促销前价格，显示删除线。 */
+.pm-old-price {
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-xs);
+  text-decoration: line-through;
+}

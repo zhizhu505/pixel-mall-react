@@ -1,0 +1,41 @@
+/* 创建订单页样式文件：定义收货地址、商品清单、金额汇总和提交订单布局。
+   地址卡、商品项、按钮、表单控件均应复用公共组件。 */
+
+/* 创建订单页面容器：控制地址区、清单区和汇总区之间的间距。 */
+.pm-create-order-page {
+  display: grid;
+  gap: var(--pm-space-5);
+}
+
+/* 创建订单主布局：左侧订单内容，右侧金额汇总。 */
+.pm-order-create-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: var(--pm-space-5);
+  align-items: start;
+}
+
+/* 创建订单主内容区：放置地址、商品清单、留言等内容。 */
+.pm-order-create-main {
+  display: grid;
+  gap: var(--pm-space-4);
+}
+
+/* 创建订单侧边汇总：展示商品金额、运费、优惠和提交按钮。 */
+.pm-order-create-aside {
+  position: sticky;
+  top: calc(var(--pm-header-height) + var(--pm-space-4));
+  display: grid;
+  gap: var(--pm-space-3);
+  padding: var(--pm-space-4);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-md);
+}
+
+/* 订单金额行：用于小计、运费、优惠、实付款等左右对齐。 */
+.pm-order-amount-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--pm-space-3);
+}

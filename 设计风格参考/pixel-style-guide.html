@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pixel Mall UI Style Guide</title>
+  <link rel="stylesheet" href="./pixel-ui.css">
+</head>
+<body>
+  <main class="pm-page">
+    <section class="pm-hero" id="top">
+      <div class="pm-hero-copy">
+        <span class="pm-kicker">Pixel Mall UI Kit</span>
+        <h1 class="pm-hero-title">像素主题商城公共样式</h1>
+        <p class="pm-hero-text">可爱、简约、粉白像素风。先统一色系、素材方向和基础组件，再让首页、分类、详情、购物车、后台页面保持同一套视觉语言。</p>
+        <div class="pm-hero-actions">
+          <a class="pm-btn pm-btn-primary" href="#colors">查看色系</a>
+          <a class="pm-btn pm-btn-yellow" href="#buttons">组件样式</a>
+          <a class="pm-btn pm-btn-ghost" href="#layouts">页面布局</a>
+        </div>
+        <div class="pm-token-row" aria-label="设计关键词">
+          <div class="pm-token">
+            <strong>主风格</strong>
+            <span>粉白像素 / 少女感</span>
+          </div>
+          <div class="pm-token">
+            <strong>组件边框</strong>
+            <span>4px 硬边描边</span>
+          </div>
+          <div class="pm-token">
+            <strong>素材</strong>
+            <span>像素商品图 / 贴纸</span>
+          </div>
+          <div class="pm-token">
+            <strong>页面</strong>
+            <span>商城前台 + 后台</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="pm-phone-preview" aria-label="手机首页预览">
+        <div class="pm-phone-top">
+          <span>9:41 AM</span>
+          <span>Pixel Mall</span>
+          <span>100%</span>
+        </div>
+        <div class="pm-search pm-phone-search">
+          <input type="text" value="像素蝴蝶结" aria-label="搜索示例">
+          <button class="pm-btn pm-btn-primary" type="button">搜</button>
+        </div>
+        <div class="pm-phone-banner">
+          <h3>甜美像素新品上架</h3>
+          <span class="pm-tag pm-tag-new">限时推荐</span>
+          <div class="pm-pixel-bow"><span></span></div>
+        </div>
+        <div class="pm-phone-icons">
+          <div class="pm-mini-nav"><span class="pm-mini-icon">新</span><span>新品</span></div>
+          <div class="pm-mini-nav"><span class="pm-mini-icon">热</span><span>热卖</span></div>
+          <div class="pm-mini-nav"><span class="pm-mini-icon">券</span><span>优惠</span></div>
+          <div class="pm-mini-nav"><span class="pm-mini-icon">礼</span><span>赠品</span></div>
+          <div class="pm-mini-nav"><span class="pm-mini-icon">更</span><span>更多</span></div>
+        </div>
+        <div class="pm-phone-grid">
+          <article class="pm-product-card">
+            <div class="pm-product-media">
+              <img src="./设计风格/1.png" alt="像素蝴蝶结">
+            </div>
+            <span class="pm-tag pm-tag-hot">热卖</span>
+            <h3 class="pm-product-title">像素蝴蝶结</h3>
+            <div class="pm-product-foot">
+              <strong class="pm-price">¥29</strong>
+              <button class="pm-btn pm-btn-primary pm-icon-btn" type="button">+</button>
+            </div>
+          </article>
+          <article class="pm-product-card">
+            <div class="pm-product-media">
+              <img src="./设计风格/3.png" alt="像素椅子">
+            </div>
+            <span class="pm-tag pm-tag-new">新品</span>
+            <h3 class="pm-product-title">木纹小椅</h3>
+            <div class="pm-product-foot">
+              <strong class="pm-price">¥88</strong>
+              <button class="pm-btn pm-btn-primary pm-icon-btn" type="button">+</button>
+            </div>
+          </article>
+        </div>
+      </aside>
+    </section>
+
+    <nav class="pm-guide-nav" aria-label="样式目录">
+      <a href="#colors">色系规范</a>
+      <a href="#assets">素材方向</a>
+      <a href="#buttons">公共按钮</a>
+      <a href="#cards">商品卡</a>
+      <a href="#forms">输入框</a>
+      <a href="#modal">弹窗</a>
+      <a href="#layouts">页面基础布局</a>
+      <a href="#rules">UI 规范</a>
+    </nav>
+
+    <section class="pm-section" id="colors">
+      <div class="pm-section-head">
+        <div>
+          <h2 class="pm-section-title">色系规范</h2>
+          <p class="pm-section-note">主色负责商城记忆点，辅色只用于标签、分类和状态，背景保持奶油白以减少页面负担。</p>
+        </div>
+        <span class="pm-tag pm-tag-info">CSS Variables</span>
+      </div>
+      <div class="pm-grid colors">
+        <div class="pm-swatch">
+          <div class="pm-swatch-color" style="background:#ff6fa8"></div>
+          <strong>主色 / Sakura Pink</strong>
+          <code>--pm-pink-500 #ff6fa8</code>
+        </div>
+        <div class="pm-swatch">
+          <div class="pm-swatch-color" style="background:#fff9ec"></div>
+          <strong>背景色 / Cream</strong>
+          <code>--pm-cream #fff9ec</code>
+        </div>
+        <div class="pm-swatch">
+          <div class="pm-swatch-color" style="background:#7be0c3"></div>
+          <strong>辅色 / Mint</strong>
+          <code>--pm-mint #7be0c3</code>
+        </div>
+        <div class="pm-swatch">
+          <div class="pm-swatch-color" style="background:#8fd7ff"></div>
+          <strong>辅色 / Sky Blue</strong>
+          <code>--pm-blue #8fd7ff</code>
+        </div>
+        <div class="pm-swatch">
+          <div class="pm-swatch-color" style="background:#ffd765"></div>
+          <strong>标签色 / Pixel Yellow</strong>
+          <code>--pm-yellow #ffd765</code>
+        </div>
+        <div class="pm-swatch">
+          <div class="pm-swatch-color" style="background:#ff8a6b"></div>
+          <strong>促销色 / Coral</strong>
+          <code>--pm-coral #ff8a6b</code>
+        </div>
+        <div class="pm-swatch">
+          <div class="pm-swatch-color" style="background:#3b2f3a"></div>
+          <strong>文字与描边 / Ink</strong>
+          <code>--pm-ink #3b2f3a</code>
+        </div>
+        <div class="pm-swatch">
+          <div class="pm-swatch-color" style="background:#8b7280"></div>
+          <strong>弱文字 / Muted</strong>
+          <code>--pm-muted #8b7280</code>
+        </div>
+      </div>
+    </section>
+
+    <section class="pm-section" id="assets">
+      <div class="pm-section-head">
+        <div>
+          <h2 class="pm-section-title">素材方向</h2>
+          <p class="pm-section-note">素材建议统一命名：product-bow-01、product-chair-01、frame-pink-01。商品图尽量正方形，边缘清晰，背景干净。</p>
+        </div>
+        <span class="pm-tag pm-tag-new">Pixel Assets</span>
+      </div>
+      <div class="pm-grid assets">
+        <article class="pm-asset">
+          <div class="pm-asset-frame"><img src="./设计风格/1.png" alt="像素蝴蝶结素材"></div>
+          <strong>蝴蝶结 / 饰品类</strong>
+          <code>product-bow-01.png</code>
+        </article>
+        <article class="pm-asset">
+          <div class="pm-asset-frame"><img src="./设计风格/2.png" alt="像素纸巾素材"></div>
+          <strong>纸巾 / 日用品类</strong>
+          <code>product-tissue-01.png</code>
+        </article>
+        <article class="pm-asset">
+          <div class="pm-asset-frame"><img src="./设计风格/3.png" alt="像素椅子素材"></div>
+          <strong>椅子 / 家居类</strong>
+          <code>product-chair-01.png</code>
+        </article>
+        <article class="pm-asset">
+          <div class="pm-asset-frame"><img src="./设计风格/4.png" alt="粉色像素边框素材"></div>
+          <strong>粉色边框 / 装饰</strong>
+          <code>frame-pink-01.png</code>
+        </article>
+      </div>
+    </section>
+
+    <section class="pm-section" id="buttons">
+      <div class="pm-section-head">
+        <div>
+          <h2 class="pm-section-title">公共按钮</h2>
+          <p class="pm-section-note">统一使用像素硬边、4px 描边和错位阴影。主要购买按钮用粉色，筛选/辅助操作用黄色或薄荷色。</p>
+        </div>
+      </div>
+      <div class="pm-grid components">
+        <div class="pm-spec-card">
+          <strong>按钮状态</strong>
+          <p>默认、hover、active、disabled 已在 CSS 内定义，不需要 JS。</p>
+          <div class="pm-button-row" style="margin-top:14px">
+            <button class="pm-btn pm-btn-primary" type="button">立即购买</button>
+            <button class="pm-btn pm-btn-yellow" type="button">领取优惠</button>
+            <button class="pm-btn pm-btn-disabled" type="button">已售罄</button>
+          </div>
+        </div>
+        <div class="pm-spec-card">
+          <strong>辅助按钮</strong>
+          <p>适合收藏、筛选、返回、后台新增等非主路径操作。</p>
+          <div class="pm-button-row" style="margin-top:14px">
+            <button class="pm-btn pm-btn-mint" type="button">加入购物车</button>
+            <button class="pm-btn pm-btn-ghost" type="button">查看详情</button>
+            <button class="pm-btn pm-btn-dark" type="button">后台保存</button>
+          </div>
+        </div>
+        <div class="pm-spec-card">
+          <strong>图标按钮</strong>
+          <p>后续接入图标库时，只替换按钮内部文字或图标即可。</p>
+          <div class="pm-button-row" style="margin-top:14px">
+          <button class="pm-btn pm-btn-primary pm-icon-btn" type="button">心</button>
+          <button class="pm-btn pm-btn-yellow pm-icon-btn" type="button">＋</button>
+            <button class="pm-btn pm-btn-mint pm-icon-btn" type="button">好</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pm-section" id="cards">
+      <div class="pm-section-head">
+        <div>
+          <h2 class="pm-section-title">商品卡</h2>
+          <p class="pm-section-note">商品卡固定图片比例，标题和描述短句展示，价格永远保持强视觉。标签贴在图片左上角。</p>
+        </div>
+        <div class="pm-tag-row">
+          <span class="pm-tag pm-tag-hot">热卖</span>
+          <span class="pm-tag pm-tag-new">新品</span>
+          <span class="pm-tag pm-tag-info">推荐</span>
+          <span class="pm-tag pm-tag-sale">限时</span>
+        </div>
+      </div>
+      <div class="pm-grid assets">
+        <article class="pm-product-card">
+          <div class="pm-product-media"><img src="./设计风格/1.png" alt="像素蝴蝶结"></div>
+          <span class="pm-tag pm-tag-hot">热卖</span>
+          <h3 class="pm-product-title">甜橙像素蝴蝶结</h3>
+          <p class="pm-product-desc">适合头像、服饰和礼包装饰的可爱像素饰品。</p>
+          <div class="pm-product-foot">
+            <div>
+              <strong class="pm-price">¥29.90</strong>
+              <span class="pm-old-price">¥39.90</span>
+            </div>
+            <button class="pm-btn pm-btn-primary pm-icon-btn" type="button">+</button>
+          </div>
+        </article>
+        <article class="pm-product-card">
+          <div class="pm-product-media"><img src="./设计风格/2.png" alt="像素纸巾"></div>
+          <span class="pm-tag pm-tag-info">推荐</span>
+          <h3 class="pm-product-title">奶油像素纸巾</h3>
+          <p class="pm-product-desc">柔和奶白色日用品素材，适合家居分类展示。</p>
+          <div class="pm-product-foot">
+            <div>
+              <strong class="pm-price">¥12.00</strong>
+              <span class="pm-old-price">¥16.00</span>
+            </div>
+            <button class="pm-btn pm-btn-primary pm-icon-btn" type="button">+</button>
+          </div>
+        </article>
+        <article class="pm-product-card">
+          <div class="pm-product-media"><img src="./设计风格/3.png" alt="像素椅子"></div>
+          <span class="pm-tag pm-tag-new">新品</span>
+          <h3 class="pm-product-title">木纹像素小椅子</h3>
+          <p class="pm-product-desc">温暖木色，搭配薄荷背景，适合作为家具类商品。</p>
+          <div class="pm-product-foot">
+            <div>
+              <strong class="pm-price">¥88.00</strong>
+              <span class="pm-old-price">¥109.00</span>
+            </div>
+            <button class="pm-btn pm-btn-primary pm-icon-btn" type="button">+</button>
+          </div>
+        </article>
+        <article class="pm-product-card">
+          <div class="pm-product-media"><img src="./设计风格/6.png" alt="像素鞋子"></div>
+          <span class="pm-tag pm-tag-sale">限时</span>
+          <h3 class="pm-product-title">花朵像素拖鞋</h3>
+          <p class="pm-product-desc">服饰鞋包类主图示例，可替换为统一生成后的透明底商品图。</p>
+          <div class="pm-product-foot">
+            <div>
+              <strong class="pm-price">¥369</strong>
+              <span class="pm-old-price">¥480</span>
+            </div>
+            <button class="pm-btn pm-btn-primary pm-icon-btn" type="button">+</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="pm-section" id="forms">
+      <div class="pm-section-head">
+        <div>
+          <h2 class="pm-section-title">输入框</h2>
+          <p class="pm-section-note">用于登录、搜索、地址管理、后台商品编辑。focus 态会出现粉色外发光，错误态改成红色描边。</p>
+        </div>
+      </div>
+      <div class="pm-grid components">
+        <div class="pm-spec-card">
+          <label class="pm-control">
+            <span class="pm-label">商品搜索</span>
+            <span class="pm-search">
+              <input type="text" placeholder="搜索像素饰品、家居、鞋包">
+              <button class="pm-btn pm-btn-primary" type="button">搜索</button>
+            </span>
+            <span class="pm-help">首页、分类页、后台商品管理均可复用。</span>
+          </label>
+        </div>
+        <div class="pm-spec-card">
+          <label class="pm-control">
+            <span class="pm-label">商品名称</span>
+            <input class="pm-input" type="text" value="甜橙像素蝴蝶结">
+            <span class="pm-help">输入框默认白底，内部有浅黄色像素阴影。</span>
+          </label>
+        </div>
+        <div class="pm-spec-card">
+          <label class="pm-control pm-field-error">
+            <span class="pm-label">库存数量</span>
+            <input class="pm-input" type="text" value="0">
+            <span class="pm-help">库存不能小于 1</span>
+          </label>
+        </div>
+        <div class="pm-spec-card">
+          <label class="pm-control">
+            <span class="pm-label">商品分类</span>
+            <select class="pm-select">
+              <option>饰品配件</option>
+              <option>家居日用</option>
+              <option>鞋服包袋</option>
+            </select>
+            <span class="pm-help">select 保持同样描边和高度。</span>
+          </label>
+        </div>
+        <div class="pm-spec-card">
+          <label class="pm-control">
+            <span class="pm-label">商品描述</span>
+            <textarea class="pm-textarea" placeholder="填写商品亮点、规格、适用场景"></textarea>
+            <span class="pm-help">详情页与后台编辑页都可复用。</span>
+          </label>
+        </div>
+        <div class="pm-spec-card">
+          <strong>表单标签</strong>
+          <p>标签用小号粗体，帮助文本用 muted 色，保证信息层级明确。</p>
+          <div class="pm-tag-row" style="margin-top:14px">
+            <span class="pm-tag">默认</span>
+            <span class="pm-tag pm-tag-new">成功</span>
+            <span class="pm-tag pm-tag-hot">必填</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pm-section" id="modal">
+      <div class="pm-section-head">
+        <div>
+          <h2 class="pm-section-title">弹窗与反馈</h2>
+          <p class="pm-section-note">用于登录提示、加入购物车成功、确认删除商品、后台保存成功等状态反馈。</p>
+        </div>
+      </div>
+      <div class="pm-grid layouts">
+        <div class="pm-modal-demo">
+          <div class="pm-modal">
+            <div class="pm-modal-head">
+              <h3 class="pm-modal-title">加入购物车成功</h3>
+              <span class="pm-modal-close">×</span>
+            </div>
+            <p>甜橙像素蝴蝶结已经加入购物车，可以继续逛逛或直接去结算。</p>
+            <div class="pm-alert">提示：未登录时，购买链路会先进入登录页。</div>
+            <div class="pm-button-row" style="margin-top:14px">
+              <button class="pm-btn pm-btn-primary" type="button">去结算</button>
+              <button class="pm-btn pm-btn-ghost" type="button">继续浏览</button>
+            </div>
+          </div>
+        </div>
+        <div class="pm-spec-card">
+          <strong>反馈状态用法</strong>
+          <ul class="pm-list" style="margin-top:12px">
+            <li>成功：薄荷色标签或左侧提示条</li>
+            <li>危险：红色描边，用于删除和表单错误</li>
+            <li>等待：黄色标签，用于待支付、待发货状态</li>
+            <li>普通说明：奶油色背景，弱化视觉重量</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="pm-section" id="layouts">
+      <div class="pm-section-head">
+        <div>
+          <h2 class="pm-section-title">页面基础布局</h2>
+          <p class="pm-section-note">前台参考 mall1 的手机商城结构：顶部粉色区域、搜索、Banner、快捷分类、商品瀑布、底部栏。后台保留简洁像素边框。</p>
+        </div>
+      </div>
+      <div class="pm-grid layouts">
+        <div>
+          <h3 class="pm-section-title" style="font-size:22px">前台首页布局</h3>
+          <div class="pm-layout-phone">
+            <header class="pm-app-header">
+              <div class="pm-app-titlebar">
+                <span>Pixel Mall</span>
+              <span>收藏 / 购物车</span>
+              </div>
+              <div class="pm-search">
+                <input type="text" placeholder="搜索你喜欢的像素好物">
+                <button class="pm-btn pm-btn-yellow" type="button">搜</button>
+              </div>
+              <div class="pm-app-banner">
+                <h3>清甜像素季</h3>
+                <span>新品、热卖、会员礼券集中展示</span>
+              </div>
+            </header>
+            <div class="pm-category-row">
+              <div class="pm-category-item"><span>饰</span><span>配饰</span></div>
+              <div class="pm-category-item"><span>居</span><span>家居</span></div>
+              <div class="pm-category-item"><span>服</span><span>鞋服</span></div>
+              <div class="pm-category-item"><span>券</span><span>优惠</span></div>
+            </div>
+            <div class="pm-layout-products">
+              <article class="pm-product-card">
+                <div class="pm-product-media"><img src="./设计风格/1.png" alt="商品"></div>
+                <span class="pm-tag pm-tag-hot">热卖</span>
+                <h3 class="pm-product-title">像素蝴蝶结</h3>
+                <div class="pm-product-foot"><strong class="pm-price">¥29</strong></div>
+              </article>
+              <article class="pm-product-card">
+                <div class="pm-product-media"><img src="./设计风格/3.png" alt="商品"></div>
+                <span class="pm-tag pm-tag-new">新品</span>
+                <h3 class="pm-product-title">像素小椅</h3>
+                <div class="pm-product-foot"><strong class="pm-price">¥88</strong></div>
+              </article>
+            </div>
+            <nav class="pm-bottom-bar">
+              <span class="is-active">首页</span>
+              <span>分类</span>
+              <span>购物车</span>
+              <span>订单</span>
+              <span>我的</span>
+            </nav>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="pm-section-title" style="font-size:22px">后台管理布局</h3>
+          <div class="pm-admin-layout">
+            <aside class="pm-admin-side">
+              <div class="pm-admin-logo">PM Admin</div>
+              <a class="is-active" href="#layouts">商品管理</a>
+              <a href="#layouts">分类管理</a>
+              <a href="#layouts">订单管理</a>
+              <a href="#layouts">角色权限</a>
+            </aside>
+            <section class="pm-admin-main">
+              <div class="pm-section-head">
+                <div>
+                  <h3 class="pm-modal-title">商品管理</h3>
+                  <p class="pm-section-note">用于新增、编辑、上下架商品。</p>
+                </div>
+                <button class="pm-btn pm-btn-primary" type="button">新增商品</button>
+              </div>
+              <div class="pm-admin-cards">
+                <div class="pm-stat"><strong>36</strong><span>商品总数</span></div>
+                <div class="pm-stat"><strong>28</strong><span>在售商品</span></div>
+                <div class="pm-stat"><strong>8</strong><span>待补库存</span></div>
+              </div>
+              <div class="pm-toolbar" style="margin-bottom:12px">
+                <label class="pm-control" style="width:220px">
+                  <span class="pm-label">搜索商品</span>
+                  <input class="pm-input" type="text" value="蝴蝶结">
+                </label>
+                <label class="pm-control" style="width:180px">
+                  <span class="pm-label">上架状态</span>
+                  <select class="pm-select">
+                    <option>全部</option>
+                    <option>上架</option>
+                    <option>下架</option>
+                  </select>
+                </label>
+              </div>
+              <div class="pm-table-wrap">
+                <table class="pm-table">
+                  <thead>
+                    <tr>
+                      <th>商品</th>
+                      <th>分类</th>
+                      <th>价格</th>
+                      <th>状态</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>甜橙像素蝴蝶结</td>
+                      <td>饰品</td>
+                      <td>¥29.90</td>
+                      <td><span class="pm-tag pm-tag-new">上架</span></td>
+                      <td>编辑 / 下架</td>
+                    </tr>
+                    <tr>
+                      <td>木纹像素小椅子</td>
+                      <td>家居</td>
+                      <td>¥88.00</td>
+                      <td><span class="pm-tag">待补货</span></td>
+                      <td>编辑 / 补货</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pm-section" id="rules">
+      <div class="pm-section-head">
+        <div>
+          <h2 class="pm-section-title">简短 UI 规范</h2>
+          <p class="pm-section-note">这是后续小组成员实现页面时最容易遵守的一版规则。</p>
+        </div>
+      </div>
+      <div class="pm-rule-list">
+        <div class="pm-spec-card">
+          <strong>1. 颜色使用</strong>
+          <p>主按钮、顶部栏、关键价格使用粉色；标签和分类入口可用黄、薄荷、蓝；页面背景统一奶油白。</p>
+        </div>
+        <div class="pm-spec-card">
+          <strong>2. 边框与阴影</strong>
+          <p>所有卡片、按钮、输入框统一 4px 深色硬边描边；阴影使用 4px 或 6px 错位块状阴影。</p>
+        </div>
+        <div class="pm-spec-card">
+          <strong>3. 商品图比例</strong>
+          <p>商品卡主图统一正方形，图片使用 pixelated，避免拉伸；如果背景复杂，优先换成浅色纯背景。</p>
+        </div>
+        <div class="pm-spec-card">
+          <strong>4. 组件命名</strong>
+          <p>公共类名前缀统一为 pm，例如 pm-btn、pm-product-card、pm-input，避免和第三方样式冲突。</p>
+        </div>
+        <div class="pm-spec-card">
+          <strong>5. 前台页面</strong>
+          <p>首页、分类、详情、购物车、订单、我的页面都复用同一套商品卡、按钮、标签、底部栏。</p>
+        </div>
+        <div class="pm-spec-card">
+          <strong>6. 后台页面</strong>
+          <p>后台不做重装饰，保留粉白色系和像素边框，重点保证表格、表单、操作按钮清晰。</p>
+        </div>
+      </div>
+    </section>
+
+    <p class="pm-footer-note">Pixel Mall style guide / CSS only / no JavaScript</p>
+  </main>
+</body>
+</html>

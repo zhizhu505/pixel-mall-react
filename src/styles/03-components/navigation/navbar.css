@@ -1,0 +1,51 @@
+/* 顶部导航组件文件：定义前台商城页面的顶部导航栏。
+   后台管理端使用 admin-shell.css，不复用这里的前台导航。 */
+
+/* 前台顶部导航栏：固定在顶部，承载品牌、页面入口和右侧操作。 */
+.pm-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  gap: var(--pm-space-4);
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--pm-header-height);
+  padding: var(--pm-space-3) var(--pm-space-4);
+  background: var(--pm-color-primary);
+  border-bottom: var(--pm-border-width) solid var(--pm-color-line);
+}
+
+/* 导航品牌：显示 Pixel Mall 或项目名称。 */
+.pm-navbar-brand {
+  color: var(--pm-white);
+  font-size: var(--pm-text-xl);
+  font-weight: var(--pm-weight-black);
+  text-decoration: none;
+}
+
+/* 导航链接组和操作组：控制横向排列与换行。 */
+.pm-navbar-links,
+.pm-navbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-2);
+  align-items: center;
+}
+
+/* 导航链接：用于首页、分类、订单、我的等入口。 */
+.pm-navbar-link {
+  min-height: 34px;
+  padding: 4px 10px;
+  color: var(--pm-white);
+  font-weight: var(--pm-weight-black);
+  text-decoration: none;
+  border: var(--pm-border-width-thin) solid transparent;
+}
+
+/* 当前导航项：使用强调色显示所在页面。 */
+.pm-navbar-link.is-active {
+  color: var(--pm-color-text);
+  background: var(--pm-color-accent);
+  border-color: var(--pm-color-line);
+}

@@ -1,0 +1,77 @@
+/* 商品详情页样式文件：定义商品主图、商品信息、规格选择、推荐区和图文详情布局。
+   价格、按钮、标签、商品图片框等公共样式继续复用组件层。 */
+
+/* 详情页容器：控制主区域、长详情、推荐区之间的间距。 */
+.pm-detail-page {
+  display: grid;
+  gap: var(--pm-space-6);
+}
+
+/* 详情页首屏布局：左侧图片，右侧商品信息。 */
+.pm-detail-hero {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--pm-space-6);
+  align-items: start;
+}
+
+/* 详情页图片区域：可放主图、缩略图或轮播图。 */
+.pm-detail-gallery {
+  display: grid;
+  gap: var(--pm-space-3);
+}
+
+/* 详情页信息面板：承载标题、价格、描述、规格、购买按钮。 */
+.pm-detail-info {
+  display: grid;
+  gap: var(--pm-space-4);
+  padding: var(--pm-space-5);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-lg);
+}
+
+/* 详情页商品标题：展示商品名称。 */
+.pm-detail-title {
+  margin: 0;
+  font-size: var(--pm-text-2xl);
+  line-height: var(--pm-line-tight);
+}
+
+/* 详情页商品描述：展示商品简介或卖点。 */
+.pm-detail-desc {
+  margin: 0;
+  color: var(--pm-color-text-muted);
+}
+
+/* 规格选择区域：包含颜色、尺码、款式等规格组。 */
+.pm-detail-specs {
+  display: grid;
+  gap: var(--pm-space-3);
+}
+
+/* 单个规格组：例如颜色组、尺码组。 */
+.pm-spec-group {
+  display: grid;
+  gap: var(--pm-space-2);
+}
+
+/* 规格选项集合：规格按钮横向排列并允许换行。 */
+.pm-spec-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-2);
+}
+
+/* 详情页底部操作：加入购物车和立即购买按钮。 */
+.pm-detail-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--pm-space-3);
+}
+
+/* 详情页长内容：用于参数、图文详情、商品故事等内容。 */
+.pm-detail-long {
+  display: grid;
+  gap: var(--pm-space-4);
+}

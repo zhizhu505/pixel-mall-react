@@ -1,0 +1,72 @@
+/* Pixel Mall CSS 总入口文件。
+   React 使用方式：在 main.jsx 或 App.jsx 中 import "./styles/index.css"。
+   本文件只负责导入，不写具体样式，保证加载顺序清晰稳定。 */
+
+/* 01-tokens：基础设计变量，包括颜色、间距、字体。 */
+@import "./01-tokens/colors.css";
+@import "./01-tokens/spacing.css";
+@import "./01-tokens/typography.css";
+
+/* 07-themes：主题变量覆盖层，提供预设主题和 DIY 主题。 */
+@import "./07-themes/themes.css";
+
+/* 02-base：浏览器重置和全局基础元素样式。 */
+@import "./02-base/reset.css";
+@import "./02-base/base.css";
+
+/* 03-components/actions：动作类组件，例如按钮。 */
+@import "./03-components/actions/button.css";
+
+/* 03-components/forms：表单与数量选择组件。 */
+@import "./03-components/forms/form.css";
+@import "./03-components/forms/quantity.css";
+
+/* 03-components/data-display：标签、表格等数据展示组件。 */
+@import "./03-components/data-display/tag.css";
+@import "./03-components/data-display/table.css";
+
+/* 03-components/commerce：商城业务复用组件。 */
+@import "./03-components/commerce/product-card.css";
+@import "./03-components/commerce/order-card.css";
+@import "./03-components/commerce/address-card.css";
+@import "./03-components/commerce/cart-item.css";
+
+/* 03-components/navigation：前台导航和移动端底部栏。 */
+@import "./03-components/navigation/navbar.css";
+@import "./03-components/navigation/bottom-bar.css";
+
+/* 03-components/feedback：弹窗、提示和空状态。 */
+@import "./03-components/feedback/modal.css";
+@import "./03-components/feedback/empty-state.css";
+
+/* 03-components/theme：主题切换面板。 */
+@import "./03-components/theme/theme-panel.css";
+
+/* 04-layouts：前台、后台、移动端和网格布局。 */
+@import "./04-layouts/app-shell.css";
+@import "./04-layouts/mobile-page.css";
+@import "./04-layouts/admin-shell.css";
+@import "./04-layouts/grid.css";
+
+/* 05-pages/shop：前台商城页面专属布局和占位样式。 */
+@import "./05-pages/shop/home.css";
+@import "./05-pages/shop/category.css";
+@import "./05-pages/shop/detail.css";
+@import "./05-pages/shop/cart.css";
+@import "./05-pages/shop/create-order.css";
+@import "./05-pages/shop/pay.css";
+@import "./05-pages/shop/orders.css";
+@import "./05-pages/shop/profile.css";
+@import "./05-pages/shop/login.css";
+@import "./05-pages/shop/favorites.css";
+@import "./05-pages/shop/address.css";
+
+/* 05-pages/admin：后台管理页面专属布局和占位样式。 */
+@import "./05-pages/admin/admin-login.css";
+@import "./05-pages/admin/admin-dashboard.css";
+@import "./05-pages/admin/admin-roles.css";
+@import "./05-pages/admin/admin-products.css";
+
+/* 06-states：JS 控制状态类和全局响应式覆盖。 */
+@import "./06-states/states.css";
+@import "./06-states/responsive.css";

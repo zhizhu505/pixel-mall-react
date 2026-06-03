@@ -1,0 +1,84 @@
+/* 全局基础样式文件：设置页面背景、正文文字和通用结构类。
+   不要在这里写某个具体页面的布局，页面布局请放到 05-pages。 */
+
+/* 页面背景：奶油底叠加淡粉像素网格。 */
+html {
+  background:
+    linear-gradient(90deg, rgba(255, 159, 199, 0.12) 1px, transparent 1px),
+    linear-gradient(rgba(255, 159, 199, 0.12) 1px, transparent 1px),
+    var(--pm-color-bg);
+  background-size: 24px 24px;
+}
+
+/* 正文默认样式：统一字体、颜色和行高。 */
+body {
+  color: var(--pm-color-text);
+  font-family: var(--pm-font-body);
+  font-size: var(--pm-text-base);
+  line-height: var(--pm-line-base);
+}
+
+/* React 根节点：保证应用撑满视口高度。 */
+#root {
+  min-height: 100vh;
+}
+
+/* 选中文本样式：使用主题强调色。 */
+::selection {
+  color: var(--pm-color-text);
+  background: var(--pm-color-accent);
+}
+
+/* 页面容器：前台页面默认居中并限制最大宽度。 */
+.pm-page {
+  width: min(var(--pm-page-max), calc(100% - 32px));
+  margin: 0 auto;
+  padding: var(--pm-space-6) 0 var(--pm-space-12);
+}
+
+/* 通用区块：用于样式指南或普通内容分区。 */
+.pm-section {
+  margin-top: var(--pm-space-6);
+  padding: var(--pm-space-6);
+  background: rgba(255, 255, 255, 0.62);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-md);
+}
+
+/* 区块头部：标题和右侧操作区域的通用排列。 */
+.pm-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-3);
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: var(--pm-space-5);
+}
+
+/* 区块标题：统一页面内二级标题样式。 */
+.pm-section-title {
+  margin: 0;
+  font-family: var(--pm-font-title);
+  font-size: var(--pm-text-2xl);
+  line-height: var(--pm-line-tight);
+}
+
+/* 区块说明文字：用于弱化说明，不抢主标题。 */
+.pm-section-note {
+  max-width: 640px;
+  margin: 0;
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-md);
+}
+
+/* 仅屏幕阅读器可见：用于无障碍标签和隐藏说明。 */
+.pm-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

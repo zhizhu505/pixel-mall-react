@@ -1,0 +1,51 @@
+/* 分类页样式文件：定义分类索引、筛选排序工具栏和商品列表布局。
+   商品卡继续复用 pm-product-card，页面只负责分类页的整体排布。 */
+
+/* 分类页容器：控制分类页主要区域之间的间距。 */
+.pm-category-page {
+  display: grid;
+  gap: var(--pm-space-5);
+}
+
+/* 分类页主体布局：左侧分类导航，右侧商品列表。 */
+.pm-category-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: var(--pm-space-5);
+}
+
+/* 分类侧边栏：用于纵向分类按钮列表。 */
+.pm-category-side {
+  display: grid;
+  align-content: start;
+  gap: var(--pm-space-2);
+}
+
+/* 分类按钮：复用 pm-btn 时让按钮在侧边栏内撑满并左对齐。 */
+.pm-category-tab {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+/* 分类主内容区：承载筛选栏、商品网格和空状态。 */
+.pm-category-main {
+  display: grid;
+  gap: var(--pm-space-4);
+}
+
+/* 分类筛选栏：放置搜索、排序、价格筛选、标签筛选等控件。 */
+.pm-category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-3);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--pm-space-3);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+}
+
+/* 分类空状态：搜索无结果或分类无商品时预留高度。 */
+.pm-category-empty {
+  min-height: 260px;
+}

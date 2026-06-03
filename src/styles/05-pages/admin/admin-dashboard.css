@@ -1,0 +1,40 @@
+/* 后台首页样式文件：定义后台概览、基础统计和快捷入口布局。
+   统计卡可复用 04-layouts/grid.css 中的 pm-admin-stat。 */
+
+/* 后台首页容器：控制概览、统计和快捷入口间距。 */
+.pm-admin-dashboard-page {
+  display: grid;
+  gap: var(--pm-space-5);
+}
+
+/* 后台首页头部：展示欢迎语、角色信息和快捷操作。 */
+.pm-admin-dashboard-hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-4);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--pm-space-5);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-md);
+}
+
+/* 后台首页标题：显示管理端概览标题。 */
+.pm-admin-dashboard-title {
+  margin: 0;
+  font-size: var(--pm-text-2xl);
+}
+
+/* 后台首页操作区：新增商品、查看订单等快捷按钮。 */
+.pm-admin-dashboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-3);
+}
+
+/* 后台首页区块：用于统计、最近商品、最近操作等分区。 */
+.pm-admin-dashboard-section {
+  display: grid;
+  gap: var(--pm-space-4);
+}

@@ -1,0 +1,113 @@
+/* 表单组件文件：定义登录、搜索、地址、订单、后台商品编辑等表单样式。
+   表单控件必须复用这些类，不要在页面文件里重写输入框外观。 */
+
+/* 表单控件容器：包裹 label、input/select/textarea 和帮助文字。 */
+.pm-control {
+  display: grid;
+  gap: 6px;
+  width: min(100%, 320px);
+}
+
+/* 表单标签：用于输入框上方的字段名称。 */
+.pm-label {
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-sm);
+  font-weight: var(--pm-weight-black);
+}
+
+/* 基础输入控件：文本框、下拉框和文本域共享外观。 */
+.pm-input,
+.pm-select,
+.pm-textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 9px 12px;
+  color: var(--pm-color-text);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  border-radius: var(--pm-radius);
+  outline: none;
+  box-shadow: inset 4px 4px 0 rgba(255, 215, 101, 0.18);
+}
+
+/* 输入聚焦态：用户正在输入时显示主题色外描边。 */
+.pm-input:focus,
+.pm-select:focus,
+.pm-textarea:focus {
+  border-color: var(--pm-color-primary-deep);
+  box-shadow: 0 0 0 4px var(--pm-color-primary-soft), inset 4px 4px 0 rgba(255, 215, 101, 0.18);
+}
+
+/* 占位文字：保持柔和弱提示，不抢正文内容。 */
+.pm-input::placeholder,
+.pm-textarea::placeholder {
+  color: #bca9b3;
+}
+
+/* 多行文本域：用于商品描述、地址备注、订单留言。 */
+.pm-textarea {
+  min-height: 98px;
+  resize: vertical;
+}
+
+/* 帮助文字：用于说明、校验提示和轻量引导。 */
+.pm-help {
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-xs);
+}
+
+/* 错误态输入控件：父级加 pm-field-error 后触发。 */
+.pm-field-error .pm-input,
+.pm-field-error .pm-select,
+.pm-field-error .pm-textarea {
+  border-color: var(--pm-danger);
+  box-shadow: 0 0 0 4px #ffd4dc;
+}
+
+/* 错误态帮助文字：和错误输入框保持同一状态色。 */
+.pm-field-error .pm-help {
+  color: var(--pm-danger);
+}
+
+/* 表单行和工具栏：用于横向排列筛选项、搜索项和操作项。 */
+.pm-form-row,
+.pm-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-3);
+  align-items: center;
+}
+
+/* 搜索框容器：用于首页搜索、分类搜索、后台商品搜索。 */
+.pm-search {
+  display: flex;
+  gap: var(--pm-space-2);
+  width: 100%;
+  padding: 6px;
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-xs);
+}
+
+/* 搜索框内部输入：去掉内层边框，由外层 pm-search 承担视觉。 */
+.pm-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+}
+
+/* 搜索框内按钮：尺寸比普通按钮更紧凑。 */
+.pm-search .pm-btn {
+  min-height: 34px;
+  padding: 6px 12px;
+  box-shadow: 2px 2px 0 var(--pm-color-line);
+}
+
+/* 勾选框：用于购物车选择、默认地址、批量操作。 */
+.pm-check {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--pm-color-primary);
+}

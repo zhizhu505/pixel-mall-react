@@ -1,0 +1,32 @@
+/* 前台应用外壳布局文件：定义用户端商城页面的整体背景和主区域。
+   首页、分类、详情、购物车、订单、我的页面都可以使用这里的外壳类。 */
+
+/* 前台应用根容器：提供全屏高度和像素网格背景。 */
+.pm-app {
+  min-height: 100vh;
+  color: var(--pm-color-text);
+  background:
+    linear-gradient(90deg, rgba(255, 159, 199, 0.1) 1px, transparent 1px),
+    linear-gradient(rgba(255, 159, 199, 0.1) 1px, transparent 1px),
+    var(--pm-color-bg);
+  background-size: 24px 24px;
+}
+
+/* 前台主内容区：扣除顶部导航高度，保证页面至少占满剩余屏幕。 */
+.pm-app-main {
+  min-height: calc(100vh - var(--pm-header-height));
+}
+
+/* 带底部栏的前台页面：为移动端底部导航预留空间。 */
+.pm-app-with-bottom {
+  padding-bottom: var(--pm-bottom-bar-height);
+}
+
+/* 固定底部容器：用于移动端底部栏或结算操作栏。 */
+.pm-fixed-bottom {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 30;
+}

@@ -1,0 +1,87 @@
+/* 响应式覆盖文件：定义平板和手机端的全局适配规则。
+   本文件必须最后导入，保证可以覆盖前面的组件和页面布局。 */
+
+/* 平板及窄桌面：复杂左右布局改为单列，后台侧边栏改为顶部区域。 */
+@media (max-width: 980px) {
+  /* 前台复杂页面布局：分类、详情、下单、订单详情改为单列。 */
+  .pm-category-layout,
+  .pm-detail-hero,
+  .pm-order-create-layout,
+  .pm-order-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* 后台整体布局：侧边栏和主内容上下排列。 */
+  .pm-admin-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* 后台侧边栏：窄屏时改为两列菜单并移动到底部边框。 */
+  .pm-admin-side {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-right: 0;
+    border-bottom: var(--pm-border-width) solid var(--pm-color-line);
+  }
+
+  /* 三列和四列网格：窄屏时降为两列。 */
+  .pm-admin-stat-grid,
+  .pm-grid-3,
+  .pm-grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* 手机端：页面内边距收紧，主要网格全部改为单列。 */
+@media (max-width: 640px) {
+  /* 页面容器：手机端缩小左右留白。 */
+  .pm-page {
+    width: min(100% - 20px, var(--pm-page-max));
+    padding-top: var(--pm-space-3);
+  }
+
+  /* 大区块：手机端减少内边距，避免内容被挤压。 */
+  .pm-section,
+  .pm-home-hero,
+  .pm-detail-info {
+    padding: var(--pm-space-4);
+  }
+
+  /* 手机端单列布局：分类入口、个人菜单、支付方式、后台表单等。 */
+  .pm-home-category-row,
+  .pm-profile-menu,
+  .pm-pay-methods,
+  .pm-admin-product-form,
+  .pm-grid-2,
+  .pm-grid-3,
+  .pm-grid-4,
+  .pm-admin-stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* 购物车商品项：手机端减少商品图尺寸并简化列数。 */
+  .pm-cart-item {
+    grid-template-columns: auto 72px minmax(0, 1fr);
+  }
+
+  /* 购物车操作区：手机端换到商品信息下方。 */
+  .pm-cart-actions {
+    grid-column: 2 / -1;
+  }
+
+  /* 购物车商品图：手机端使用更小尺寸。 */
+  .pm-cart-media {
+    width: 72px;
+    height: 72px;
+  }
+
+  /* 详情页操作按钮：手机端改为上下排列。 */
+  .pm-detail-actions {
+    grid-template-columns: 1fr;
+  }
+
+  /* 顶部导航：手机端改为纵向堆叠。 */
+  .pm-navbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

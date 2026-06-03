@@ -1,0 +1,45 @@
+/* 订单页样式文件：定义订单列表、订单详情和物流信息布局。
+   每个订单条目优先复用 03-components/commerce/order-card.css。 */
+
+/* 订单列表页和订单详情页容器：控制主要模块间距。 */
+.pm-orders-page,
+.pm-order-detail-page {
+  display: grid;
+  gap: var(--pm-space-5);
+}
+
+/* 订单状态标签栏：待支付、已支付、已发货、已完成等筛选入口。 */
+.pm-order-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-2);
+}
+
+/* 订单列表：多个 pm-order-card 纵向排列。 */
+.pm-order-list {
+  display: grid;
+  gap: var(--pm-space-3);
+}
+
+/* 订单详情布局：左侧详情内容，右侧金额或物流摘要。 */
+.pm-order-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: var(--pm-space-5);
+}
+
+/* 物流列表：展示模拟物流时间线。 */
+.pm-logistics-list {
+  display: grid;
+  gap: var(--pm-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 单条物流信息：显示时间、地点和状态说明。 */
+.pm-logistics-item {
+  padding: var(--pm-space-3);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}

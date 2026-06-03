@@ -1,0 +1,54 @@
+/* 我的页面样式文件：定义用户信息、订单入口、收藏入口、浏览记录和退出登录布局。
+   订单卡、商品卡、按钮等仍复用公共组件。 */
+
+/* 我的页面容器：控制用户信息区和菜单区之间的间距。 */
+.pm-profile-page {
+  display: grid;
+  gap: var(--pm-space-5);
+}
+
+/* 用户信息头图：展示头像、昵称、会员信息和快捷操作。 */
+.pm-profile-hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-4);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--pm-space-5);
+  color: var(--pm-white);
+  background: var(--pm-color-primary);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-lg);
+}
+
+/* 用户头像占位：可替换成真实头像图片或像素头像素材。 */
+.pm-profile-avatar {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-2xl);
+  font-weight: var(--pm-weight-black);
+  background: var(--pm-color-accent);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+}
+
+/* 我的页面菜单网格：订单、收藏、地址、浏览记录等入口。 */
+.pm-profile-menu {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--pm-space-3);
+}
+
+/* 我的页面菜单项：单个功能入口。 */
+.pm-profile-menu-item {
+  display: grid;
+  gap: var(--pm-space-2);
+  justify-items: center;
+  padding: var(--pm-space-4);
+  text-align: center;
+  text-decoration: none;
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+}

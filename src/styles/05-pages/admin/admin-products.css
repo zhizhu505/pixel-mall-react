@@ -1,0 +1,42 @@
+/* 后台商品管理页样式文件：定义商品列表、筛选工具栏和新增编辑表单布局。
+   表格、表单、弹窗、按钮必须复用公共组件。 */
+
+/* 商品管理页容器：控制筛选栏、统计、表格、表单间距。 */
+.pm-admin-products-page {
+  display: grid;
+  gap: var(--pm-space-5);
+}
+
+/* 商品管理工具栏：放置页面标题、筛选项和新增按钮。 */
+.pm-admin-products-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 商品管理筛选区：商品名搜索、分类筛选、上下架状态筛选。 */
+.pm-admin-products-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-3);
+  align-items: end;
+}
+
+/* 商品编辑表单：默认两列布局，适合后台新增和编辑商品。 */
+.pm-admin-product-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--pm-space-4);
+}
+
+/* 商品编辑表单控件：后台表单里的控件默认撑满可用宽度。 */
+.pm-admin-product-form .pm-control {
+  width: 100%;
+}
+
+/* 商品编辑表单通栏项：商品描述、图片上传等需要跨两列的字段。 */
+.pm-admin-product-form-wide {
+  grid-column: 1 / -1;
+}

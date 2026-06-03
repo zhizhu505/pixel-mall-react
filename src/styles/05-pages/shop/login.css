@@ -1,0 +1,41 @@
+/* 前台登录注册页样式文件：定义用户登录和注册页面布局。
+   后台登录单独使用 05-pages/admin/admin-login.css。 */
+
+/* 登录页容器：让登录面板在视口中居中。 */
+.pm-login-page {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: var(--pm-space-5);
+}
+
+/* 登录面板：承载标题、登录/注册切换、表单和提交按钮。 */
+.pm-login-panel {
+  display: grid;
+  gap: var(--pm-space-4);
+  width: min(100%, 420px);
+  padding: var(--pm-space-6);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-lg);
+}
+
+/* 登录页标题：展示登录、注册或 Pixel Mall 欢迎语。 */
+.pm-login-title {
+  margin: 0;
+  font-size: var(--pm-text-2xl);
+  text-align: center;
+}
+
+/* 登录注册切换区：用于切换登录和注册表单。 */
+.pm-login-switch {
+  display: flex;
+  justify-content: center;
+  gap: var(--pm-space-2);
+}
+
+/* 登录表单：纵向排列输入框、提示和提交按钮。 */
+.pm-login-form {
+  display: grid;
+  gap: var(--pm-space-3);
+}

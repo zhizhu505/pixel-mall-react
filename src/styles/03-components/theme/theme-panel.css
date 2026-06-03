@@ -1,0 +1,64 @@
+/* 主题面板组件文件：定义预置主题选择和 DIY 配色控件。
+   JS 只负责设置 data-theme 和 --pm-diy-* 变量。 */
+
+/* 主题面板外壳：用于展示主题选项和自定义颜色输入。 */
+.pm-theme-panel {
+  display: grid;
+  gap: var(--pm-space-4);
+  padding: var(--pm-space-4);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-md);
+}
+
+/* 主题选项网格：根据宽度自动排列主题卡片。 */
+.pm-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: var(--pm-space-3);
+}
+
+/* 单个主题选项：点击后切换主题。 */
+.pm-theme-option {
+  display: grid;
+  gap: var(--pm-space-2);
+  padding: var(--pm-space-3);
+  cursor: pointer;
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+/* 当前主题选项：使用主题背景和主色阴影突出。 */
+.pm-theme-option.is-active {
+  background: var(--pm-color-bg-soft);
+  box-shadow: 4px 4px 0 var(--pm-color-primary);
+}
+
+/* 主题色块组：展示一个主题的主色、背景色、辅助色。 */
+.pm-theme-swatches {
+  display: flex;
+  gap: 4px;
+}
+
+/* 单个主题色块：用于预览颜色。 */
+.pm-theme-swatch {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--pm-color-line);
+}
+
+/* DIY 颜色输入行：多个颜色选择器自适应排列。 */
+.pm-color-picker-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--pm-space-3);
+}
+
+/* 颜色输入控件：统一 input[type=color] 的像素描边。 */
+.pm-color-input {
+  width: 100%;
+  height: 44px;
+  padding: 4px;
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+}

@@ -1,0 +1,57 @@
+/* 购物车商品项组件文件：定义购物车页和创建订单商品摘要可复用的商品行。
+   商品行负责结构外观，页面文件只负责列表和结算栏布局。 */
+
+/* 购物车商品项外壳：勾选框、图片、信息、操作区四列布局。 */
+.pm-cart-item {
+  display: grid;
+  grid-template-columns: auto 86px minmax(0, 1fr) auto;
+  gap: var(--pm-space-3);
+  align-items: center;
+  padding: var(--pm-space-3);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-md);
+}
+
+/* 购物车商品图片区域：固定尺寸，保证列表整齐。 */
+.pm-cart-media {
+  width: 86px;
+  height: 86px;
+  overflow: hidden;
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+/* 购物车商品图片：保持像素风硬边显示。 */
+.pm-cart-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+/* 购物车商品信息区：允许文本收缩，不撑破布局。 */
+.pm-cart-info {
+  min-width: 0;
+}
+
+/* 购物车商品标题：商品名称主信息。 */
+.pm-cart-title {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: var(--pm-text-base);
+}
+
+/* 购物车规格：颜色、尺码、款式等弱信息。 */
+.pm-cart-spec {
+  margin: 3px 0;
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-sm);
+}
+
+/* 购物车操作区：数量器、删除按钮等操作集合。 */
+.pm-cart-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-2);
+  align-items: center;
+}

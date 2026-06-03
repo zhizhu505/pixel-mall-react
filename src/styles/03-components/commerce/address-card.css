@@ -1,0 +1,44 @@
+/* 地址卡组件文件：定义地址管理页和创建订单页共用的收货地址卡片。
+   地址相关页面必须复用此结构，默认地址通过 is-default 状态类表现。 */
+
+/* 地址卡外壳：显示收货人、电话、地址和操作按钮。 */
+.pm-address-card {
+  display: grid;
+  gap: var(--pm-space-2);
+  padding: var(--pm-space-4);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-md);
+}
+
+/* 地址卡头部和操作区：用于姓名/默认标签、编辑/删除按钮排布。 */
+.pm-address-head,
+.pm-address-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-2);
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 收货人姓名：地址卡的主要识别信息。 */
+.pm-address-name {
+  font-size: var(--pm-text-lg);
+  font-weight: var(--pm-weight-black);
+}
+
+/* 电话和地址文本：移除默认段落外边距。 */
+.pm-address-phone,
+.pm-address-text {
+  margin: 0;
+}
+
+/* 详细地址：弱化显示，避免抢占姓名和默认标签。 */
+.pm-address-text {
+  color: var(--pm-color-text-muted);
+}
+
+/* 默认地址状态：父级加 is-default 后使用浅主题底色。 */
+.pm-address-card.is-default {
+  background: var(--pm-color-bg-soft);
+}

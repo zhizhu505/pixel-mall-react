@@ -1,0 +1,29 @@
+/* 收藏页样式文件：定义我的收藏商品列表和空状态布局。
+   收藏商品卡复用 pm-product-card，不在这里重写商品卡。 */
+
+/* 收藏页容器：控制工具栏、商品网格和空状态的间距。 */
+.pm-favorites-page {
+  display: grid;
+  gap: var(--pm-space-5);
+}
+
+/* 收藏页工具栏：放置搜索、分类筛选、批量管理等操作。 */
+.pm-favorites-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 收藏商品网格：自适应排列收藏商品卡。 */
+.pm-favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--pm-space-4);
+}
+
+/* 收藏空状态：无收藏商品时预留展示高度。 */
+.pm-favorites-empty {
+  min-height: 300px;
+}
