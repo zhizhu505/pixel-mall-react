@@ -1,0 +1,11 @@
+{
+  "studentName": "小明",
+  "studentId": "23300000",
+  "assignmentName": "第四次作业",
+  "members": [
+    { "name": "组员1姓名", "studentId": "学号" },
+    { "name": "组员2姓名", "studentId": "学号" },
+    { "name": "组员3姓名", "studentId": "学号" },
+    { "name": "组员4姓名", "studentId": "学号" }
+  ]
+}
