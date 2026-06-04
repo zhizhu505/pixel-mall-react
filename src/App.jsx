@@ -3,7 +3,7 @@ import ThemePanel from './components/common/ThemePanel';
 
 function App() {
   return (
-    <div className="App">
+    <div className="pm-app-root">
       <ThemePanel />
       <Outlet />
     </div>

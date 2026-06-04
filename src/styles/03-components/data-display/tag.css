@@ -59,8 +59,57 @@
   align-items: center;
 }
 
-.pm-admin-app .pm-tag {
-  padding: 5px 12px;
-  border-radius: var(--pm-admin-radius-chip);
-  box-shadow: 2px 2px 0 rgba(65, 47, 54, 0.18);
+/* 分区眉标：用于首页、后台海报区等轻量标题提示。 */
+.pm-section-eyebrow {
+  width: fit-content;
+  margin: 0;
+  padding: 0 0 3px;
+  color: var(--pm-color-primary-deep);
+  font-size: var(--pm-text-sm);
+  font-weight: var(--pm-weight-black);
+  letter-spacing: 0;
+  text-transform: uppercase;
+  border-bottom: 6px solid color-mix(in srgb, var(--pm-color-primary) 45%, transparent);
+}
+
+/* 贴纸标签：用于收藏编号、限定款、轻量强调。 */
+.pm-sticker-label {
+  display: inline-grid;
+  place-items: center;
+  width: fit-content;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-xs);
+  font-weight: var(--pm-weight-black);
+  line-height: 1.2;
+  background: color-mix(in srgb, var(--pm-color-surface) 86%, white);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 22%, transparent);
+}
+
+/* 像素胶带：用于卡片顶部的错位装饰，不承载文本。 */
+.pm-pixel-tape {
+  position: absolute;
+  top: -15px;
+  left: 42px;
+  width: 74px;
+  height: 26px;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--pm-color-primary) 88%, transparent) 0 70%, color-mix(in srgb, var(--pm-color-accent) 88%, transparent) 70%),
+    color-mix(in srgb, var(--pm-color-primary) 82%, transparent);
+  opacity: 0.9;
+  transform: rotate(-2deg);
+}
+
+/* 贴纸序号：用于分类入口、信息条和收藏卡编号。 */
+.pm-sticker-index {
+  display: inline-grid;
+  place-items: center;
+  min-width: 34px;
+  min-height: 30px;
+  padding: 0 7px;
+  color: color-mix(in srgb, var(--pm-color-accent) 55%, var(--pm-color-text));
+  font-size: var(--pm-text-xs);
+  font-weight: var(--pm-weight-black);
+  background: color-mix(in srgb, var(--pm-color-accent) 28%, var(--pm-color-surface));
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
 }

@@ -2,6 +2,10 @@
    首页、分类、详情、购物车、订单、我的页面都可以使用这里的外壳类。 */
 
 /* 前台应用根容器：提供全屏高度和像素网格背景。 */
+.pm-app-root {
+  min-height: 100vh;
+}
+
 .pm-app {
   min-height: 100vh;
   color: var(--pm-color-text);

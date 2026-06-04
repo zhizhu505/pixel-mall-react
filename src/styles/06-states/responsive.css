@@ -19,8 +19,39 @@
   /* 后台侧边栏：窄屏时改为两列菜单并移动到底部边框。 */
   .pm-admin-side {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 12px;
     border-right: 0;
     border-bottom: var(--pm-border-width) solid var(--pm-color-line);
+  }
+
+  .pm-admin-main {
+    padding: var(--pm-space-4);
+  }
+
+  .pm-admin-logo {
+    grid-column: 1 / -1;
+    min-height: auto;
+  }
+
+  .pm-admin-header,
+  .pm-admin-page-header,
+  .pm-admin-dashboard-hero,
+  .pm-admin-dashboard-section,
+  .pm-role-editor-head,
+  .pm-role-section {
+    padding-inline: var(--pm-space-4);
+  }
+
+  .pm-admin-page-filters .pm-control {
+    flex-basis: 50%;
+  }
+
+  .pm-admin-header::after,
+  .pm-admin-dashboard-hero::after,
+  .pm-admin-table-panel::before {
+    transform: scale(0.86);
+    transform-origin: top right;
   }
 
   /* 三列和四列网格：窄屏时降为两列。 */
@@ -28,6 +59,10 @@
   .pm-grid-3,
   .pm-grid-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pm-admin-stat {
+    min-height: 112px;
   }
 }
 
@@ -83,5 +118,40 @@
   .pm-navbar {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .pm-admin-side {
+    grid-template-columns: 1fr;
+  }
+
+  .pm-admin-main {
+    gap: var(--pm-space-3);
+    padding: var(--pm-space-3);
+  }
+
+  .pm-admin-header,
+  .pm-admin-page-header,
+  .pm-admin-dashboard-hero,
+  .pm-admin-dashboard-section,
+  .pm-role-editor-head,
+  .pm-role-section {
+    padding-inline: var(--pm-space-3);
+  }
+
+  .pm-admin-page-filters .pm-control {
+    flex-basis: 100%;
+  }
+
+  .pm-admin-header::after,
+  .pm-admin-dashboard-hero::after,
+  .pm-admin-page-filters::before,
+  .pm-admin-page-filters::after,
+  .pm-admin-table-panel::before {
+    display: none;
+  }
+
+  .pm-admin-dashboard-section::before {
+    width: 108px;
+    height: 18px;
   }
 }

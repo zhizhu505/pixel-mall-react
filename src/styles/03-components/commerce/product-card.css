@@ -95,3 +95,122 @@
   font-size: var(--pm-text-xs);
   text-decoration: line-through;
 }
+
+/* 收藏卡商品变体：用于首页、收藏页和推荐区的错位贴纸式商品卡。 */
+.pm-product-card-collectible {
+  gap: 13px;
+  padding: 16px;
+  background: color-mix(in srgb, var(--pm-color-surface) 88%, transparent);
+  border-width: 3px;
+  box-shadow:
+    8px 8px 0 color-mix(in srgb, var(--pm-color-line) 12%, transparent),
+    12px 12px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent);
+  transition: transform 130ms ease, box-shadow 130ms ease, filter 130ms ease;
+}
+
+.pm-product-card-collectible::before {
+  display: none;
+}
+
+.pm-product-card-collectible:hover {
+  filter: saturate(1.05);
+  transform: translate(2px, 2px);
+  box-shadow:
+    5px 5px 0 color-mix(in srgb, var(--pm-color-line) 14%, transparent),
+    8px 8px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent);
+}
+
+/* 像素商品占位图：用 CSS 绘制统一像素商品图，保证无图片时也有完整风格。 */
+.pm-pixel-product {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+    var(--pm-color-primary-soft);
+  background-size: 16px 16px, 16px 16px, auto;
+  border: 3px solid var(--pm-color-line);
+}
+
+.pm-pixel-product::before,
+.pm-pixel-product::after {
+  position: absolute;
+  inset: auto;
+  content: "";
+}
+
+.pm-pixel-product::before {
+  top: 24%;
+  left: 50%;
+  width: 44%;
+  height: 52%;
+  transform: translateX(-50%);
+  background:
+    linear-gradient(90deg, transparent 0 23%, rgba(255, 255, 255, 0.94) 23% 36%, transparent 36% 56%, rgba(255, 255, 255, 0.94) 56% 78%, transparent 78%),
+    linear-gradient(180deg, transparent 0 58%, color-mix(in srgb, var(--pm-color-primary) 88%, transparent) 58% 72%, transparent 72%),
+    color-mix(in srgb, var(--pm-color-primary) 82%, transparent);
+  border: 3px solid color-mix(in srgb, var(--pm-color-line) 78%, transparent);
+}
+
+.pm-pixel-product::after {
+  left: 19%;
+  bottom: 17%;
+  width: 20%;
+  height: 20%;
+  background: color-mix(in srgb, var(--pm-color-accent) 82%, var(--pm-color-line));
+  box-shadow: 22px -22px 0 color-mix(in srgb, var(--pm-color-accent) 58%, white);
+}
+
+.pm-pixel-product-large {
+  min-height: 285px;
+}
+
+.pm-pixel-product-pink {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+    linear-gradient(135deg, var(--pm-color-primary-soft), color-mix(in srgb, var(--pm-color-primary) 46%, white));
+  background-size: 16px 16px, 16px 16px, auto;
+}
+
+.pm-pixel-product-cream {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+    linear-gradient(135deg, var(--pm-color-bg), var(--pm-color-promo));
+  background-size: 16px 16px, 16px 16px, auto;
+}
+
+.pm-pixel-product-gold {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+    linear-gradient(135deg, color-mix(in srgb, var(--pm-color-accent) 54%, white), color-mix(in srgb, var(--pm-color-accent) 82%, white));
+  background-size: 16px 16px, 16px 16px, auto;
+}
+
+.pm-pixel-sparkle {
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  background: var(--pm-white);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  opacity: 0.95;
+}
+
+.pm-pixel-sparkle-one {
+  top: 34px;
+  left: 30px;
+}
+
+.pm-pixel-sparkle-two {
+  right: 34px;
+  bottom: 46px;
+  width: 28px;
+  height: 28px;
+  background: color-mix(in srgb, var(--pm-color-accent) 58%, white);
+}

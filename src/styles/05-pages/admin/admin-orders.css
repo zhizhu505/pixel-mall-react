@@ -1,11 +1,11 @@
  .pm-admin-orders-page {
   display: grid;
-  gap: var(--pm-space-5);
+  gap: var(--pm-admin-panel-gap);
  }
 
  .pm-admin-order-logistics {
   display: grid;
-  gap: var(--pm-space-2);
+  gap: 6px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -13,12 +13,21 @@
 
  .pm-admin-order-logistics li {
   display: grid;
-  gap: 4px;
-  padding: var(--pm-space-2) var(--pm-space-3);
-  background: linear-gradient(180deg, var(--pm-theme-surface-warm-soft), var(--pm-theme-panel-bottom));
-  border: var(--pm-border-width-thin) solid var(--pm-color-line);
-  border-radius: var(--pm-admin-radius-soft);
-  box-shadow: 2px 2px 0 var(--pm-theme-panel-glow-soft);
+  gap: 3px;
+  padding: 10px 12px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.24) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.24) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(255, 248, 240, 0.96), rgba(255, 226, 236, 0.78));
+  background-size: 12px 12px, 12px 12px, auto;
+  border: 2px solid rgba(61, 47, 59, 0.18);
+  box-shadow: inset 4px 0 0 rgba(128, 231, 200, 0.42), 3px 3px 0 rgba(255, 215, 101, 0.16);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+ }
+
+ .pm-admin-order-logistics li:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: inset 4px 0 0 rgba(255, 111, 168, 0.36), 5px 5px 0 rgba(255, 215, 101, 0.18);
  }
 
  .pm-admin-order-logistics strong {
@@ -28,4 +37,9 @@
  .pm-admin-order-logistics span {
   color: var(--pm-color-text-muted);
   font-size: var(--pm-text-xs);
+ }
+
+ .pm-admin-orders-page .pm-table-actions .pm-btn {
+  min-height: 36px;
+  padding-inline: 12px;
  }

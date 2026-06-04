@@ -1,154 +1,19 @@
-/* 后台商品管理页样式文件：定义后台页面通用原语及商品页布局。
-   表格、表单、弹窗、按钮必须复用公共组件。 */
+/* 后台商品管理页样式文件：只保留商品管理页面的布局差异。
+   后台通用头部、筛选、面板、表格样式在 04-layouts/admin-shell.css。 */
 
-/* 后台页面容器：商品、分类、订单、角色等页面共享的纵向节奏。 */
-.pm-admin-page {
-  display: grid;
-  gap: var(--pm-space-5);
-}
-
-/* 后台页面标题区：放置标题、说明和主操作按钮。 */
-.pm-admin-page-header {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--pm-space-3);
-  align-items: center;
-  justify-content: space-between;
-  overflow: hidden;
-  padding: var(--pm-space-4) var(--pm-space-5);
-  background:
-    radial-gradient(circle at top right, var(--pm-theme-panel-glow), transparent 26%),
-    linear-gradient(180deg, var(--pm-theme-surface-elevated), var(--pm-theme-panel-bottom));
-  border: var(--pm-border-width) solid var(--pm-color-line);
-  border-radius: var(--pm-admin-radius-panel);
-  box-shadow: var(--pm-admin-shadow-panel);
-}
-
-.pm-admin-page-header::after,
-.pm-admin-page-filters::after,
-.pm-admin-panel::after,
-.pm-admin-table-panel::after {
-  position: absolute;
-  inset: auto auto -22px -18px;
-  width: 120px;
-  height: 120px;
-  content: '';
-  background: radial-gradient(circle, var(--pm-theme-panel-glow-soft) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-/* 后台页面筛选区：搜索、状态筛选等工具项。 */
-.pm-admin-page-filters {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--pm-space-3);
-  align-items: end;
-  overflow: hidden;
-  padding: var(--pm-space-4) var(--pm-space-5);
-  background:
-    linear-gradient(180deg, var(--pm-theme-surface-warm-soft), var(--pm-theme-panel-bottom)),
-    linear-gradient(90deg, var(--pm-theme-panel-accent), transparent 40%);
-  border: var(--pm-border-width) solid var(--pm-color-line);
-  border-radius: var(--pm-admin-radius-panel);
-  box-shadow: var(--pm-admin-shadow-soft);
-}
-
-/* 后台页面面板：统一承载表单、统计块和辅助说明。 */
-.pm-admin-panel {
-  position: relative;
-  display: grid;
-  gap: var(--pm-space-4);
-  overflow: hidden;
-  padding: var(--pm-space-5);
-  background:
-    linear-gradient(180deg, var(--pm-theme-surface-elevated), var(--pm-theme-panel-bottom)),
-    linear-gradient(135deg, var(--pm-theme-panel-accent), transparent 48%);
-  border: var(--pm-border-width) solid var(--pm-color-line);
-  border-radius: var(--pm-admin-radius-panel);
-  box-shadow: var(--pm-admin-shadow-panel);
-}
-
-/* 后台卡片标题：分类卡片、角色卡片等共享标题风格。 */
-.pm-admin-card-title {
-  margin: 0;
-  font-size: var(--pm-text-xl);
-}
-
-/* 后台通用表单：默认两列布局，适合商品和分类维护。 */
-.pm-admin-form {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--pm-space-4);
-}
-
-/* 后台表单控件：后台表单中的控件默认铺满容器。 */
-.pm-admin-form .pm-control {
-  width: 100%;
-}
-
-/* 后台表单通栏项：描述、图片等跨列字段统一使用。 */
-.pm-admin-form-wide {
-  grid-column: 1 / -1;
-}
-
-/* 后台行内操作：表格或卡片中的紧凑按钮组。 */
-.pm-admin-inline-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--pm-space-2);
-}
-
-.pm-admin-table-panel {
-  position: relative;
-  overflow: hidden;
-  background:
-    linear-gradient(180deg, var(--pm-theme-surface-elevated), var(--pm-theme-panel-bottom)),
-    linear-gradient(135deg, var(--pm-theme-panel-accent), transparent 48%);
-  border: var(--pm-border-width) solid var(--pm-color-line);
-  border-radius: var(--pm-admin-radius-panel);
-  box-shadow: var(--pm-admin-shadow-panel);
-}
-
-.pm-admin-table-panel .pm-table {
-  background: transparent;
-}
-
-.pm-admin-table-panel .pm-table th {
-  position: sticky;
-  top: 0;
-}
-
-.pm-admin-table-panel .pm-table td {
-  background: var(--pm-theme-table-row);
-}
-
-.pm-admin-table-panel .pm-table tbody tr:nth-child(even) td {
-  background: var(--pm-theme-table-row-alt);
-}
-
-/* 商品管理页容器：控制筛选栏、表格、表单间距。 */
 .pm-admin-products-page {
   display: grid;
-  gap: var(--pm-space-5);
+  gap: var(--pm-admin-panel-gap);
 }
 
-@media (max-width: 768px) {
-  .pm-admin-page-header,
-  .pm-admin-page-filters,
-  .pm-admin-panel,
-  .pm-admin-table-panel {
-    border-radius: var(--pm-admin-radius-card);
-  }
+.pm-admin-products-page .pm-admin-page-header {
+  transform: rotate(-0.15deg);
+}
 
-  .pm-admin-page-header,
-  .pm-admin-page-filters,
-  .pm-admin-panel {
-    padding: var(--pm-space-4);
-  }
+.pm-admin-products-page .pm-admin-page-filters {
+  margin-top: 2px;
+}
 
-  .pm-admin-form {
-    grid-template-columns: 1fr;
-  }
+.pm-admin-products-page .pm-admin-table-panel {
+  transform: rotate(0.08deg);
 }
