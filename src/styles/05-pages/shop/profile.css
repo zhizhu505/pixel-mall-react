@@ -1,54 +1,345 @@
-/* 我的页面样式文件：定义用户信息、订单入口、收藏入口、浏览记录和退出登录布局。
-   订单卡、商品卡、按钮等仍复用公共组件。 */
+/* 我的页面：顶栏 + 用户卡片 + 订单区 + 功能列表，舒展像素风排版。 */
 
-/* 我的页面容器：控制用户信息区和菜单区之间的间距。 */
 .pm-profile-page {
-  display: grid;
-  gap: var(--pm-space-5);
-}
-
-/* 用户信息头图：展示头像、昵称、会员信息和快捷操作。 */
-.pm-profile-hero {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--pm-space-4);
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--pm-space-5);
-  color: var(--pm-white);
-  background: var(--pm-color-primary);
-  border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-lg);
+  flex-direction: column;
+  gap: var(--pm-space-5);
+  padding: 0 var(--pm-space-4) calc(var(--pm-bottom-bar-height) + var(--pm-space-6));
 }
 
-/* 用户头像占位：可替换成真实头像图片或像素头像素材。 */
-.pm-profile-avatar {
+/* 页头：与分类页统一的 Pixel Mall 标识 */
+.pm-profile-page-header {
   display: grid;
-  place-items: center;
-  width: 72px;
-  height: 72px;
-  color: var(--pm-color-text);
+  gap: 8px;
+  justify-items: center;
+  padding: var(--pm-space-4) 0 var(--pm-space-2);
+  text-align: center;
+}
+
+.pm-profile-page-brand {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+  color: var(--pm-color-primary-deep);
+  font-size: 10px;
+  font-weight: var(--pm-weight-black);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.pm-profile-page-pixel {
+  width: 14px;
+  height: 14px;
+  background:
+    linear-gradient(135deg, var(--pm-color-accent) 0 50%, transparent 50%),
+    linear-gradient(315deg, var(--pm-color-primary) 0 50%, transparent 50%),
+    var(--pm-color-primary-soft);
+  border: 2px solid var(--pm-color-line);
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-accent) 70%, transparent);
+}
+
+.pm-profile-page-title {
+  margin: 0;
   font-size: var(--pm-text-2xl);
   font-weight: var(--pm-weight-black);
-  background: var(--pm-color-accent);
-  border: var(--pm-border-width) solid var(--pm-color-line);
+  line-height: 1.1;
+  letter-spacing: 0.06em;
 }
 
-/* 我的页面菜单网格：订单、收藏、地址、浏览记录等入口。 */
-.pm-profile-menu {
+/* 用户信息大卡 */
+.pm-profile-hero {
+  margin: 0;
+}
+
+.pm-profile-hero-card {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--pm-space-4);
+  padding: var(--pm-space-5) var(--pm-space-5) var(--pm-space-6);
+  background:
+    linear-gradient(145deg, var(--pm-color-primary-soft) 0%, var(--pm-color-surface) 48%, color-mix(in srgb, var(--pm-color-accent-2) 18%, var(--pm-color-surface)) 100%);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: 6px 6px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent);
+}
+
+.pm-profile-hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--pm-space-3);
 }
 
-/* 我的页面菜单项：单个功能入口。 */
-.pm-profile-menu-item {
+.pm-profile-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 4px 10px;
+  color: var(--pm-color-primary-deep);
+  font-size: 10px;
+  font-weight: var(--pm-weight-black);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--pm-color-surface) 92%, transparent);
+  border: 2px solid var(--pm-color-line);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-accent) 55%, transparent);
+}
+
+.pm-profile-logout {
+  min-height: 32px;
+  padding: 6px 14px;
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-xs);
+  font-weight: var(--pm-weight-bold);
+  background: var(--pm-color-surface);
+  border: 2px solid var(--pm-color-line);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-line) 20%, transparent);
+  cursor: pointer;
+  transition:
+    color 140ms ease,
+    box-shadow 140ms ease,
+    transform 140ms ease;
+}
+
+.pm-profile-logout:hover {
+  color: var(--pm-color-primary-deep);
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-primary) 25%, transparent);
+  transform: translateY(-1px);
+}
+
+.pm-profile-hero-main {
+  display: flex;
+  gap: var(--pm-space-5);
+  align-items: center;
+  min-width: 0;
+}
+
+.pm-profile-avatar {
   display: grid;
-  gap: var(--pm-space-2);
-  justify-items: center;
+  flex-shrink: 0;
+  place-items: center;
+  width: 80px;
+  height: 80px;
+  color: var(--pm-color-text);
+  font-size: 2rem;
+  font-weight: var(--pm-weight-black);
+  line-height: 1;
+  background: var(--pm-color-accent);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pm-color-primary) 28%, transparent);
+}
+
+.pm-profile-hero-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.pm-profile-name {
+  margin: 0 0 var(--pm-space-2);
+  overflow: hidden;
+  font-size: 1.5rem;
+  font-weight: var(--pm-weight-black);
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pm-profile-account {
+  margin: 0;
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-sm);
+  line-height: 1.4;
+}
+
+/* 分区面板：订单 / 常用功能 */
+.pm-profile-panel {
+  display: grid;
+  gap: var(--pm-space-3);
+}
+
+.pm-profile-panel-title {
+  margin: 0;
+  font-size: var(--pm-text-lg);
+  font-weight: var(--pm-weight-black);
+  line-height: 1.2;
+}
+
+.pm-profile-panel-desc {
+  margin: calc(var(--pm-space-1) * -1) 0 0;
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-xs);
+  line-height: 1.45;
+}
+
+.pm-profile-order-tabs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: var(--pm-space-1);
   padding: var(--pm-space-4);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 12%, transparent);
+}
+
+.pm-profile-order-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 4px;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-xs);
+  font-weight: var(--pm-weight-black);
+  line-height: 1.2;
   text-align: center;
   text-decoration: none;
+  background: color-mix(in srgb, var(--pm-color-bg-soft) 65%, var(--pm-color-surface));
+  border: 2px solid var(--pm-color-line);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-primary) 14%, transparent);
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.pm-profile-order-tab:hover {
+  color: var(--pm-color-primary-deep);
+  background: color-mix(in srgb, var(--pm-color-primary-soft) 55%, var(--pm-color-surface));
+  box-shadow: 3px 4px 0 color-mix(in srgb, var(--pm-color-primary) 22%, transparent);
+  transform: translateY(-2px);
+}
+
+.pm-profile-links {
+  display: grid;
+  gap: var(--pm-space-3);
+  margin-top: var(--pm-space-1);
+}
+
+.pm-profile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pm-space-4);
+  min-height: 56px;
+  padding: var(--pm-space-4) var(--pm-space-5);
+  color: var(--pm-color-text);
+  text-decoration: none;
   background: var(--pm-color-surface);
-  border: var(--pm-border-width) solid var(--pm-color-line);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 14%, transparent);
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    border-color 140ms ease;
+}
+
+.pm-profile-link:hover {
+  box-shadow: 6px 6px 0 color-mix(in srgb, var(--pm-color-primary) 20%, transparent);
+  transform: translateY(-2px);
+}
+
+.pm-profile-link-label {
+  font-size: var(--pm-text-base);
+  font-weight: var(--pm-weight-black);
+  line-height: 1.3;
+}
+
+.pm-profile-link-arrow {
+  flex-shrink: 0;
+  color: var(--pm-color-primary);
+  font-size: var(--pm-text-lg);
+  font-weight: var(--pm-weight-black);
+  line-height: 1;
+}
+
+.pm-profile-link-admin {
+  background: color-mix(in srgb, var(--pm-color-accent-2) 12%, var(--pm-color-surface));
+}
+
+/* 主题切换：仅在我的页底部纵向展示 */
+.pm-profile-theme-panel {
+  padding-bottom: var(--pm-space-2);
+}
+
+.pm-theme-profile {
+  display: grid;
+  gap: var(--pm-space-3);
+  margin-top: var(--pm-space-1);
+  padding: var(--pm-space-4);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 12%, transparent);
+}
+
+.pm-theme-profile-current {
+  margin: 0;
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-xs);
+  line-height: 1.4;
+}
+
+.pm-theme-profile-current strong {
+  color: var(--pm-color-primary-deep);
+  font-weight: var(--pm-weight-black);
+}
+
+.pm-theme-profile-list {
+  display: grid;
+  gap: var(--pm-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pm-theme-profile-option {
+  display: flex;
+  gap: var(--pm-space-3);
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 52px;
+  padding: var(--pm-space-3) var(--pm-space-4);
+  text-align: left;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--pm-color-bg-soft) 55%, var(--pm-color-surface));
+  border: 2px solid var(--pm-color-line);
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-primary) 14%, transparent);
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    background-color 140ms ease;
+}
+
+.pm-theme-profile-option:hover {
+  transform: translateY(-1px);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 22%, transparent);
+}
+
+.pm-theme-profile-option.is-active {
+  background: color-mix(in srgb, var(--pm-color-primary-soft) 65%, var(--pm-color-surface));
+  box-shadow: 4px 4px 0 var(--pm-color-primary);
+}
+
+.pm-theme-profile-option-main {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.pm-theme-profile-option-main strong {
+  font-size: var(--pm-text-sm);
+  font-weight: var(--pm-weight-black);
+  line-height: 1.25;
+}
+
+.pm-theme-profile-option-hint {
+  color: var(--pm-color-text-muted);
+  font-size: 10px;
+  font-weight: var(--pm-weight-bold);
+  line-height: 1.3;
+}
+
+.pm-theme-profile-option.is-active .pm-theme-profile-option-hint {
+  color: var(--pm-color-primary-deep);
 }

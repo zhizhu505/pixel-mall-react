@@ -229,12 +229,23 @@ class GoodService {
   }
 
   _loadData() {
-    this.categories = loadFromStorage([CATEGORY_KEY], defaultCategories);
+    const storedCategories = loadFromStorage([CATEGORY_KEY], defaultCategories);
+    const storedCategoryIds = new Set(storedCategories.map((c) => c.id));
+    const mergedCategories = [
+      ...storedCategories,
+      ...defaultCategories.filter((c) => !storedCategoryIds.has(c.id)),
+    ];
+    this.categories = mergedCategories.sort((a, b) => a.sort - b.sort);
 
     const legacyProducts = loadFromStorage(['goodList'], []);
-    const products = loadFromStorage([PRODUCT_KEY], legacyProducts.length ? legacyProducts : defaultProducts);
+    const storedProducts = loadFromStorage([PRODUCT_KEY], legacyProducts.length ? legacyProducts : defaultProducts);
+    const storedProductIds = new Set(storedProducts.map((p) => Number(p.id)));
+    const mergedProducts = [
+      ...storedProducts,
+      ...defaultProducts.filter((p) => !storedProductIds.has(p.id)),
+    ];
 
-    this.products = products.map((product) =>
+    this.products = mergedProducts.map((product) =>
       this._normalizeProduct({
         stock: 0,
         description: '',

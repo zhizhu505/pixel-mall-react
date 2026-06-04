@@ -1,28 +1,140 @@
-/* 地址管理页样式文件：定义地址列表、地址表单和空状态布局。
-   单个地址卡片复用 03-components/commerce/address-card.css。 */
+/* 地址管理页：表单、默认勾选、列表卡片。 */
 
-/* 地址页容器：控制地址列表、表单和空状态之间的间距。 */
 .pm-address-page {
   display: grid;
   gap: var(--pm-space-5);
+  padding-bottom: calc(var(--pm-bottom-bar-height) + var(--pm-space-5));
 }
 
-/* 地址列表：多个 pm-address-card 纵向排列。 */
+.pm-address-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-3);
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.pm-address-flow-hint {
+  margin: 4px 0 0;
+  max-width: 260px;
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-xs);
+  line-height: 1.45;
+}
+
+.pm-address-feedback {
+  margin: 0;
+  padding: var(--pm-space-2) var(--pm-space-3);
+  color: var(--pm-color-primary-deep);
+  font-size: var(--pm-text-sm);
+  font-weight: var(--pm-weight-bold);
+  line-height: 1.4;
+  background: color-mix(in srgb, var(--pm-color-primary-soft) 45%, var(--pm-color-surface));
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent);
+}
+
+.pm-address-title {
+  margin: 0;
+  font-size: var(--pm-text-xl);
+  font-weight: var(--pm-weight-black);
+  line-height: 1.15;
+}
+
+.pm-address-form {
+  display: grid;
+  gap: var(--pm-space-3);
+  padding: var(--pm-space-4);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--pm-color-primary-soft) 18%, var(--pm-color-surface)), var(--pm-color-surface));
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pm-color-primary) 12%, transparent);
+}
+
+.pm-address-form h2,
+.pm-address-list h2 {
+  margin: 0;
+  font-size: var(--pm-text-md);
+  font-weight: var(--pm-weight-black);
+}
+
+.pm-address-control {
+  width: 100%;
+  max-width: none;
+}
+
+.pm-check-field {
+  display: inline-flex;
+  gap: var(--pm-space-2);
+  align-items: center;
+  width: auto;
+  max-width: 100%;
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.pm-check-field-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.pm-check-field-ui {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  background: var(--pm-color-surface);
+  border: 2px solid var(--pm-color-line);
+  border-radius: 50%;
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-primary) 20%, transparent);
+}
+
+.pm-check-field-input:checked + .pm-check-field-ui {
+  color: var(--pm-white);
+  font-size: 12px;
+  font-weight: var(--pm-weight-black);
+  background: var(--pm-color-primary);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-accent) 70%, transparent);
+}
+
+.pm-check-field-input:checked + .pm-check-field-ui::after {
+  content: "✓";
+}
+
+.pm-check-field-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-sm);
+  font-weight: var(--pm-weight-bold);
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.pm-address-default-check {
+  margin-top: var(--pm-space-1);
+}
+
+.pm-address-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-2);
+  margin-top: var(--pm-space-1);
+}
+
 .pm-address-list {
   display: grid;
   gap: var(--pm-space-3);
 }
 
-/* 地址表单：新增或编辑地址时使用。 */
-.pm-address-form {
-  display: grid;
-  gap: var(--pm-space-3);
-  padding: var(--pm-space-4);
-  background: var(--pm-color-surface);
-  border: var(--pm-border-width) solid var(--pm-color-line);
-}
-
-/* 地址空状态：无地址时预留展示高度。 */
 .pm-address-empty {
-  min-height: 280px;
+  min-height: 220px;
+  padding: var(--pm-space-4);
+  background: color-mix(in srgb, var(--pm-color-bg-soft) 45%, var(--pm-color-surface));
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
 }

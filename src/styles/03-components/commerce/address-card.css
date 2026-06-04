@@ -39,6 +39,11 @@
 }
 
 /* 默认地址状态：父级加 is-default 后使用浅主题底色。 */
+.pm-address-card.is-selected {
+  outline: 3px solid var(--pm-color-primary);
+  outline-offset: 2px;
+}
+
 .pm-address-card.is-default {
   background: var(--pm-color-bg-soft);
 }

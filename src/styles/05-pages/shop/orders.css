@@ -1,34 +1,168 @@
-/* 订单页样式文件：定义订单列表、订单详情和物流信息布局。
-   每个订单条目优先复用 03-components/commerce/order-card.css。 */
+/* 订单页：顶栏 + 柔和背景内容区，减少大面积留白。 */
 
-/* 订单列表页和订单详情页容器：控制主要模块间距。 */
-.pm-orders-page,
+.pm-orders-page {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 100%;
+  padding-inline: 0;
+  padding-bottom: calc(var(--pm-bottom-bar-height) + var(--pm-space-4));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--pm-color-primary-soft) 22%, var(--pm-color-surface)) 0%, var(--pm-color-surface) 120px);
+}
+
+.pm-orders-header {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  padding: var(--pm-space-3) var(--pm-space-3) var(--pm-space-4);
+  text-align: center;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--pm-color-primary-soft) 32%, var(--pm-color-surface)), var(--pm-color-surface));
+  border-bottom: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--pm-color-primary) 12%, transparent);
+}
+
+.pm-orders-header-brand {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+  color: var(--pm-color-primary-deep);
+  font-size: 10px;
+  font-weight: var(--pm-weight-black);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pm-orders-header-pixel {
+  width: 14px;
+  height: 14px;
+  background:
+    linear-gradient(135deg, var(--pm-color-accent) 0 50%, transparent 50%),
+    linear-gradient(315deg, var(--pm-color-primary) 0 50%, transparent 50%),
+    var(--pm-color-primary-soft);
+  border: 2px solid var(--pm-color-line);
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-accent) 70%, transparent);
+}
+
+.pm-orders-header-title {
+  margin: 0;
+  font-size: var(--pm-text-xl);
+  font-weight: var(--pm-weight-black);
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+}
+
+.pm-orders-header-desc {
+  margin: 0;
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-xs);
+  line-height: 1.4;
+}
+
+.pm-orders-body {
+  display: grid;
+  flex: 1 1 auto;
+  gap: var(--pm-space-4);
+  min-height: 280px;
+  padding: var(--pm-space-3) var(--pm-space-3) var(--pm-space-5);
+  background:
+    linear-gradient(90deg, var(--pm-theme-grid-line) 1px, transparent 1px),
+    linear-gradient(var(--pm-theme-grid-line) 1px, transparent 1px),
+    color-mix(in srgb, var(--pm-color-bg-soft) 55%, var(--pm-color-surface));
+  background-size: 20px 20px, 20px 20px, auto;
+  border-top: var(--pm-border-width-thin) solid color-mix(in srgb, var(--pm-color-line) 40%, transparent);
+}
+
+.pm-orders-empty-panel {
+  display: grid;
+  place-items: center;
+  min-height: 260px;
+  padding: var(--pm-space-5) var(--pm-space-4);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: 6px 6px 0 color-mix(in srgb, var(--pm-color-primary) 14%, transparent);
+}
+
 .pm-order-detail-page {
   display: grid;
   gap: var(--pm-space-5);
 }
 
-/* 订单状态标签栏：待支付、已支付、已发货、已完成等筛选入口。 */
 .pm-order-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--pm-space-2);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  padding: var(--pm-space-2);
+  background: color-mix(in srgb, var(--pm-color-surface) 88%, transparent);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 10%, transparent);
 }
 
-/* 订单列表：多个 pm-order-card 纵向排列。 */
+.pm-order-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 6px 4px;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-xs);
+  font-weight: var(--pm-weight-black);
+  line-height: 1.15;
+  text-align: center;
+  text-decoration: none;
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-primary) 20%, transparent);
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    background-color 140ms ease;
+}
+
+.pm-order-tab:hover {
+  transform: translateY(-1px);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 28%, transparent);
+}
+
+.pm-order-tab.is-active {
+  color: var(--pm-color-primary-deep);
+  background: color-mix(in srgb, var(--pm-color-primary-soft) 70%, var(--pm-color-surface));
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-primary) 35%, transparent);
+}
+
 .pm-order-list {
   display: grid;
   gap: var(--pm-space-3);
 }
 
-/* 订单详情布局：左侧详情内容，右侧金额或物流摘要。 */
+.pm-order-product-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-2);
+  align-items: center;
+  justify-content: space-between;
+  grid-template-columns: none;
+  padding: var(--pm-space-2) var(--pm-space-3);
+  background: color-mix(in srgb, var(--pm-color-bg-soft) 50%, var(--pm-color-surface));
+  border: var(--pm-border-width-thin) solid color-mix(in srgb, var(--pm-color-line) 70%, transparent);
+}
+
+.pm-order-product-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--pm-text-sm);
+  font-weight: var(--pm-weight-bold);
+  line-height: 1.35;
+}
+
 .pm-order-detail-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
   gap: var(--pm-space-5);
 }
 
-/* 物流列表：展示模拟物流时间线。 */
 .pm-logistics-list {
   display: grid;
   gap: var(--pm-space-3);
@@ -37,7 +171,6 @@
   list-style: none;
 }
 
-/* 单条物流信息：显示时间、地点和状态说明。 */
 .pm-logistics-item {
   padding: var(--pm-space-3);
   background: var(--pm-color-surface);

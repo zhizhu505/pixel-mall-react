@@ -45,9 +45,10 @@
   /* 页面宽度：前台、后台和移动预览统一从这里取值。 */
   --pm-page-max: 1200px;
   --pm-admin-max: 1280px;
-  --pm-mobile-max: 430px;
+  /* 手机逻辑宽度：桌面预览占位与真机窄屏共用。 */
+  --pm-mobile-max: 390px;
 
   /* 固定栏高度：用于顶部栏、底部栏和 sticky 布局计算。 */
   --pm-header-height: 64px;
-  --pm-bottom-bar-height: 60px;
+  --pm-bottom-bar-height: 68px;
 }

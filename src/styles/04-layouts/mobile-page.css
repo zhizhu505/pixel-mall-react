@@ -1,17 +1,667 @@
-/* 移动端页面外壳文件：定义 mall1 参考图那种手机商城页面容器。
-   可用于真实移动端页面，也可用于桌面端展示手机预览稿。 */
+/* 移动端页面外壳：桌面端居中手机预览框，真机访问时铺满屏幕。
+   壳内版式始终按手机排版，不随浏览器窗口宽度切换桌面双栏。 */
 
-/* 移动端页面容器：限制手机宽度并保留左右像素描边。 */
+/* 外层：占满视口，奶油网格背景由 html 透出，内容居中。 */
+.pm-h5-viewport {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  min-height: 100dvh;
+  padding: var(--pm-space-4);
+}
+
+/* 手机占位框：固定逻辑宽度，模拟商城 App 可视区域。 */
+.pm-h5-shell {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--pm-mobile-max);
+  min-height: min(844px, calc(100dvh - var(--pm-space-8)));
+  max-height: calc(100dvh - var(--pm-space-8));
+  overflow: hidden;
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: 10px 10px 0 var(--pm-color-shadow);
+}
+
+.pm-h5-main {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* 隐藏手机框内滚动条，保留触摸/滚轮滚动 */
+.pm-h5-main::-webkit-scrollbar,
+.pm-h5-shell .pm-category-side::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.pm-h5-shell .pm-category-side {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pm-h5-shell .pm-page,
+.pm-h5-shell .pm-home-page {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: var(--pm-space-3);
+  box-sizing: border-box;
+}
+
+.pm-h5-shell .pm-bottom-bar {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+/* 手机壳内统一略缩小间距与底栏高度 */
+.pm-h5-shell {
+  --pm-bottom-bar-height: 64px;
+  font-size: var(--pm-text-sm);
+}
+
+/* ── 壳内强制手机版式（桌面宽屏也生效） ── */
+
+.pm-h5-shell .pm-page {
+  padding: var(--pm-space-3) var(--pm-space-3) calc(var(--pm-space-4) + var(--pm-bottom-bar-height));
+}
+
+.pm-h5-shell .pm-home-page {
+  padding: var(--pm-space-3) var(--pm-space-3) calc(var(--pm-space-4) + var(--pm-bottom-bar-height));
+  gap: var(--pm-space-3);
+}
+
+.pm-h5-shell .pm-home-top-bar {
+  gap: var(--pm-space-2);
+}
+
+.pm-h5-shell .pm-home-top-search {
+  flex-direction: row;
+  align-items: stretch;
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 22%, transparent);
+}
+
+.pm-h5-shell .pm-home-top-search input {
+  min-height: 40px;
+  padding: 8px 10px;
+  font-size: var(--pm-text-sm);
+  border-right: 0;
+}
+
+.pm-h5-shell .pm-home-top-search .pm-btn {
+  width: auto;
+  min-height: 40px;
+  padding: 8px 12px;
+  font-size: var(--pm-text-sm);
+  white-space: nowrap;
+}
+
+.pm-h5-shell .pm-home-admin-link {
+  min-height: 40px;
+  padding: 8px 10px;
+  font-size: var(--pm-text-xs);
+}
+
+.pm-h5-shell .pm-home-section-heading h2 {
+  font-size: var(--pm-text-lg);
+}
+
+.pm-h5-shell .pm-home-page::before {
+  position: absolute;
+}
+
+.pm-h5-shell .pm-home-header {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pm-space-2);
+  padding: 0 0 var(--pm-space-1);
+}
+
+.pm-h5-shell .pm-home-brand {
+  font-size: var(--pm-text-md);
+}
+
+.pm-h5-shell .pm-home-brand-pixel {
+  width: 20px;
+  height: 20px;
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-accent) 68%, transparent);
+}
+
+.pm-h5-shell .pm-home-brand::after {
+  left: 22px;
+  width: 56px;
+  height: 6px;
+}
+
+.pm-h5-shell .pm-home-nav {
+  width: auto;
+  flex: 1 1 100%;
+  justify-content: stretch;
+  gap: var(--pm-space-2);
+}
+
+.pm-h5-shell .pm-home-nav a {
+  flex: 1 1 0;
+  justify-content: center;
+  min-height: 32px;
+  padding: 5px 6px;
+  font-size: var(--pm-text-xs);
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-primary) 24%, transparent);
+}
+
+.pm-h5-shell .pm-home-hero {
+  grid-template-columns: 1fr;
+  gap: var(--pm-space-3);
+  min-height: auto;
+  padding: var(--pm-space-4) var(--pm-space-3);
+}
+
+.pm-h5-shell .pm-home-hero::before {
+  inset: 8px -6px -6px 10px;
+}
+
+.pm-h5-shell .pm-home-hero::after,
+.pm-h5-shell .pm-home-hero-sticker-star {
+  display: none;
+}
+
+.pm-h5-shell .pm-home-hero-sticker-soft {
+  left: 12px;
+  top: -10px;
+  padding: 4px 9px;
+  font-size: 10px;
+}
+
+.pm-h5-shell .pm-home-hero-copy {
+  gap: var(--pm-space-2);
+}
+
+.pm-h5-shell .pm-section-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.pm-h5-shell .pm-home-hero-copy h1 {
+  max-width: none;
+  font-size: 1.5rem;
+  line-height: 1.22;
+}
+
+.pm-h5-shell .pm-home-hero-text {
+  font-size: var(--pm-text-sm);
+  line-height: 1.55;
+}
+
+.pm-h5-shell .pm-home-search {
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 22%, transparent);
+}
+
+.pm-h5-shell .pm-home-search input {
+  min-height: 40px;
+  padding: 8px 12px;
+  font-size: var(--pm-text-sm);
+  border-right: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+.pm-h5-shell .pm-home-search .pm-btn {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 14px;
+  font-size: var(--pm-text-sm);
+}
+
+.pm-h5-shell .pm-home-actions {
+  gap: var(--pm-space-2);
+}
+
+.pm-h5-shell .pm-home-actions .pm-btn {
+  flex: 1 1 auto;
+  min-height: 38px;
+  padding: 8px 12px;
+  font-size: var(--pm-text-sm);
+}
+
+.pm-h5-shell .pm-home-feature-card {
+  max-width: none;
+}
+
+.pm-h5-shell .pm-home-carousel {
+  gap: var(--pm-space-2);
+}
+
+.pm-h5-shell .pm-home-carousel-slide-visual .pm-home-carousel-media {
+  aspect-ratio: 4 / 3;
+}
+
+.pm-h5-shell .pm-home-section-heading {
+  gap: var(--pm-space-2);
+  align-items: center;
+}
+
+.pm-h5-shell .pm-home-section-heading a {
+  font-size: var(--pm-text-xs);
+}
+
+.pm-h5-shell .pm-home-product-grid,
+.pm-h5-shell .pm-favorites-grid,
+.pm-h5-shell .pm-product-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--pm-space-2);
+}
+
+.pm-h5-shell .pm-home-product-card:nth-child(n) {
+  margin-top: 0;
+  transform: none;
+}
+
+.pm-h5-shell .pm-home-category-row {
+  flex-wrap: wrap;
+  gap: 10px 8px;
+  justify-content: flex-start;
+  padding: 0;
+  overflow: visible;
+}
+
+.pm-h5-shell .pm-home-category-chip {
+  flex-shrink: 0;
+  max-width: calc(50% - 6px);
+  min-height: 42px;
+  padding: 7px 10px 7px 7px;
+}
+
+.pm-h5-shell .pm-home-category-chip-index {
+  min-width: 26px;
+  min-height: 22px;
+  padding: 0 4px;
+  font-size: 10px;
+}
+
+.pm-h5-shell .pm-home-category-chip-label {
+  font-size: var(--pm-text-xs);
+  white-space: nowrap;
+}
+
+.pm-h5-shell .pm-home-category-chip-2 {
+  --pm-chip-lift: 3px;
+}
+
+.pm-h5-shell .pm-product-card {
+  padding: var(--pm-space-2);
+  gap: var(--pm-space-2);
+}
+
+.pm-h5-shell .pm-product-title {
+  font-size: var(--pm-text-sm);
+}
+
+.pm-h5-shell .pm-price {
+  font-size: var(--pm-text-sm);
+}
+
+.pm-h5-shell .pm-bottom-bar {
+  min-height: var(--pm-bottom-bar-height);
+  align-items: center;
+  padding: 8px 4px calc(8px + env(safe-area-inset-bottom, 0px));
+  gap: 3px;
+}
+
+.pm-h5-shell .pm-bottom-bar-chip {
+  min-height: 34px;
+  padding: 6px 2px;
+  font-size: 10px;
+  box-shadow: 2px 2px 0 var(--pm-tab-shadow);
+}
+
+.pm-h5-shell .pm-bottom-bar-chip:hover,
+.pm-h5-shell .pm-bottom-bar-chip:focus-visible {
+  --pm-tab-lift: -4px;
+  box-shadow: 4px 6px 0 var(--pm-tab-shadow);
+}
+
+.pm-h5-shell .pm-bottom-bar-chip.is-active {
+  --pm-tab-lift: -5px;
+  box-shadow: 4px 6px 0 var(--pm-tab-shadow);
+}
+
+.pm-h5-shell .pm-bottom-bar-badge {
+  top: -5px;
+  right: -3px;
+  min-width: 14px;
+  padding: 0 3px;
+  font-size: 9px;
+}
+
+.pm-h5-shell .pm-category-page {
+  --pm-category-header-height: 58px;
+
+  width: 100%;
+  padding: 0 0 calc(var(--pm-bottom-bar-height) + var(--pm-space-1));
+}
+
+.pm-h5-shell .pm-category-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  padding: var(--pm-space-2) var(--pm-space-2) 10px;
+}
+
+.pm-h5-shell .pm-category-header-brand {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.pm-h5-shell .pm-category-header-title {
+  font-size: var(--pm-text-lg);
+}
+
+.pm-h5-shell .pm-category-layout {
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 0;
+  min-height: auto;
+}
+
+.pm-h5-shell .pm-category-side {
+  top: var(--pm-category-header-height);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 10px;
+  align-items: center;
+  max-height: calc(
+    min(844px, calc(100dvh - var(--pm-space-8))) - var(--pm-bottom-bar-height) - var(--pm-category-header-height) - 8px
+  );
+  padding: var(--pm-space-3) 6px var(--pm-space-4);
+  overflow-x: visible;
+  overflow-y: auto;
+}
+
+.pm-h5-shell .pm-category-chip {
+  width: 100%;
+  max-width: 96px;
+  min-height: 54px;
+  padding: 9px 6px;
+  box-shadow: 3px 3px 0 var(--pm-cat-shadow);
+}
+
+.pm-h5-shell .pm-category-chip-line {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+.pm-h5-shell .pm-category-chip-1 {
+  --pm-cat-shift: -2px;
+}
+
+.pm-h5-shell .pm-category-chip-2 {
+  --pm-cat-shift: 3px;
+  --pm-cat-lift: 1px;
+}
+
+.pm-h5-shell .pm-category-chip-3 {
+  --pm-cat-shift: -1px;
+}
+
+.pm-h5-shell .pm-category-main {
+  padding: var(--pm-space-2) var(--pm-space-2) var(--pm-space-5);
+}
+
+.pm-h5-shell .pm-category-product-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.pm-h5-shell .pm-category-product-card {
+  padding: 6px;
+  gap: 6px;
+}
+
+.pm-h5-shell .pm-category-product-card .pm-product-title {
+  font-size: 11px;
+}
+
+.pm-h5-shell .pm-category-product-card .pm-price {
+  font-size: 11px;
+}
+
+.pm-h5-shell .pm-category-product-card .pm-product-foot a {
+  min-height: 24px;
+  padding: 2px 6px;
+  font-size: 10px;
+}
+
+.pm-h5-shell .pm-order-detail-grid,
+.pm-h5-shell .pm-detail-hero {
+  grid-template-columns: 1fr;
+}
+
+.pm-h5-shell .pm-profile-page {
+  gap: var(--pm-space-4);
+  padding: 0 var(--pm-space-3) calc(var(--pm-bottom-bar-height) + var(--pm-space-5));
+}
+
+.pm-h5-shell .pm-profile-page-header {
+  padding: var(--pm-space-3) 0 var(--pm-space-1);
+}
+
+.pm-h5-shell .pm-profile-page-title {
+  font-size: var(--pm-text-xl);
+}
+
+.pm-h5-shell .pm-profile-hero-card {
+  padding: var(--pm-space-4) var(--pm-space-4) var(--pm-space-5);
+}
+
+.pm-h5-shell .pm-profile-avatar {
+  width: 72px;
+  height: 72px;
+  font-size: 1.75rem;
+}
+
+.pm-h5-shell .pm-profile-name {
+  font-size: 1.25rem;
+}
+
+.pm-h5-shell .pm-profile-order-tabs {
+  gap: 6px;
+  padding: var(--pm-space-3);
+}
+
+.pm-h5-shell .pm-profile-order-tab {
+  min-height: 36px;
+  padding: 6px 2px;
+  font-size: 10px;
+}
+
+.pm-h5-shell .pm-profile-link {
+  min-height: 52px;
+  padding: var(--pm-space-3) var(--pm-space-4);
+}
+
+.pm-h5-shell .pm-profile-link-label {
+  font-size: var(--pm-text-sm);
+}
+
+.pm-h5-shell .pm-order-tabs {
+  gap: 4px;
+}
+
+.pm-h5-shell .pm-order-tab {
+  min-height: 32px;
+  padding: 5px 2px;
+  font-size: 10px;
+}
+
+.pm-h5-shell .pm-pay-methods {
+  grid-template-columns: 1fr;
+}
+
+.pm-h5-shell .pm-cart-page {
+  gap: var(--pm-space-2);
+  padding-inline: 0;
+}
+
+.pm-h5-shell .pm-h5-main:has(.pm-cart-page-has-items) {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.pm-h5-shell .pm-cart-page-has-items {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-bottom: 0;
+}
+
+.pm-h5-shell .pm-cart-list {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pm-h5-shell .pm-cart-header {
+  padding: var(--pm-space-2) var(--pm-space-2) 10px;
+}
+
+.pm-h5-shell .pm-cart-header-title {
+  font-size: var(--pm-text-lg);
+}
+
+.pm-h5-shell .pm-cart-list {
+  padding-inline: var(--pm-space-2);
+}
+
+.pm-h5-shell .pm-cart-item {
+  grid-template-columns: auto 64px minmax(0, 1fr);
+  gap: var(--pm-space-2);
+  padding: var(--pm-space-2);
+  padding-right: calc(var(--pm-space-2) + 24px);
+}
+
+.pm-h5-shell .pm-cart-media {
+  width: 64px;
+  height: 82px;
+}
+
+.pm-h5-shell .pm-cart-title {
+  font-size: var(--pm-text-xs);
+}
+
+.pm-h5-shell .pm-cart-summary {
+  position: sticky;
+  bottom: 0;
+  gap: var(--pm-space-2);
+  width: 100%;
+  margin-top: auto;
+  padding: var(--pm-space-3) var(--pm-space-3);
+  border-radius: 0;
+  transform: none;
+  box-shadow: 0 -4px 0 color-mix(in srgb, var(--pm-color-primary) 14%, transparent);
+}
+
+.pm-h5-shell .pm-cart-select-all {
+  font-size: var(--pm-text-xs);
+}
+
+.pm-h5-shell .pm-cart-total .pm-price {
+  font-size: var(--pm-text-lg);
+}
+
+.pm-h5-shell .pm-cart-checkout-btn {
+  min-width: 88px;
+  min-height: 38px;
+  padding: 8px 12px;
+  font-size: var(--pm-text-sm);
+}
+
+.pm-h5-shell .pm-orders-page {
+  padding-inline: 0;
+}
+
+.pm-h5-shell .pm-orders-header {
+  padding-inline: var(--pm-space-2);
+}
+
+.pm-h5-shell .pm-orders-body {
+  padding-inline: var(--pm-space-2);
+}
+
+.pm-h5-shell .pm-address-page {
+  padding-inline: var(--pm-space-3);
+}
+
+.pm-h5-shell .pm-create-order-page {
+  padding-inline: 0;
+}
+
+.pm-h5-shell .pm-create-order-footer {
+  margin-bottom: 0;
+}
+
+.pm-h5-shell .pm-login-page {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  align-content: center;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: var(--pm-space-4) var(--pm-space-3);
+  box-sizing: border-box;
+}
+
+.pm-h5-shell .pm-login-panel {
+  width: 100%;
+  padding: var(--pm-space-5) var(--pm-space-4);
+}
+
+.pm-h5-shell .pm-login-title {
+  font-size: var(--pm-text-xl);
+}
+
+.pm-h5-main:has(.pm-login-page) {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 真机或小屏：去掉外框留白，铺满屏幕。 */
+@media (max-width: 520px) {
+  .pm-h5-viewport {
+    padding: 0;
+  }
+
+  .pm-h5-shell {
+    max-width: 100%;
+    min-height: 100dvh;
+    max-height: none;
+    border-width: 0;
+    box-shadow: none;
+  }
+}
+
+/* 旧类名保留。 */
 .pm-mobile-page {
   width: min(100%, var(--pm-mobile-max));
   min-height: 100vh;
   margin: 0 auto;
-  overflow: hidden;
+  overflow-x: clip;
   background: var(--pm-color-surface);
   border-inline: var(--pm-border-width) solid var(--pm-color-line);
 }
 
-/* 移动端头部：承载状态栏、标题、搜索框和 Banner 区。 */
 .pm-mobile-header {
   display: grid;
   gap: var(--pm-space-3);
@@ -21,14 +671,12 @@
   border-bottom: var(--pm-border-width) solid var(--pm-color-line);
 }
 
-/* 移动端标题栏：左右排列页面标题与功能入口。 */
 .pm-mobile-titlebar {
   display: flex;
   justify-content: space-between;
   font-weight: var(--pm-weight-black);
 }
 
-/* 移动端内容区：统一页面主体内边距。 */
 .pm-mobile-content {
   padding: var(--pm-space-3);
 }

@@ -1,40 +1,37 @@
-import { useState } from 'react';
 import { useTheme } from '../../contexts/useTheme';
-import Button from './Button';
 
-const ThemePanel = () => {
+const ThemePanel = ({ variant = 'profile' }) => {
   const { preset, presets, setPreset } = useTheme();
-  const [open, setOpen] = useState(false);
   const currentTheme = presets.find((theme) => theme.key === preset);
 
+  if (variant !== 'profile') {
+    return null;
+  }
+
   return (
-    <div className={`pm-theme-floating${open ? ' is-open' : ''}`}>
-      <Button
-        className="pm-theme-launcher"
-        type="button"
-        variant="dark"
-        onClick={() => setOpen((currentOpen) => !currentOpen)}
-      >
-        {open ? '收起主题' : '切换主题'}
-      </Button>
+    <section className="pm-theme-profile" aria-label="主题切换">
+      <p className="pm-theme-profile-current">
+        当前主题：<strong>{currentTheme?.label}</strong>
+      </p>
+      <ul className="pm-theme-profile-list">
+        {presets.map((theme) => {
+          const isActive = theme.key === preset;
 
-      {open ? (
-        <section className="pm-theme-panel pm-theme-drawer" aria-label="主题切换面板">
-          <div className="pm-theme-heading">
-            <strong>主题配色</strong>
-            <span>当前：{currentTheme?.label}</span>
-          </div>
-
-          <div className="pm-theme-grid">
-            {presets.map((theme) => (
+          return (
+            <li key={theme.key}>
               <button
-                key={theme.key}
                 type="button"
-                className={`pm-theme-option${theme.key === preset ? ' is-active' : ''}`}
+                className={`pm-theme-profile-option${isActive ? ' is-active' : ''}`}
+                aria-pressed={isActive}
                 onClick={() => setPreset(theme.key)}
               >
-                <strong>{theme.label}</strong>
-                <div className="pm-theme-swatches" aria-hidden="true">
+                <span className="pm-theme-profile-option-main">
+                  <strong>{theme.label}</strong>
+                  <span className="pm-theme-profile-option-hint">
+                    {isActive ? '使用中' : '点击切换'}
+                  </span>
+                </span>
+                <span className="pm-theme-swatches" aria-hidden="true">
                   {theme.swatches.map((swatch) => (
                     <span
                       key={swatch}
@@ -42,13 +39,13 @@ const ThemePanel = () => {
                       style={{ backgroundColor: swatch }}
                     />
                   ))}
-                </div>
+                </span>
               </button>
-            ))}
-          </div>
-        </section>
-      ) : null}
-    </div>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
   );
 };
 

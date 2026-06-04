@@ -3,9 +3,10 @@
   position: relative;
   width: min(var(--pm-page-max), calc(100% - 40px));
   margin: 0 auto;
-  padding: 34px 0 54px;
+  padding: 34px var(--pm-space-5) calc(54px + var(--pm-bottom-bar-height));
   display: grid;
   gap: 28px;
+  box-sizing: border-box;
 }
 
 .pm-home-page::before {
@@ -290,51 +291,123 @@
   font-size: var(--pm-text-xl);
 }
 
-/* 分类入口：错位贴纸，不再是整齐按钮墙。 */
+/* 分类入口：独立贴纸按钮，略歪斜 + 悬停上浮。 */
 .pm-home-category-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 16px;
+  gap: 14px 12px;
   align-items: center;
-  padding-left: 18px;
+  justify-content: flex-start;
+  padding: var(--pm-space-1) var(--pm-space-1) var(--pm-space-3);
 }
 
 .pm-home-category-chip {
+  --pm-chip-tilt: 0deg;
+  --pm-chip-lift: 0px;
+  --pm-chip-shadow: color-mix(in srgb, var(--pm-color-primary) 30%, transparent);
+
+  position: relative;
+  z-index: 0;
   display: inline-flex;
+  flex: 0 0 auto;
   gap: 10px;
   align-items: center;
-  min-height: 48px;
-  padding: 10px 16px;
+  min-height: 50px;
+  padding: 10px 14px 10px 10px;
   color: var(--pm-color-text);
   font-weight: var(--pm-weight-black);
-  background: color-mix(in srgb, var(--pm-color-surface) 92%, transparent);
+  text-decoration: none;
+  background: var(--pm-color-surface);
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
-  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pm-color-primary) 28%, transparent);
+  box-shadow: 5px 5px 0 var(--pm-chip-shadow);
   cursor: pointer;
+  transform: rotate(var(--pm-chip-tilt)) translateY(var(--pm-chip-lift));
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 200ms ease;
 }
 
-.pm-home-category-chip .pm-sticker-index {
-  min-width: 24px;
-  min-height: 24px;
+.pm-home-category-chip:hover,
+.pm-home-category-chip:focus-visible {
+  z-index: 2;
+  --pm-chip-lift: -7px;
+  box-shadow: 8px 11px 0 var(--pm-chip-shadow);
+  outline: none;
 }
 
-.pm-home-category-chip:nth-child(1) {
-  transform: rotate(-2deg);
+.pm-home-category-chip:active {
+  --pm-chip-lift: -2px;
+  box-shadow: 3px 4px 0 var(--pm-chip-shadow);
 }
 
-.pm-home-category-chip:nth-child(2) {
-  background: color-mix(in srgb, var(--pm-color-primary-soft) 92%, transparent);
-  transform: translateY(8px) rotate(1.5deg);
+.pm-home-category-chip-index {
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  min-width: 32px;
+  min-height: 28px;
+  padding: 0 6px;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-xs);
+  font-weight: var(--pm-weight-black);
+  line-height: 1;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: color-mix(in srgb, var(--pm-color-accent) 42%, var(--pm-color-surface));
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
 }
 
-.pm-home-category-chip:nth-child(3) {
-  background: color-mix(in srgb, var(--pm-color-accent-2) 28%, var(--pm-color-surface));
-  transform: rotate(-1deg);
+.pm-home-category-chip-label {
+  font-size: var(--pm-text-sm);
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
-.pm-home-category-chip:nth-child(4) {
-  background: color-mix(in srgb, var(--pm-color-accent) 24%, var(--pm-color-surface));
-  transform: translateY(5px) rotate(2deg);
+/* 三种贴纸底色轮换，对应参考图奶油 / 粉 / 薄荷。 */
+.pm-home-category-chip-1 {
+  --pm-chip-tilt: -2.8deg;
+  --pm-chip-shadow: color-mix(in srgb, var(--pm-color-primary-soft) 55%, transparent);
+  background: var(--pm-color-surface);
+}
+
+.pm-home-category-chip-2 {
+  --pm-chip-tilt: 2.2deg;
+  --pm-chip-lift: 6px;
+  --pm-chip-shadow: color-mix(in srgb, var(--pm-color-primary) 38%, transparent);
+  background: color-mix(in srgb, var(--pm-color-primary-soft) 88%, var(--pm-color-surface));
+}
+
+.pm-home-category-chip-3 {
+  --pm-chip-tilt: -1.5deg;
+  --pm-chip-shadow: color-mix(in srgb, var(--pm-color-accent-2) 45%, transparent);
+  background: color-mix(in srgb, var(--pm-color-accent-2) 22%, var(--pm-color-surface));
+}
+
+.pm-home-category-chip-1:hover,
+.pm-home-category-chip-1:focus-visible {
+  --pm-chip-tilt: -3.5deg;
+}
+
+.pm-home-category-chip-2:hover,
+.pm-home-category-chip-2:focus-visible {
+  --pm-chip-tilt: 3deg;
+}
+
+.pm-home-category-chip-3:hover,
+.pm-home-category-chip-3:focus-visible {
+  --pm-chip-tilt: -2.2deg;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-home-category-chip {
+    transition: none;
+  }
+
+  .pm-home-category-chip:hover,
+  .pm-home-category-chip:focus-visible {
+    --pm-chip-lift: 0;
+  }
 }
 
 /* 分区标题：更像贴纸标题和轻量链接。 */
@@ -475,9 +548,13 @@
 
 @media (max-width: 640px) {
   .pm-home-page {
-    width: min(var(--pm-page-max), calc(100% - 18px));
-    padding-top: 18px;
+    width: 100%;
+    padding: 18px var(--pm-space-3) calc(22px + var(--pm-bottom-bar-height));
     gap: 22px;
+  }
+
+  .pm-home-carousel-slide {
+    grid-template-columns: 1fr;
   }
 
   .pm-home-header,
@@ -516,11 +593,12 @@
   }
 
   .pm-home-category-row {
-    padding-left: 0;
+    gap: 10px;
+    padding-inline: 0;
   }
 
-  .pm-home-category-chip:nth-child(n) {
-    transform: none;
+  .pm-home-category-chip-label {
+    white-space: normal;
   }
 
   .pm-home-product-grid {
@@ -535,4 +613,148 @@
   .pm-home-feature-strip > div:nth-child(n) {
     transform: none;
   }
+
+  .pm-home-carousel-copy h2 {
+    font-size: var(--pm-text-xl);
+  }
+}
+
+/* 首页轮播：主推商品自动切换展示。 */
+.pm-home-carousel {
+  display: grid;
+  gap: var(--pm-space-3);
+}
+
+.pm-home-carousel-slide {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.9fr);
+  gap: var(--pm-space-4);
+  padding: var(--pm-space-4);
+  color: inherit;
+  text-decoration: none;
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: var(--pm-shadow-lg);
+}
+
+/* 纯视觉轮播：仅展示图片，点击跳转商品详情。 */
+.pm-home-carousel-slide-visual {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+}
+
+.pm-home-carousel-slide-visual .pm-home-carousel-media {
+  aspect-ratio: 16 / 10;
+  border: 0;
+}
+
+.pm-home-top-bar {
+  display: flex;
+  gap: var(--pm-space-2);
+  align-items: stretch;
+  width: 100%;
+}
+
+.pm-home-top-search {
+  flex: 1;
+  min-width: 0;
+}
+
+.pm-home-top-search input {
+  border-right: 0;
+}
+
+.pm-home-admin-link {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 8px 14px;
+  font-size: var(--pm-text-sm);
+  white-space: nowrap;
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 28%, transparent);
+  transform: rotate(1.2deg);
+}
+
+.pm-home-admin-link:hover {
+  transform: rotate(1.2deg) translate(2px, 2px);
+}
+
+.pm-home-section-heading h2 {
+  margin: 0;
+  font-size: var(--pm-text-xl);
+}
+
+.pm-home-scroll-sentinel {
+  width: 100%;
+  height: 1px;
+}
+
+.pm-home-scroll-hint {
+  margin: 0;
+  padding: var(--pm-space-2) 0 var(--pm-space-4);
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-xs);
+  text-align: center;
+}
+
+.pm-home-carousel-media {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+.pm-home-carousel-media img,
+.pm-home-carousel-media .pm-pixel-product {
+  width: 100%;
+  height: 100%;
+}
+
+.pm-home-carousel-copy {
+  display: grid;
+  align-content: center;
+  gap: var(--pm-space-2);
+}
+
+.pm-home-carousel-copy h2 {
+  margin: 0;
+  font-size: var(--pm-text-2xl);
+}
+
+.pm-home-carousel-dots {
+  display: flex;
+  gap: var(--pm-space-2);
+}
+
+.pm-home-carousel-dots button {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  cursor: pointer;
+  background: var(--pm-soft-line);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+.pm-home-carousel-dots button.is-active {
+  background: var(--pm-color-primary);
+}
+
+/* 分页条：首页与分类商品列表共用。 */
+.pm-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-3);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--pm-space-3);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+.pm-pagination-info {
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-sm);
+  font-weight: var(--pm-weight-bold);
 }

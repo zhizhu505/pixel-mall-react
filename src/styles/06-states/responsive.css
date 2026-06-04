@@ -3,8 +3,7 @@
 
 /* 平板及窄桌面：复杂左右布局改为单列，后台侧边栏改为顶部区域。 */
 @media (max-width: 980px) {
-  /* 前台复杂页面布局：分类、详情、下单、订单详情改为单列。 */
-  .pm-category-layout,
+  /* 前台复杂页面布局：详情、下单、订单详情改为单列；分类页保持左索引右商品。 */
   .pm-detail-hero,
   .pm-order-create-layout,
   .pm-order-detail-grid {
@@ -83,7 +82,7 @@
 
   /* 手机端单列布局：分类入口、个人菜单、支付方式、后台表单等。 */
   .pm-home-category-row,
-  .pm-profile-menu,
+  .pm-profile-links,
   .pm-pay-methods,
   .pm-admin-form,
   .pm-grid-2,
@@ -93,20 +92,15 @@
     grid-template-columns: 1fr;
   }
 
-  /* 购物车商品项：手机端减少商品图尺寸并简化列数。 */
+  /* 购物车商品项：手机端缩小图片并保持三列对齐。 */
   .pm-cart-item {
-    grid-template-columns: auto 72px minmax(0, 1fr);
+    grid-template-columns: auto 68px minmax(0, 1fr);
+    padding-right: calc(var(--pm-space-3) + 24px);
   }
 
-  /* 购物车操作区：手机端换到商品信息下方。 */
-  .pm-cart-actions {
-    grid-column: 2 / -1;
-  }
-
-  /* 购物车商品图：手机端使用更小尺寸。 */
   .pm-cart-media {
-    width: 72px;
-    height: 72px;
+    width: 68px;
+    height: 86px;
   }
 
   /* 详情页操作按钮：手机端改为上下排列。 */
@@ -154,4 +148,5 @@
     width: 108px;
     height: 18px;
   }
+
 }

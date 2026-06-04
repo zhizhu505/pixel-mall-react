@@ -1,27 +1,33 @@
-/* 购物车商品项组件文件：定义购物车页和创建订单商品摘要可复用的商品行。
-   商品行负责结构外观，页面文件只负责列表和结算栏布局。 */
+/* 购物车商品项：勾选 + 图片 + 信息 + 右上角删除。 */
 
-/* 购物车商品项外壳：勾选框、图片、信息、操作区四列布局。 */
 .pm-cart-item {
+  position: relative;
   display: grid;
-  grid-template-columns: auto 86px minmax(0, 1fr) auto;
-  gap: var(--pm-space-3);
-  align-items: center;
+  grid-template-columns: auto 76px minmax(0, 1fr);
+  gap: var(--pm-space-2) var(--pm-space-3);
+  align-items: start;
   padding: var(--pm-space-3);
+  padding-right: calc(var(--pm-space-3) + 28px);
   background: var(--pm-color-surface);
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-md);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 16%, transparent);
 }
 
-/* 购物车商品图片区域：固定尺寸，保证列表整齐。 */
+.pm-cart-check {
+  display: grid;
+  place-items: center;
+  align-self: center;
+  margin: 0;
+}
+
 .pm-cart-media {
-  width: 86px;
-  height: 86px;
+  width: 76px;
+  height: 96px;
   overflow: hidden;
+  background: color-mix(in srgb, var(--pm-color-bg-soft) 80%, var(--pm-color-surface));
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
 }
 
-/* 购物车商品图片：保持像素风硬边显示。 */
 .pm-cart-media img {
   width: 100%;
   height: 100%;
@@ -29,29 +35,79 @@
   image-rendering: pixelated;
 }
 
-/* 购物车商品信息区：允许文本收缩，不撑破布局。 */
 .pm-cart-info {
+  display: grid;
+  gap: 4px;
   min-width: 0;
 }
 
-/* 购物车商品标题：商品名称主信息。 */
 .pm-cart-title {
   margin: 0;
-  overflow-wrap: anywhere;
-  font-size: var(--pm-text-base);
+  overflow: hidden;
+  font-size: var(--pm-text-sm);
+  font-weight: var(--pm-weight-black);
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* 购物车规格：颜色、尺码、款式等弱信息。 */
 .pm-cart-spec {
-  margin: 3px 0;
+  margin: 0;
+  overflow: hidden;
   color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-xs);
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pm-cart-price {
   font-size: var(--pm-text-sm);
 }
 
-/* 购物车操作区：数量器、删除按钮等操作集合。 */
+.pm-cart-info .pm-quantity-compact {
+  margin-top: 2px;
+  grid-template-columns: 28px minmax(32px, auto) 28px;
+  background: color-mix(in srgb, var(--pm-color-bg-soft) 70%, var(--pm-color-surface));
+}
+
+.pm-cart-info .pm-quantity-compact .pm-quantity-btn {
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  min-height: 28px;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-base);
+  font-weight: var(--pm-weight-black);
+  background: transparent;
+}
+
+.pm-cart-info .pm-quantity-compact .pm-quantity-value {
+  min-width: 32px;
+  height: 28px;
+  font-size: var(--pm-text-sm);
+}
+
+.pm-cart-remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  color: var(--pm-color-text-muted);
+  font-size: 18px;
+  line-height: 1;
+  background: color-mix(in srgb, var(--pm-color-bg-soft) 80%, var(--pm-color-surface));
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: none;
+}
+
+.pm-cart-remove:hover {
+  color: var(--pm-color-primary-deep);
+  background: color-mix(in srgb, var(--pm-color-primary-soft) 40%, var(--pm-color-surface));
+}
+
 .pm-cart-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--pm-space-2);
-  align-items: center;
+  display: none;
 }

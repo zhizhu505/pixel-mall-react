@@ -1,4 +1,4 @@
-const Button = ({ className = '', variant = 'primary', block = false, ...props }) => {
+const Button = ({ className = '', variant = 'primary', block = false, type = 'button', ...props }) => {
   const variantClassName = {
     primary: 'pm-btn-primary',
     ghost: 'pm-btn-ghost',
@@ -12,7 +12,7 @@ const Button = ({ className = '', variant = 'primary', block = false, ...props }
     .filter(Boolean)
     .join(' ');
 
-  return <button className={classes} {...props} />;
+  return <button type={type} className={classes} {...props} />;
 };
 
 export default Button;

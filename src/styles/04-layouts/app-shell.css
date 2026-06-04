@@ -4,6 +4,12 @@
 /* 前台应用根容器：提供全屏高度和像素网格背景。 */
 .pm-app-root {
   min-height: 100vh;
+  width: 100%;
+}
+
+/* H5 路由：根节点仅提供全屏背景，手机框由 pm-h5-viewport 居中。 */
+.pm-app-root:has(.pm-h5-viewport) {
+  min-height: 100dvh;
 }
 
 .pm-app {

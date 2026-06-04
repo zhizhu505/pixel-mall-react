@@ -1,39 +1,261 @@
-/* 分类页样式文件：定义分类索引、筛选排序工具栏和商品列表布局。
-   商品卡继续复用 pm-product-card，页面只负责分类页的整体排布。 */
+/* 分类页：顶栏标题 + 左侧贴纸索引 + 右侧双列商品。 */
 
-/* 分类页容器：控制分类页主要区域之间的间距。 */
 .pm-category-page {
-  display: grid;
-  gap: var(--pm-space-5);
+  --pm-category-header-height: 68px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-inline: 0;
+  padding-block: 0 calc(var(--pm-bottom-bar-height) + var(--pm-space-2));
 }
 
-/* 分类页主体布局：左侧分类导航，右侧商品列表。 */
+.pm-category-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: grid;
+  flex-shrink: 0;
+  gap: 6px;
+  justify-items: center;
+  padding: var(--pm-space-3) var(--pm-space-3) var(--pm-space-2);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--pm-color-primary-soft) 28%, var(--pm-color-surface)), var(--pm-color-surface));
+  border-bottom: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--pm-color-primary) 12%, transparent);
+}
+
+.pm-category-header-brand {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+  color: var(--pm-color-primary-deep);
+  font-size: 10px;
+  font-weight: var(--pm-weight-black);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pm-category-header-pixel {
+  width: 14px;
+  height: 14px;
+  background:
+    linear-gradient(135deg, var(--pm-color-accent) 0 50%, transparent 50%),
+    linear-gradient(315deg, var(--pm-color-primary) 0 50%, transparent 50%),
+    var(--pm-color-primary-soft);
+  border: 2px solid var(--pm-color-line);
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-accent) 70%, transparent);
+}
+
+.pm-category-header-title {
+  margin: 0;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-xl);
+  font-weight: var(--pm-weight-black);
+  line-height: 1.1;
+  letter-spacing: 0.08em;
+  text-shadow:
+    2px 0 0 color-mix(in srgb, var(--pm-color-primary) 35%, transparent),
+    0 2px 0 color-mix(in srgb, var(--pm-color-accent) 45%, transparent);
+}
+
 .pm-category-layout {
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
-  gap: var(--pm-space-5);
+  flex: 1 1 auto;
+  grid-template-columns: 124px minmax(0, 1fr);
+  align-items: start;
+  min-height: 0;
 }
 
-/* 分类侧边栏：用于纵向分类按钮列表。 */
 .pm-category-side {
+  position: sticky;
+  top: var(--pm-category-header-height);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  max-height: calc(100dvh - var(--pm-bottom-bar-height) - var(--pm-category-header-height) - 24px);
+  padding: var(--pm-space-3) 8px var(--pm-space-4);
+  overflow: visible;
+  overflow-y: auto;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--pm-color-primary-soft) 22%, transparent) 0%, transparent 42%),
+    color-mix(in srgb, var(--pm-color-bg-soft) 78%, var(--pm-color-surface));
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pm-category-side::-webkit-scrollbar {
+  display: none;
+}
+
+/* 左侧分类贴纸：独立块、轻微歪斜、不对齐。 */
+.pm-category-chip {
+  --pm-cat-tilt: 0deg;
+  --pm-cat-shift: 0px;
+  --pm-cat-lift: 0px;
+  --pm-cat-shadow: color-mix(in srgb, var(--pm-color-primary) 28%, transparent);
+
+  position: relative;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 104px;
+  min-height: 58px;
+  margin-inline: auto;
+  padding: 10px 8px;
+  color: var(--pm-color-text);
+  font-weight: var(--pm-weight-black);
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: 4px 4px 0 var(--pm-cat-shadow);
+  cursor: pointer;
+  transform: rotate(var(--pm-cat-tilt)) translateX(var(--pm-cat-shift)) translateY(var(--pm-cat-lift));
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 140ms ease,
+    background-color 140ms ease;
+}
+
+.pm-category-chip:hover,
+.pm-category-chip:focus-visible {
+  z-index: 2;
+  --pm-cat-lift: -3px;
+  box-shadow: 5px 6px 0 var(--pm-cat-shadow);
+  outline: none;
+}
+
+.pm-category-chip.is-active {
+  z-index: 3;
+  --pm-cat-lift: -4px;
+  color: var(--pm-color-primary-deep);
+  box-shadow: 5px 7px 0 var(--pm-cat-shadow);
+}
+
+.pm-category-chip.is-active::after {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 18px;
+  height: 5px;
+  content: "";
+  background: var(--pm-color-accent);
+  border: 2px solid var(--pm-color-line);
+  transform: translateX(-50%) rotate(-3deg);
+}
+
+.pm-category-chip-label {
   display: grid;
-  align-content: start;
+  gap: 3px;
+  justify-items: center;
+  width: 100%;
+}
+
+.pm-category-chip-line {
+  display: block;
+  font-size: 13px;
+  line-height: 1.1;
+  letter-spacing: 0.14em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.pm-category-chip-1 {
+  --pm-cat-tilt: -2.4deg;
+  --pm-cat-shift: -3px;
+  --pm-cat-shadow: color-mix(in srgb, var(--pm-color-primary-soft) 55%, transparent);
+}
+
+.pm-category-chip-2 {
+  --pm-cat-tilt: 2deg;
+  --pm-cat-shift: 4px;
+  --pm-cat-lift: 2px;
+  --pm-cat-shadow: color-mix(in srgb, var(--pm-color-primary) 38%, transparent);
+  background: color-mix(in srgb, var(--pm-color-primary-soft) 88%, var(--pm-color-surface));
+}
+
+.pm-category-chip-3 {
+  --pm-cat-tilt: -1.6deg;
+  --pm-cat-shift: -2px;
+  --pm-cat-shadow: color-mix(in srgb, var(--pm-color-accent-2) 45%, transparent);
+  background: color-mix(in srgb, var(--pm-color-accent-2) 22%, var(--pm-color-surface));
+}
+
+.pm-category-chip-1.is-active {
+  --pm-cat-tilt: -3deg;
+}
+
+.pm-category-chip-2.is-active {
+  --pm-cat-tilt: 2.6deg;
+}
+
+.pm-category-chip-3.is-active {
+  --pm-cat-tilt: -2.2deg;
+}
+
+.pm-category-main {
+  min-width: 0;
+  padding: var(--pm-space-2);
+  padding-bottom: var(--pm-space-4);
+  background: var(--pm-color-surface);
+}
+
+.pm-category-product-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--pm-space-2);
 }
 
-/* 分类按钮：复用 pm-btn 时让按钮在侧边栏内撑满并左对齐。 */
-.pm-category-tab {
-  width: 100%;
-  justify-content: flex-start;
+.pm-category-product-card {
+  gap: var(--pm-space-2);
+  padding: var(--pm-space-2);
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent);
 }
 
-/* 分类主内容区：承载筛选栏、商品网格和空状态。 */
-.pm-category-main {
-  display: grid;
-  gap: var(--pm-space-4);
+.pm-category-product-card .pm-home-product-meta > span:first-child {
+  display: none;
 }
 
-/* 分类筛选栏：放置搜索、排序、价格筛选、标签筛选等控件。 */
+.pm-category-product-card .pm-product-title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: var(--pm-text-xs);
+  line-height: 1.35;
+}
+
+.pm-category-product-card .pm-product-foot {
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.pm-category-product-card .pm-price {
+  font-size: var(--pm-text-xs);
+}
+
+.pm-category-product-card .pm-product-foot a {
+  font-size: 10px;
+}
+
+.pm-category-scroll-sentinel {
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.pm-category-empty {
+  min-height: 220px;
+  padding: var(--pm-space-3) var(--pm-space-2);
+}
+
+/* 分类筛选栏：后台或扩展用。 */
 .pm-category-filter {
   display: flex;
   flex-wrap: wrap;
@@ -43,9 +265,4 @@
   padding: var(--pm-space-3);
   background: var(--pm-color-surface);
   border: var(--pm-border-width) solid var(--pm-color-line);
-}
-
-/* 分类空状态：搜索无结果或分类无商品时预留高度。 */
-.pm-category-empty {
-  min-height: 260px;
 }

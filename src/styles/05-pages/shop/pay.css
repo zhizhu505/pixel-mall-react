@@ -21,10 +21,29 @@
 /* 支付倒计时：显示待支付剩余时间。 */
 .pm-pay-countdown {
   width: fit-content;
+  max-width: 100%;
   padding: var(--pm-space-2) var(--pm-space-3);
   font-weight: var(--pm-weight-black);
+  line-height: 1.4;
   background: var(--pm-color-accent);
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+.pm-pay-countdown.is-failed {
+  background: color-mix(in srgb, var(--pm-color-primary-soft) 55%, var(--pm-color-accent));
+}
+
+.pm-pay-countdown.is-expired {
+  background: color-mix(in srgb, var(--pm-color-danger) 18%, var(--pm-color-accent));
+}
+
+.pm-pay-actions {
+  margin-top: var(--pm-space-1);
+}
+
+.pm-pay-method:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 /* 支付方式网格：展示余额、模拟支付、优惠券等支付选项。 */
@@ -40,4 +59,40 @@
   cursor: pointer;
   background: var(--pm-color-surface);
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+.pm-pay-method.is-selected {
+  color: var(--pm-color-primary-deep);
+  background: var(--pm-color-bg-soft);
+  box-shadow: var(--pm-shadow-md);
+}
+
+.pm-pay-qrcode {
+  display: grid;
+  gap: var(--pm-space-3);
+  justify-items: center;
+}
+
+.pm-pay-qrcode-box {
+  padding: var(--pm-space-3);
+  background: var(--pm-white);
+  border: var(--pm-border-width) solid var(--pm-color-line);
+}
+
+.pm-pay-qrcode-mock {
+  display: grid;
+  place-items: center;
+  width: 160px;
+  height: 160px;
+  gap: var(--pm-space-2);
+  font-weight: var(--pm-weight-black);
+  background:
+    linear-gradient(90deg, var(--pm-color-line) 2px, transparent 2px) 0 0 / 12px 12px,
+    linear-gradient(var(--pm-color-line) 2px, transparent 2px) 0 0 / 12px 12px,
+    var(--pm-color-surface);
+}
+
+.pm-pay-qrcode-mock span {
+  font-size: var(--pm-text-2xl);
+  color: var(--pm-color-primary-deep);
 }

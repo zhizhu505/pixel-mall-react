@@ -62,16 +62,6 @@ class UserService {
   _loadData() {
     this.users = loadFromStorage([USER_LIST_KEY], defaultUsers);
     this.currentUser = loadFromStorage([CURRENT_USER_KEY], null);
-
-    if (!this.currentUser && this.users[0]) {
-      this.currentUser = {
-        id: this.users[0].id,
-        username: this.users[0].username,
-        nickname: this.users[0].nickname,
-      };
-      saveToStorage(CURRENT_USER_KEY, this.currentUser);
-    }
-
     saveToStorage(USER_LIST_KEY, this.users);
   }
 }

@@ -105,7 +105,7 @@
   box-shadow: 2px 2px 0 var(--pm-color-line);
 }
 
-/* 勾选框：用于购物车选择、默认地址、批量操作。 */
+/* 原生勾选框（仅 input 本身，勿用于包裹文字的 label）。 */
 .pm-check {
   width: 22px;
   height: 22px;

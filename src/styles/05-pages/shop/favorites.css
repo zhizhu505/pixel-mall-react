@@ -27,3 +27,8 @@
 .pm-favorites-empty {
   min-height: 300px;
 }
+
+.pm-favorites-item {
+  display: grid;
+  gap: var(--pm-space-2);
+}

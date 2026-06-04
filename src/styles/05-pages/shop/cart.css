@@ -1,41 +1,191 @@
-/* 购物车页样式文件：定义购物车列表和底部结算栏的页面布局。
-   单个购物车商品项外观在 03-components/commerce/cart-item.css 中维护。 */
+/* 购物车页：居中标题 + 商品列表 + 底部固定结算栏。 */
 
-/* 购物车页面容器：控制列表、空状态和结算栏之间的间距。 */
 .pm-cart-page {
   display: grid;
-  gap: var(--pm-space-5);
+  gap: var(--pm-space-3);
+  padding-bottom: calc(var(--pm-bottom-bar-height) + var(--pm-space-6));
 }
 
-/* 购物车列表：多个 pm-cart-item 纵向排列。 */
+.pm-cart-page-has-items {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-bottom: 0;
+}
+
+.pm-cart-header {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  padding: var(--pm-space-2) var(--pm-space-3) var(--pm-space-3);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--pm-color-primary-soft) 28%, var(--pm-color-surface)), var(--pm-color-surface));
+  border-bottom: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--pm-color-primary) 12%, transparent);
+}
+
+.pm-cart-header-brand {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+  color: var(--pm-color-primary-deep);
+  font-size: 10px;
+  font-weight: var(--pm-weight-black);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pm-cart-header-pixel {
+  width: 14px;
+  height: 14px;
+  background:
+    linear-gradient(135deg, var(--pm-color-accent) 0 50%, transparent 50%),
+    linear-gradient(315deg, var(--pm-color-primary) 0 50%, transparent 50%),
+    var(--pm-color-primary-soft);
+  border: 2px solid var(--pm-color-line);
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-accent) 70%, transparent);
+}
+
+.pm-cart-header-title {
+  margin: 0;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-xl);
+  font-weight: var(--pm-weight-black);
+  line-height: 1.1;
+  letter-spacing: 0.08em;
+  text-shadow:
+    2px 0 0 color-mix(in srgb, var(--pm-color-primary) 35%, transparent),
+    0 2px 0 color-mix(in srgb, var(--pm-color-accent) 45%, transparent);
+}
+
 .pm-cart-list {
   display: grid;
-  gap: var(--pm-space-3);
+  flex: 1 1 auto;
+  gap: var(--pm-space-2);
+  min-height: 0;
+  padding-inline: var(--pm-space-2);
+  padding-bottom: var(--pm-space-2);
 }
 
-/* 购物车结算栏：显示全选、合计金额和去结算按钮。 */
+.pm-cart-check {
+  position: relative;
+  display: grid;
+  place-items: center;
+  align-self: center;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.pm-cart-check-input {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.pm-cart-check-ui {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  background: var(--pm-color-surface);
+  border: 2px solid var(--pm-color-line);
+  border-radius: 50%;
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-primary) 20%, transparent);
+  transition:
+    background-color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.pm-cart-check-input:checked + .pm-cart-check-ui {
+  color: var(--pm-white);
+  font-size: 12px;
+  font-weight: var(--pm-weight-black);
+  background: var(--pm-color-primary);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-accent) 70%, transparent);
+}
+
+.pm-cart-check-input:checked + .pm-cart-check-ui::after {
+  content: "✓";
+}
+
 .pm-cart-summary {
   position: sticky;
-  bottom: var(--pm-space-3);
+  bottom: 0;
+  z-index: 35;
   display: flex;
-  flex-wrap: wrap;
+  flex-shrink: 0;
   gap: var(--pm-space-3);
   align-items: center;
-  justify-content: space-between;
-  padding: var(--pm-space-4);
+  width: 100%;
+  margin-top: auto;
+  padding: var(--pm-space-3) var(--pm-space-4);
   background: var(--pm-color-surface);
-  border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-lg);
+  border-top: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow: 0 -4px 0 color-mix(in srgb, var(--pm-color-primary) 12%, transparent);
 }
 
-/* 购物车合计金额区：用于“合计：¥xx”的基线对齐。 */
+.pm-cart-select-all {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: var(--pm-space-2);
+  align-items: center;
+  margin: 0;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-sm);
+  font-weight: var(--pm-weight-black);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.pm-cart-select-all .pm-cart-check {
+  flex-shrink: 0;
+}
+
+.pm-cart-select-all-text {
+  line-height: 1;
+}
+
 .pm-cart-total {
   display: flex;
-  gap: var(--pm-space-2);
+  flex: 1 1 auto;
+  gap: 4px;
   align-items: baseline;
+  justify-content: center;
+  min-width: 0;
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-sm);
+  text-align: center;
 }
 
-/* 空购物车状态：无商品时预留展示高度。 */
+.pm-cart-total .pm-price {
+  font-size: var(--pm-text-xl);
+  font-weight: var(--pm-weight-black);
+  color: var(--pm-color-primary-deep);
+}
+
+.pm-cart-total-unit {
+  font-size: var(--pm-text-sm);
+  font-weight: var(--pm-weight-bold);
+}
+
+.pm-cart-checkout-btn {
+  flex: 0 0 auto;
+  min-width: 100px;
+  min-height: 42px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-line) 80%, transparent);
+}
+
 .pm-cart-empty {
-  min-height: 320px;
+  min-height: 280px;
+  padding-inline: var(--pm-space-3);
 }

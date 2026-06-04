@@ -1,4 +1,5 @@
 import { defaultOrders } from '../mock/data';
+import cartService from './cartService';
 import goodService from './goodService';
 import userService from './userService';
 import { cloneValue, loadFromStorage, saveToStorage } from '../utils/storage';
@@ -12,32 +13,20 @@ class OrderService {
     this._loadData();
   }
 
-  createOrder(userId, goodId, price) {
+  createOrder(userId, goodId, price, quantity = 1, address) {
     const product = goodService.getGoodById(goodId);
     const user = userService.getUserById(userId) || userService.getCurrentUser();
+    const parsedQuantity = Math.max(1, Number(quantity) || 1);
 
-    if (!product || product.status !== 'on-sale' || product.stock <= 0) {
+    if (!product || product.status !== 'on-sale' || product.stock < parsedQuantity) {
       return null;
     }
 
-    const order = {
-      id: this._nextId(),
-      userId: user?.id ?? userId,
-      goodId: Number(goodId),
-      orderNo: `PM${Date.now()}`,
-      createTime: new Date().toLocaleString(),
-      payTime: '',
-      status: 0,
-      price: Number(price) || product.price,
-      source: 'buy-now',
-      address: {
-        receiver: user?.nickname || '像素顾客',
-        phone: '13800000000',
-        detail: '奶油街道 01 号',
-      },
-      userSnapshot: user
-        ? { id: user.id, nickname: user.nickname, username: user.username }
-        : null,
+    const linePrice = (Number(price) || product.price) * parsedQuantity;
+    const itemSnapshot = {
+      goodId: product.id,
+      quantity: parsedQuantity,
+      price: product.price,
       goodSnapshot: {
         id: product.id,
         name: product.name,
@@ -45,27 +34,105 @@ class OrderService {
         cover: product.cover,
         categoryName: product.categoryName,
       },
-      logistics: [{ time: new Date().toLocaleString(), text: '订单创建成功，等待支付。' }],
     };
 
+    const order = this._buildOrder({
+      user,
+      userId: user?.id ?? userId,
+      items: [itemSnapshot],
+      goodId: product.id,
+      price: linePrice,
+      source: 'buy-now',
+      goodSnapshot: itemSnapshot.goodSnapshot,
+      address,
+    });
+
     this.list.unshift(order);
-    goodService.updateGood({ ...product, stock: Math.max(product.stock - 1, 0) });
+    goodService.updateGood({ ...product, stock: product.stock - parsedQuantity });
     this._saveData();
     return cloneValue(order);
+  }
+
+  createOrderFromCart(userId, address) {
+    const validation = cartService.validateCheckout(userId);
+
+    if (!validation.success) {
+      return { success: false, message: validation.message };
+    }
+
+    const user = userService.getUserById(userId) || userService.getCurrentUser();
+    const items = validation.items.map((cartItem) => ({
+      goodId: cartItem.goodId,
+      quantity: cartItem.count,
+      price: cartItem.product.price,
+      goodSnapshot: {
+        id: cartItem.product.id,
+        name: cartItem.product.name,
+        price: cartItem.product.price,
+        cover: cartItem.product.cover,
+        categoryName: cartItem.product.categoryName,
+      },
+    }));
+
+    const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const order = this._buildOrder({
+      user,
+      userId: user?.id ?? userId,
+      items,
+      goodId: items[0].goodId,
+      price: totalPrice,
+      source: 'cart',
+      goodSnapshot: items[0].goodSnapshot,
+      address,
+    });
+
+    items.forEach((item) => {
+      const product = goodService.getGoodById(item.goodId);
+      if (product) {
+        goodService.updateGood({ ...product, stock: product.stock - item.quantity });
+      }
+    });
+
+    this.list.unshift(order);
+    this._saveData();
+    return { success: true, order: cloneValue(order) };
   }
 
   payOrder(orderId) {
     const order = this._findOrder(orderId);
 
     if (!order || order.status !== 0) {
-      return false;
+      return { success: false, message: '订单不可支付。' };
     }
 
     order.status = 1;
     order.payTime = new Date().toLocaleString();
     order.logistics.unshift({ time: order.payTime, text: '订单支付成功。' });
+
+    if (order.source === 'cart' && Array.isArray(order.items) && order.items.length) {
+      cartService.removeItemsByGoodIds(
+        order.userId,
+        order.items.map((item) => item.goodId),
+      );
+    }
+
     this._saveData();
-    return true;
+    return { success: true };
+  }
+
+  failPayment(orderId) {
+    const order = this._findOrder(orderId);
+
+    if (!order || order.status !== 0) {
+      return { success: false, message: '订单不可取消支付。' };
+    }
+
+    order.logistics.unshift({
+      time: new Date().toLocaleString(),
+      text: '支付失败或已取消，可稍后重试。',
+    });
+    this._saveData();
+    return { success: true };
   }
 
   shipOrder(orderId, trackingNo) {
@@ -169,14 +236,54 @@ class OrderService {
     };
   }
 
+  _buildOrder({ user, userId, items, goodId, price, source, goodSnapshot, address }) {
+    return {
+      id: this._nextId(),
+      userId: Number(userId),
+      goodId: Number(goodId),
+      items,
+      orderNo: `PM${Date.now()}`,
+      createTime: new Date().toLocaleString(),
+      payTime: '',
+      status: 0,
+      price: Number(price) || 0,
+      source,
+      address: address || {
+        receiver: user?.nickname || '像素顾客',
+        phone: '13800000000',
+        detail: '奶油街道 01 号',
+      },
+      userSnapshot: user
+        ? { id: user.id, nickname: user.nickname, username: user.username }
+        : null,
+      goodSnapshot,
+      logistics: [{ time: new Date().toLocaleString(), text: '订单创建成功，等待支付。' }],
+    };
+  }
+
   _normalizeOrder(input) {
     const product = goodService.getGoodById(input.goodId);
     const user = userService.getUserById(input.userId);
+    const legacyItem = product
+      ? {
+        goodId: product.id,
+        quantity: 1,
+        price: product.price,
+        goodSnapshot: input.goodSnapshot || {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          cover: product.cover,
+          categoryName: product.categoryName,
+        },
+      }
+      : null;
 
     return {
       ...input,
       userId: Number(input.userId),
       goodId: Number(input.goodId),
+      items: Array.isArray(input.items) && input.items.length ? input.items : legacyItem ? [legacyItem] : [],
       status: Number(input.status) || 0,
       price: Number(input.price) || 0,
       source: input.source || 'buy-now',
@@ -189,15 +296,7 @@ class OrderService {
       userSnapshot: input.userSnapshot || (user
         ? { id: user.id, nickname: user.nickname, username: user.username }
         : null),
-      goodSnapshot: input.goodSnapshot || (product
-        ? {
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          cover: product.cover,
-          categoryName: product.categoryName,
-        }
-        : null),
+      goodSnapshot: input.goodSnapshot || legacyItem?.goodSnapshot || null,
       logistics: Array.isArray(input.logistics)
         ? input.logistics
         : [{ time: input.createTime || new Date().toLocaleString(), text: '订单已创建，等待后续处理。' }],
