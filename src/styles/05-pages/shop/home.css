@@ -16,7 +16,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--pm-space-3) var(--pm-space-4);
-  background: rgba(255, 250, 240, 0.88);
+  background: var(--pm-theme-surface-warm-soft);
   border: var(--pm-border-width) solid var(--pm-color-line);
   box-shadow: var(--pm-shadow-sm);
 }
@@ -39,7 +39,7 @@
     linear-gradient(315deg, var(--pm-color-primary) 0 50%, transparent 50%),
     var(--pm-color-primary-soft);
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
-  box-shadow: 3px 3px 0 rgba(255, 159, 199, 0.26);
+  box-shadow: 3px 3px 0 var(--pm-theme-shadow-soft);
 }
 
 .shop-nav {
@@ -70,7 +70,7 @@
   align-items: stretch;
   padding: var(--pm-space-6);
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.54), rgba(255, 226, 236, 0.5)),
+    linear-gradient(135deg, var(--pm-theme-surface-frost), var(--pm-theme-panel-top)),
     var(--pm-color-surface);
   border: var(--pm-border-width) solid var(--pm-color-line);
   box-shadow: var(--pm-shadow-lg);
@@ -127,7 +127,7 @@
   background: var(--pm-color-bg);
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
   outline: none;
-  box-shadow: inset 4px 4px 0 rgba(255, 215, 101, 0.16);
+  box-shadow: inset 4px 4px 0 var(--pm-theme-inset-accent);
 }
 
 .search-box input::placeholder {
@@ -169,7 +169,7 @@
   padding: var(--pm-space-4);
   background: var(--pm-color-bg);
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: 8px 8px 0 rgba(255, 159, 199, 0.2);
+  box-shadow: 8px 8px 0 var(--pm-theme-shadow-soft);
 }
 
 .card-ribbon {
@@ -231,20 +231,20 @@
 
 .pixel-product.pink {
   background:
-    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.82), transparent 24%),
-    linear-gradient(135deg, #ffe4ee, #ffb7d3);
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, white 82%, transparent), transparent 24%),
+    linear-gradient(135deg, color-mix(in srgb, white 68%, var(--pm-color-primary-soft)), color-mix(in srgb, white 28%, var(--pm-color-primary)));
 }
 
 .pixel-product.cream {
   background:
-    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), transparent 24%),
-    linear-gradient(135deg, #fff4d8, #ffd9ae);
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, white 90%, transparent), transparent 24%),
+    linear-gradient(135deg, color-mix(in srgb, white 72%, var(--pm-color-accent)), color-mix(in srgb, white 42%, var(--pm-color-promo)));
 }
 
 .pixel-product.gold {
   background:
-    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), transparent 24%),
-    linear-gradient(135deg, #ffebb5, #f5c25d);
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, white 90%, transparent), transparent 24%),
+    linear-gradient(135deg, color-mix(in srgb, white 56%, var(--pm-color-accent)), color-mix(in srgb, white 18%, var(--pm-color-accent)));
 }
 
 .pixel-sparkle {
@@ -331,7 +331,7 @@
   display: grid;
   gap: var(--pm-space-3);
   padding: var(--pm-space-3);
-  background: rgba(255, 250, 240, 0.9);
+  background: var(--pm-theme-surface-warm-soft);
   border: var(--pm-border-width) solid var(--pm-color-line);
   box-shadow: var(--pm-shadow-md);
 }

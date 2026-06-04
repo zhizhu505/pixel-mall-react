@@ -9,37 +9,65 @@
 
 /* 后台页面标题区：放置标题、说明和主操作按钮。 */
 .pm-admin-page-header {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: var(--pm-space-3);
   align-items: center;
   justify-content: space-between;
+  overflow: hidden;
   padding: var(--pm-space-4) var(--pm-space-5);
-  background: rgba(255, 255, 255, 0.82);
+  background:
+    radial-gradient(circle at top right, var(--pm-theme-panel-glow), transparent 26%),
+    linear-gradient(180deg, var(--pm-theme-surface-elevated), var(--pm-theme-panel-bottom));
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-sm);
+  border-radius: var(--pm-admin-radius-panel);
+  box-shadow: var(--pm-admin-shadow-panel);
+}
+
+.pm-admin-page-header::after,
+.pm-admin-page-filters::after,
+.pm-admin-panel::after,
+.pm-admin-table-panel::after {
+  position: absolute;
+  inset: auto auto -22px -18px;
+  width: 120px;
+  height: 120px;
+  content: '';
+  background: radial-gradient(circle, var(--pm-theme-panel-glow-soft) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 /* 后台页面筛选区：搜索、状态筛选等工具项。 */
 .pm-admin-page-filters {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: var(--pm-space-3);
   align-items: end;
+  overflow: hidden;
   padding: var(--pm-space-4) var(--pm-space-5);
-  background: rgba(255, 255, 255, 0.78);
+  background:
+    linear-gradient(180deg, var(--pm-theme-surface-warm-soft), var(--pm-theme-panel-bottom)),
+    linear-gradient(90deg, var(--pm-theme-panel-accent), transparent 40%);
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-xs);
+  border-radius: var(--pm-admin-radius-panel);
+  box-shadow: var(--pm-admin-shadow-soft);
 }
 
 /* 后台页面面板：统一承载表单、统计块和辅助说明。 */
 .pm-admin-panel {
+  position: relative;
   display: grid;
   gap: var(--pm-space-4);
+  overflow: hidden;
   padding: var(--pm-space-5);
-  background: rgba(255, 255, 255, 0.9);
+  background:
+    linear-gradient(180deg, var(--pm-theme-surface-elevated), var(--pm-theme-panel-bottom)),
+    linear-gradient(135deg, var(--pm-theme-panel-accent), transparent 48%);
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-md);
+  border-radius: var(--pm-admin-radius-panel);
+  box-shadow: var(--pm-admin-shadow-panel);
 }
 
 /* 后台卡片标题：分类卡片、角色卡片等共享标题风格。 */
@@ -73,9 +101,14 @@
 }
 
 .pm-admin-table-panel {
-  background: rgba(255, 255, 255, 0.9);
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, var(--pm-theme-surface-elevated), var(--pm-theme-panel-bottom)),
+    linear-gradient(135deg, var(--pm-theme-panel-accent), transparent 48%);
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-md);
+  border-radius: var(--pm-admin-radius-panel);
+  box-shadow: var(--pm-admin-shadow-panel);
 }
 
 .pm-admin-table-panel .pm-table {
@@ -88,15 +121,34 @@
 }
 
 .pm-admin-table-panel .pm-table td {
-  background: rgba(255, 255, 255, 0.72);
+  background: var(--pm-theme-table-row);
 }
 
 .pm-admin-table-panel .pm-table tbody tr:nth-child(even) td {
-  background: rgba(255, 246, 236, 0.92);
+  background: var(--pm-theme-table-row-alt);
 }
 
 /* 商品管理页容器：控制筛选栏、表格、表单间距。 */
 .pm-admin-products-page {
   display: grid;
   gap: var(--pm-space-5);
+}
+
+@media (max-width: 768px) {
+  .pm-admin-page-header,
+  .pm-admin-page-filters,
+  .pm-admin-panel,
+  .pm-admin-table-panel {
+    border-radius: var(--pm-admin-radius-card);
+  }
+
+  .pm-admin-page-header,
+  .pm-admin-page-filters,
+  .pm-admin-panel {
+    padding: var(--pm-space-4);
+  }
+
+  .pm-admin-form {
+    grid-template-columns: 1fr;
+  }
 }

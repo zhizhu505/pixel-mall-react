@@ -45,12 +45,12 @@ const AdminDashboardPage = () => {
             <p>库存预警商品：{productStats.lowStockCount}</p>
             <p>已下架商品：{productStats.offSaleCount}</p>
           </div>
-          <div className="pm-admin-dashboard-actions">
+          <div className="pm-admin-dashboard-shortcuts">
             <PermissionGate permission="categories:view" fallback={<Button disabled type="button" variant="dark">分类管理</Button>}>
-              <Link className="pm-btn pm-btn-dark" to="/admin/categories">分类管理</Link>
+              <Link className="pm-btn pm-btn-dark pm-admin-dashboard-shortcut-btn" to="/admin/categories">分类管理</Link>
             </PermissionGate>
             <PermissionGate permission="roles:view" fallback={<Button disabled type="button">角色权限</Button>}>
-              <Link className="pm-btn pm-btn-accent" to="/admin/roles">角色权限</Link>
+              <Link className="pm-btn pm-btn-accent pm-admin-dashboard-shortcut-btn" to="/admin/roles">角色权限</Link>
             </PermissionGate>
           </div>
         </div>

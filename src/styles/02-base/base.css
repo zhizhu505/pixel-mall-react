@@ -4,8 +4,8 @@
 /* 页面背景：奶油底叠加淡粉像素网格。 */
 html {
   background:
-    linear-gradient(90deg, rgba(255, 159, 199, 0.12) 1px, transparent 1px),
-    linear-gradient(rgba(255, 159, 199, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pm-theme-grid-line) 1px, transparent 1px),
+    linear-gradient(var(--pm-theme-grid-line) 1px, transparent 1px),
     var(--pm-color-bg);
   background-size: 24px 24px;
 }
@@ -40,7 +40,7 @@ body {
 .pm-section {
   margin-top: var(--pm-space-6);
   padding: var(--pm-space-6);
-  background: rgba(255, 255, 255, 0.62);
+  background: var(--pm-theme-surface-frost);
   border: var(--pm-border-width) solid var(--pm-color-line);
   box-shadow: var(--pm-shadow-md);
 }

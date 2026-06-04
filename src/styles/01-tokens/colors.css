@@ -59,4 +59,24 @@
   --pm-color-text-muted: var(--pm-muted);
   --pm-color-line: var(--pm-brand-line);
   --pm-color-shadow: var(--pm-shadow-color);
+
+  /* 主题衍生色：用于网格背景、渐变面板和装饰高光。 */
+  --pm-theme-grid-line: color-mix(in srgb, var(--pm-color-primary) 14%, transparent);
+  --pm-theme-surface-frost: color-mix(in srgb, white 68%, var(--pm-color-surface));
+  --pm-theme-surface-warm-soft: color-mix(in srgb, white 82%, var(--pm-color-surface-warm));
+  --pm-theme-surface-elevated: color-mix(in srgb, white 90%, var(--pm-color-surface));
+  --pm-theme-surface-panel: color-mix(in srgb, white 84%, var(--pm-color-bg));
+  --pm-theme-panel-top: color-mix(in srgb, white 72%, var(--pm-color-primary-soft));
+  --pm-theme-panel-bottom: color-mix(in srgb, white 78%, var(--pm-color-bg));
+  --pm-theme-panel-accent: color-mix(in srgb, var(--pm-color-primary-soft) 28%, transparent);
+  --pm-theme-panel-accent-strong: color-mix(in srgb, var(--pm-color-primary) 24%, transparent);
+  --pm-theme-panel-glow: color-mix(in srgb, var(--pm-color-accent) 24%, transparent);
+  --pm-theme-panel-glow-soft: color-mix(in srgb, var(--pm-color-primary-soft) 32%, transparent);
+  --pm-theme-shadow-soft: color-mix(in srgb, var(--pm-color-primary) 22%, transparent);
+  --pm-theme-shadow-ink: color-mix(in srgb, var(--pm-color-line) 18%, transparent);
+  --pm-theme-inset-accent: color-mix(in srgb, var(--pm-color-accent) 18%, transparent);
+  --pm-theme-table-head-start: color-mix(in srgb, white 28%, var(--pm-color-primary-soft));
+  --pm-theme-table-head-end: color-mix(in srgb, white 34%, var(--pm-color-accent));
+  --pm-theme-table-row: color-mix(in srgb, white 78%, var(--pm-color-surface));
+  --pm-theme-table-row-alt: color-mix(in srgb, white 68%, var(--pm-color-bg));
 }

@@ -17,6 +17,20 @@
   /* 圆角变量：像素风默认直角，后续确需圆角时统一改变量。 */
   --pm-radius-none: 0;
   --pm-radius: var(--pm-radius-none);
+  --pm-radius-sm: 10px;
+  --pm-radius-md: 18px;
+  --pm-radius-lg: 28px;
+  --pm-radius-pill: 999px;
+
+  /* 后台管理端专用形状变量：保持像素描边，但允许更柔和的圆角矩形和胶囊块。 */
+  --pm-admin-radius-panel: 22px;
+  --pm-admin-radius-card: 18px;
+  --pm-admin-radius-soft: 14px;
+  --pm-admin-radius-chip: var(--pm-radius-pill);
+
+  /* 后台管理端专用阴影：比默认更轻，用于大面积圆角面板。 */
+  --pm-admin-shadow-soft: 6px 6px 0 rgba(255, 111, 168, 0.16);
+  --pm-admin-shadow-panel: 8px 8px 0 rgba(65, 47, 54, 0.12);
 
   /* 描边粗细：像素组件使用粗描边，细描边用于表格和内部区域。 */
   --pm-border-width: 4px;

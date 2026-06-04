@@ -10,12 +10,28 @@
  }
 
  .pm-admin-category-card {
+  position: relative;
   display: grid;
   gap: var(--pm-space-3);
+  overflow: hidden;
   padding: var(--pm-space-4);
-  background: rgba(255, 255, 255, 0.88);
+  background:
+    radial-gradient(circle at top right, var(--pm-theme-panel-glow), transparent 22%),
+    linear-gradient(180deg, var(--pm-theme-surface-elevated), var(--pm-theme-panel-bottom));
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-md);
+  border-radius: var(--pm-admin-radius-card);
+  box-shadow: var(--pm-admin-shadow-soft);
+ }
+
+ .pm-admin-category-card::after {
+  position: absolute;
+  right: -18px;
+  bottom: -26px;
+  width: 96px;
+  height: 96px;
+  content: '';
+  background: radial-gradient(circle, var(--pm-theme-panel-glow-soft) 0%, transparent 72%);
+  pointer-events: none;
  }
 
  .pm-admin-category-actions {

@@ -6,8 +6,8 @@
   min-height: 100vh;
   color: var(--pm-color-text);
   background:
-    linear-gradient(90deg, rgba(255, 159, 199, 0.1) 1px, transparent 1px),
-    linear-gradient(rgba(255, 159, 199, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pm-theme-grid-line) 1px, transparent 1px),
+    linear-gradient(var(--pm-theme-grid-line) 1px, transparent 1px),
     var(--pm-color-bg);
   background-size: 24px 24px;
 }

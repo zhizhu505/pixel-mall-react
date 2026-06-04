@@ -111,3 +111,23 @@
   height: 22px;
   accent-color: var(--pm-color-primary);
 }
+
+.pm-admin-app .pm-input,
+.pm-admin-app .pm-select,
+.pm-admin-app .pm-textarea {
+  border-radius: var(--pm-admin-radius-soft);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 246, 240, 0.94)),
+    var(--pm-color-surface);
+  box-shadow: inset 3px 3px 0 rgba(255, 215, 101, 0.14), 2px 2px 0 rgba(255, 183, 211, 0.08);
+}
+
+.pm-admin-app .pm-input:focus,
+.pm-admin-app .pm-select:focus,
+.pm-admin-app .pm-textarea:focus {
+  box-shadow: 0 0 0 4px rgba(255, 183, 211, 0.44), inset 3px 3px 0 rgba(255, 215, 101, 0.14);
+}
+
+.pm-admin-app .pm-control {
+  width: min(100%, 360px);
+}

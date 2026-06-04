@@ -9,15 +9,31 @@
 
 /* 后台首页头部：展示欢迎语、角色信息和快捷操作。 */
 .pm-admin-dashboard-hero {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: var(--pm-space-4);
   align-items: center;
   justify-content: space-between;
+  overflow: hidden;
   padding: var(--pm-space-5);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 244, 227, 0.94) 100%);
+  background:
+    radial-gradient(circle at top right, var(--pm-theme-panel-glow), transparent 24%),
+    linear-gradient(135deg, var(--pm-theme-panel-top) 0%, var(--pm-theme-panel-bottom) 100%);
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-md);
+  border-radius: calc(var(--pm-admin-radius-panel) + 10px);
+  box-shadow: var(--pm-admin-shadow-panel);
+}
+
+.pm-admin-dashboard-hero::after {
+  position: absolute;
+  right: -28px;
+  bottom: -40px;
+  width: 170px;
+  height: 170px;
+  content: '';
+  background: radial-gradient(circle, var(--pm-theme-panel-glow-soft) 0%, transparent 72%);
+  pointer-events: none;
 }
 
 /* 后台首页标题：显示管理端概览标题。 */
@@ -33,12 +49,24 @@
   gap: var(--pm-space-3);
 }
 
+.pm-admin-dashboard-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pm-space-2);
+  align-items: flex-start;
+  align-content: flex-start;
+}
+
+
 /* 后台首页区块：用于统计、最近商品、最近操作等分区。 */
 .pm-admin-dashboard-section {
   display: grid;
   gap: var(--pm-space-4);
   padding: var(--pm-space-4) var(--pm-space-5);
-  background: rgba(255, 255, 255, 0.82);
+  background:
+    linear-gradient(180deg, var(--pm-theme-surface-elevated), var(--pm-theme-panel-bottom)),
+    linear-gradient(135deg, var(--pm-theme-panel-accent), transparent 48%);
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-sm);
+  border-radius: var(--pm-admin-radius-panel);
+  box-shadow: var(--pm-admin-shadow-soft);
 }

@@ -58,3 +58,9 @@
   gap: var(--pm-space-2);
   align-items: center;
 }
+
+.pm-admin-app .pm-tag {
+  padding: 5px 12px;
+  border-radius: var(--pm-admin-radius-chip);
+  box-shadow: 2px 2px 0 rgba(65, 47, 54, 0.18);
+}

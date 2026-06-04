@@ -35,3 +35,15 @@
   flex-wrap: wrap;
   gap: var(--pm-space-2);
 }
+
+.pm-admin-app .pm-table-wrap {
+  border-radius: calc(var(--pm-admin-radius-panel) - 4px);
+}
+
+.pm-admin-app .pm-table th {
+  background: linear-gradient(180deg, var(--pm-theme-table-head-start), var(--pm-theme-table-head-end));
+}
+
+.pm-admin-app .pm-table td {
+  background: var(--pm-theme-table-row);
+}
