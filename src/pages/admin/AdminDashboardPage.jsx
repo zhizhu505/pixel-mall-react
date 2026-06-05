@@ -42,12 +42,30 @@ const AdminDashboardPage = () => {
       <section className="pm-admin-dashboard-section">
         <h3 className="pm-section-title">核心统计</h3>
         <div className="pm-admin-stat-grid">
-          <div className="pm-admin-stat"><strong>{productStats.total}</strong><span>商品总数</span></div>
-          <div className="pm-admin-stat"><strong>{productStats.onSaleCount}</strong><span>上架中</span></div>
-          <div className="pm-admin-stat"><strong>{productStats.categoryCount}</strong><span>分类数量</span></div>
-          <div className="pm-admin-stat"><strong>{orderStats.total}</strong><span>订单总数</span></div>
-          <div className="pm-admin-stat"><strong>{orderStats.pendingPay}</strong><span>待支付</span></div>
-          <div className="pm-admin-stat"><strong>{orderStats.shipped}</strong><span>已发货</span></div>
+          <div className="pm-admin-stat">
+            <img className="pm-admin-stat-icon" src="/images/admin/dashboard/stat-products.svg" alt="商品总数" />
+            <strong>{productStats.total}</strong><span>商品总数</span>
+          </div>
+          <div className="pm-admin-stat">
+            <img className="pm-admin-stat-icon" src="/images/admin/dashboard/stat-sale.svg" alt="上架中" />
+            <strong>{productStats.onSaleCount}</strong><span>上架中</span>
+          </div>
+          <div className="pm-admin-stat">
+            <img className="pm-admin-stat-icon" src="/images/admin/dashboard/stat-category.svg" alt="分类数量" />
+            <strong>{productStats.categoryCount}</strong><span>分类数量</span>
+          </div>
+          <div className="pm-admin-stat">
+            <img className="pm-admin-stat-icon" src="/images/admin/dashboard/stat-orders.svg" alt="订单总数" />
+            <strong>{orderStats.total}</strong><span>订单总数</span>
+          </div>
+          <div className="pm-admin-stat">
+            <img className="pm-admin-stat-icon" src="/images/admin/dashboard/stat-pending-pay.svg" alt="待支付" />
+            <strong>{orderStats.pendingPay}</strong><span>待支付</span>
+          </div>
+          <div className="pm-admin-stat">
+            <img className="pm-admin-stat-icon" src="/images/admin/dashboard/stat-shipped.svg" alt="已发货" />
+            <strong>{orderStats.shipped}</strong><span>已发货</span>
+          </div>
         </div>
       </section>
 

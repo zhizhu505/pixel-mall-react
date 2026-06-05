@@ -40,7 +40,7 @@ const AdminRolesPage = () => {
   const selectedRole = roles.find((role) => role.id === selectedRoleId) || initialRole;
 
   if (!roles.length) {
-    return <EmptyState title="暂无角色" description="当前没有可展示的后台角色。" />;
+    return <EmptyState title="暂无角色" description="当前没有可展示的后台角色。" iconSrc="/images/admin/role/admin-badge.svg" />;
   }
 
   const togglePermission = (permissionKey) => {

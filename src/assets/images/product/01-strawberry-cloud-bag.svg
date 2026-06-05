@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 粉色像素购物袋 -->
+  <rect x="40" y="50" width="80" height="70" fill="#ff9fbd" stroke="#3d2f3b" stroke-width="4"/>
+  <!-- 购物袋提手 -->
+  <path d="M55 50 V35 Q55 20 80 20 Q105 20 105 35 V50" fill="none" stroke="#3d2f3b" stroke-width="6"/>
+  <!-- 云朵装饰 -->
+  <ellipse cx="60" cy="70" rx="15" ry="10" fill="#fffaf0"/>
+  <ellipse cx="75" cy="65" rx="12" ry="8" fill="#fffaf0"/>
+  <!-- 草莓装饰 -->
+  <circle cx="100" cy="85" r="12" fill="#ff6fa8"/>
+  <ellipse cx="97" cy="76" rx="3" ry="2" fill="#7be0c3"/>
+  <ellipse cx="103" cy="76" rx="3" ry="2" fill="#7be0c3"/>
+  <ellipse cx="100" cy="73" rx="3" ry="2" fill="#7be0c3"/>
+</svg>

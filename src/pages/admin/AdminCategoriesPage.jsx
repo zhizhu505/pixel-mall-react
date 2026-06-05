@@ -122,7 +122,7 @@ const AdminCategoriesPage = () => {
           ))}
         </section>
       ) : (
-        <EmptyState title="暂无分类" description="先创建分类，再为商品配置分类信息。" />
+        <EmptyState title="暂无分类" description="先创建分类，再为商品配置分类信息。" iconSrc="/images/admin/category/cat-bag.svg" />
       )}
 
       <PermissionGate permission="categories:manage">

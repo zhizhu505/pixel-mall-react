@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="320" viewBox="0 0 600 320" role="img" aria-label="节日礼盒活动">
+  <rect width="600" height="320" fill="#fff2f6"/>
+  <rect x="20" y="10" width="560" height="270" fill="#fffaf0" stroke="#ff6fa8" stroke-width="4" rx="8"/>
+  
+  <rect x="40" y="30" width="160" height="170" fill="#ff9fbd" rx="4"/>
+  <rect x="220" y="30" width="160" height="170" fill="#ffd765" rx="4"/>
+  <rect x="400" y="30" width="160" height="170" fill="#8fd7ff" rx="4"/>
+  
+  <rect x="55" y="50" width="130" height="50" fill="#fff" opacity="0.9" rx="3"/>
+  <text x="130" y="82" text-anchor="middle" fill="#3d2f3b" font-size="18" font-weight="bold">节日限定</text>
+  
+  <rect x="235" y="50" width="130" height="50" fill="#fff" opacity="0.9" rx="3"/>
+  <text x="310" y="82" text-anchor="middle" fill="#3d2f3b" font-size="18" font-weight="bold">精美礼盒</text>
+  
+  <rect x="415" y="50" width="130" height="50" fill="#fff" opacity="0.9" rx="3"/>
+  <text x="490" y="82" text-anchor="middle" fill="#3d2f3b" font-size="18" font-weight="bold">惊喜盲盒</text>
+  
+  <rect x="40" y="120" width="520" height="45" fill="#fff" stroke="#ff6fa8" stroke-width="2" rx="4"/>
+  <text x="300" y="152" text-anchor="middle" fill="#ff6fa8" font-size="18" font-weight="bold">礼盒限时特惠 · 满299赠精美礼品</text>
+  
+  <rect x="20" y="240" width="560" height="40" fill="#ff6fa8" rx="6"/>
+  <text x="200" y="268" fill="#fff" font-size="18" font-weight="bold">节日礼盒 · 礼遇相伴</text>
+  <text x="540" y="268" fill="#fff" font-size="14" text-anchor="end">选购礼盒 →</text>
+</svg>

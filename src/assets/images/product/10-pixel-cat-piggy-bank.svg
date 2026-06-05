@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 像素猫咪存钱罐 -->
+  <!-- 猫咪轮廓身体 -->
+  <ellipse cx="80" cy="95" rx="50" ry="45" fill="#ff9fbd" stroke="#3d2f3b" stroke-width="4"/>
+  <!-- 猫咪头部 -->
+  <ellipse cx="80" cy="50" rx="35" ry="30" fill="#ff9fbd" stroke="#3d2f3b" stroke-width="4"/>
+  <!-- 猫咪耳朵 -->
+  <polygon points="50,35 55,10 70,30" fill="#ff9fbd" stroke="#3d2f3b" stroke-width="3"/>
+  <polygon points="110,35 105,10 90,30" fill="#ff9fbd" stroke="#3d2f3b" stroke-width="3"/>
+  <!-- 猫咪眼睛 -->
+  <rect x="65" y="45" width="10" height="10" fill="#3d2f3b"/>
+  <rect x="85" y="45" width="10" height="10" fill="#3d2f3b"/>
+  <rect x="68" y="47" width="4" height="4" fill="#fffaf0"/>
+  <rect x="88" y="47" width="4" height="4" fill="#fffaf0"/>
+  <!-- 猫咪鼻子 -->
+  <polygon points="80,58 75,65 85,65" fill="#ffd765"/>
+  <!-- 像素格纹装饰 -->
+  <rect x="50" y="85" width="10" height="10" fill="#ffe2ec"/>
+  <rect x="65" y="85" width="10" height="10" fill="#ffe2ec"/>
+  <rect x="85" y="85" width="10" height="10" fill="#ffe2ec"/>
+  <rect x="100" y="85" width="10" height="10" fill="#ffe2ec"/>
+  <rect x="55" y="100" width="10" height="10" fill="#ffe2ec"/>
+  <rect x="75" y="100" width="10" height="10" fill="#ffe2ec"/>
+  <rect x="95" y="100" width="10" height="10" fill="#ffe2ec"/>
+  <!-- 投币口 -->
+  <ellipse cx="80" cy="20" rx="12" ry="5" fill="#3d2f3b"/>
+</svg>

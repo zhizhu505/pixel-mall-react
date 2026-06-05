@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="admin logo placeholder"><rect width="128" height="128" fill="#fffaf0"/><rect x="18" y="18" width="92" height="92" fill="#ffd765" stroke="#3d2f3b" stroke-width="6"/><path d="M42 42h44v14H42zM42 64h44v14H42z" fill="#ff6fa8"/><path d="M30 94h68v10H30z" fill="#7be0c3"/><text x="64" y="122" text-anchor="middle" font-family="monospace" font-size="10" fill="#3d2f3b">admin-logo-pixel</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="admin logo">
+  <rect width="128" height="128" fill="#fffaf0"/>
+  <rect x="18" y="18" width="92" height="92" fill="#ffd765" stroke="#3d2f3b" stroke-width="6"/>
+  <path d="M42 42h44v14H42zM42 64h44v14H42z" fill="#ff6fa8"/>
+  <path d="M30 94h68v10H30z" fill="#7be0c3"/>
+</svg>

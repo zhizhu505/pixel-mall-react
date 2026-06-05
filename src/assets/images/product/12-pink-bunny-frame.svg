@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 粉兔像素相框 -->
+  <!-- 木质相框底 -->
+  <rect x="25" y="35" width="110" height="90" fill="#ffe2ec" stroke="#3d2f3b" stroke-width="4"/>
+  <!-- 相框内芯 -->
+  <rect x="35" y="45" width="90" height="70" fill="#fffaf0" stroke="#3d2f3b" stroke-width="3"/>
+  <!-- 粉兔轮廓 -->
+  <ellipse cx="80" cy="75" rx="30" ry="28" fill="#ff9fbd"/>
+  <!-- 兔子耳朵 -->
+  <ellipse cx="65" cy="40" rx="8" ry="18" fill="#ff9fbd"/>
+  <ellipse cx="95" cy="40" rx="8" ry="18" fill="#ff9fbd"/>
+  <ellipse cx="65" cy="40" rx="4" ry="12" fill="#ffe2ec"/>
+  <ellipse cx="95" cy="40" rx="4" ry="12" fill="#ffe2ec"/>
+  <!-- 兔子眼睛 -->
+  <rect x="70" y="68" width="8" height="8" fill="#3d2f3b"/>
+  <rect x="82" y="68" width="8" height="8" fill="#3d2f3b"/>
+  <!-- 兔子鼻子 -->
+  <ellipse cx="80" cy="80" rx="5" ry="4" fill="#ffd765"/>
+  <!-- 像素腮红 -->
+  <rect x="60" y="78" width="6" height="4" fill="#ff6fa8" opacity="0.5"/>
+  <rect x="94" y="78" width="6" height="4" fill="#ff6fa8" opacity="0.5"/>
+</svg>

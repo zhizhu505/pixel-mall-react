@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="320" viewBox="0 0 600 320" role="img" aria-label="新品上市活动">
+  <rect width="600" height="320" fill="#ffe2ec"/>
+  
+  <ellipse cx="300" cy="155" rx="270" ry="150" fill="#fffaf0" stroke="#ff6fa8" stroke-width="4"/>
+  
+  <circle cx="120" cy="130" r="65" fill="#ff9fbd" opacity="0.6"/>
+  <circle cx="480" cy="180" r="50" fill="#8fd7ff" opacity="0.6"/>
+  
+  <rect x="170" y="55" width="260" height="160" fill="#fff" stroke="#ff6fa8" stroke-width="2" rx="8"/>
+  
+  <polygon points="285,35 300,55 315,35" fill="#ffd765" stroke="#3d2f3b" stroke-width="2"/>
+  <polygon points="315,35 300,55 285,35" fill="#ffd765" stroke="#3d2f3b" stroke-width="2"/>
+  
+  <text x="300" y="105" text-anchor="middle" fill="#3d2f3b" font-size="34" font-weight="bold">新品首发</text>
+  <text x="300" y="145" text-anchor="middle" fill="#ff6fa8" font-size="20">像素包包系列全新上市</text>
+  <text x="300" y="175" text-anchor="middle" fill="#7be0c3" font-size="16">精选款式 · 限时包邮</text>
+  
+  <rect x="60" y="240" width="480" height="35" fill="#ff6fa8" rx="6"/>
+  <text x="220" y="265" fill="#fff" font-size="18" font-weight="bold">新品首发 · 首单立减20元</text>
+  <text x="520" y="265" fill="#fff" font-size="15" text-anchor="end">查看全部 →</text>
+</svg>

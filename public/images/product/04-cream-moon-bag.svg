@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 奶油白包身 -->
+  <rect x="35" y="55" width="90" height="75" fill="#fffaf0" stroke="#3d2f3b" stroke-width="4"/>
+  <!-- 月牙形提手 -->
+  <path d="M50 55 Q50 25 80 25 Q110 25 110 55" fill="none" stroke="#ffd765" stroke-width="6"/>
+  <!-- 金色像素锁扣 -->
+  <rect x="70" y="75" width="20" height="15" fill="#ffd765" stroke="#3d2f3b" stroke-width="3"/>
+  <rect x="76" y="80" width="8" height="6" fill="#3d2f3b"/>
+  <!-- 粉格纹内衬 -->
+  <rect x="45" y="100" width="70" height="20" fill="#ffe2ec"/>
+  <line x1="55" y1="100" x2="55" y2="120" stroke="#ff9fbd" stroke-width="2"/>
+  <line x1="70" y1="100" x2="70" y2="120" stroke="#ff9fbd" stroke-width="2"/>
+  <line x1="85" y1="100" x2="85" y2="120" stroke="#ff9fbd" stroke-width="2"/>
+  <line x1="100" y1="100" x2="100" y2="120" stroke="#ff9fbd" stroke-width="2"/>
+</svg>

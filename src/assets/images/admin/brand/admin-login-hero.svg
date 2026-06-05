@@ -1,1 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="360" height="260" viewBox="0 0 360 260" role="img" aria-label="admin login hero placeholder"><rect width="360" height="260" fill="#fff2f6"/><path d="M40 52h280v156H40z" fill="#fffaf0" stroke="#3d2f3b" stroke-width="6"/><path d="M70 82h92v82H70z" fill="#ff9fbd"/><path d="M188 82h102v22H188zM188 122h72v22h-72zM188 162h92v22h-92z" fill="#ffd765"/><path d="M72 188h216v12H72z" fill="#7be0c3"/><text x="180" y="238" text-anchor="middle" font-family="monospace" font-size="14" fill="#3d2f3b">admin-login-hero</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="260" viewBox="0 0 360 260" role="img" aria-label="admin login hero">
+  <rect width="360" height="260" fill="#fff2f6"/>
+  <path d="M40 52h280v156H40z" fill="#fffaf0" stroke="#3d2f3b" stroke-width="6"/>
+  <path d="M70 82h92v82H70z" fill="#ff9fbd"/>
+  <path d="M188 82h102v22H188zM188 122h72v22h-72zM188 162h92v22h-92z" fill="#ffd765"/>
+  <path d="M72 188h216v12H72z" fill="#7be0c3"/>
+</svg>

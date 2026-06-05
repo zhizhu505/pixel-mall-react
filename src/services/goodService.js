@@ -292,12 +292,7 @@ class GoodService extends SubscribableService {
       .map((category, index) => normalizeCategory(category, index + 1))
       .sort((a, b) => a.sort - b.sort);
 
-    const legacyProducts = hasProductStorage ? [] : loadFromStorage(['goodList'], []);
-    const productSource = hasProductStorage
-      ? loadFromStorage([PRODUCT_KEY], [])
-      : legacyProducts.length
-        ? legacyProducts
-        : defaultProducts;
+    const productSource = defaultProducts;
 
     this.products = productSource.map((product) =>
       this._normalizeProduct({

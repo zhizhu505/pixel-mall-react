@@ -8,6 +8,7 @@ import ProductCard from '../../components/h5/ProductCard';
 import SearchBar from '../../components/h5/SearchBar';
 import { usePagination } from '../../hooks/usePagination';
 import { useServices, useServiceVersion } from '../../hooks/useServices';
+import { carouselActivities } from '../../mock/activities';
 
 const HomeProductFeed = ({ products, keywordLabel, onAddToCart }) => {
   const { page, setPage, totalPages, slice, total, hasPrev, hasNext, pageSize } = usePagination(products, 6);
@@ -62,7 +63,7 @@ const Home = () => {
   const [keyword, setKeyword] = useState(keywordFromUrl);
   const currentUser = user.getCurrentUser();
 
-  const carouselProducts = good.getPublicGoodList().slice(0, 4);
+  const carouselItems = carouselActivities;
   const hotProducts = keywordFromUrl
     ? good.searchProducts(keywordFromUrl)
     : good.getPublicGoodList();
@@ -102,7 +103,7 @@ const Home = () => {
         </Link>
       </div>
 
-      {carouselProducts.length ? <Carousel items={carouselProducts} /> : null}
+      {carouselItems.length ? <Carousel items={carouselItems} /> : null}
 
       <section className="pm-home-section-heading">
         <h2>{keywordFromUrl ? `搜索「${keywordFromUrl}」` : '热门商品'}</h2>

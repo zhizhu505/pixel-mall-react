@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 奶油季节礼盒 -->
+  <!-- 礼盒主体 -->
+  <rect x="25" y="50" width="110" height="80" fill="#fffaf0" stroke="#3d2f3b" stroke-width="4"/>
+  <!-- 礼盒盖 -->
+  <rect x="20" y="40" width="120" height="20" fill="#ffe2ec" stroke="#3d2f3b" stroke-width="4"/>
+  <!-- 缎带 -->
+  <rect x="70" y="40" width="20" height="90" fill="#ff9fbd"/>
+  <rect x="25" y="80" width="110" height="15" fill="#ff9fbd"/>
+  <!-- 蝴蝶结 -->
+  <ellipse cx="80" cy="45" rx="18" ry="10" fill="#ff6fa8"/>
+  <ellipse cx="65" cy="40" rx="10" ry="8" fill="#ff6fa8"/>
+  <ellipse cx="95" cy="40" rx="10" ry="8" fill="#ff6fa8"/>
+  <circle cx="80" cy="45" r="6" fill="#ffd765"/>
+  <!-- 盒面装饰 -->
+  <circle cx="50" cy="70" r="8" fill="#ff9fbd"/>
+  <circle cx="110" cy="70" r="8" fill="#8fd7ff"/>
+  <rect x="45" y="100" width="15" height="15" fill="#ffd765"/>
+  <polygon points="130,100 135,110 140,100" fill="#7be0c3"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 杏仁奶油发夹底座 -->
+  <path d="M35 80 Q35 60 55 60 L105 60 Q125 60 125 80 Q125 100 105 100 L55 100 Q35 100 35 80" fill="#fff0c9" stroke="#3d2f3b" stroke-width="4"/>
+  <!-- 奶油色弧形装饰 -->
+  <path d="M45 75 Q45 65 60 65 L100 65 Q115 65 115 75" fill="none" stroke="#ffd765" stroke-width="6"/>
+  <!-- 像素鸭嘴夹纹理 -->
+  <rect x="50" y="80" width="8" height="8" fill="#ff9fbd"/>
+  <rect x="62" y="80" width="8" height="8" fill="#ff9fbd"/>
+  <rect x="74" y="80" width="8" height="8" fill="#ff9fbd"/>
+  <rect x="86" y="80" width="8" height="8" fill="#ff9fbd"/>
+  <rect x="98" y="80" width="8" height="8" fill="#ff9fbd"/>
+</svg>

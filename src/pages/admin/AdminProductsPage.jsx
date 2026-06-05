@@ -308,7 +308,7 @@ const AdminProductsPage = () => {
           />
         </div>
       ) : (
-        <EmptyState title="暂无商品" description="当前筛选条件下没有找到商品。" />
+        <EmptyState title="暂无商品" description="当前筛选条件下没有找到商品。" iconSrc="/images/admin/empty/no-data-shop.svg" />
       )}
 
       {canManage || canEditDiscount ? (

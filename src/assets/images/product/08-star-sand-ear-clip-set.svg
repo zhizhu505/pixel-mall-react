@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 金色星砂耳夹 -->
+  <!-- 星星吊坠 -->
+  <polygon points="80,25 85,45 105,45 90,58 95,78 80,65 65,78 70,58 55,45 75,45" fill="#ffd765" stroke="#3d2f3b" stroke-width="2"/>
+  <!-- 像素方块珠 -->
+  <rect x="60" y="85" width="15" height="15" fill="#ffd765" stroke="#3d2f3b" stroke-width="2"/>
+  <rect x="85" y="85" width="15" height="15" fill="#ffd765" stroke="#3d2f3b" stroke-width="2"/>
+  <!-- 星砂装饰 -->
+  <circle cx="50" cy="60" r="4" fill="#ffe082"/>
+  <circle cx="110" cy="55" r="3" fill="#ffe082"/>
+  <circle cx="45" cy="100" r="3" fill="#ffe082"/>
+  <circle cx="115" cy="95" r="4" fill="#ffe082"/>
+  <!-- 弹簧夹 -->
+  <path d="M67 100 Q67 115 67 120" stroke="#3d2f3b" stroke-width="3" fill="none"/>
+  <path d="M93 100 Q93 115 93 120" stroke="#3d2f3b" stroke-width="3" fill="none"/>
+</svg>

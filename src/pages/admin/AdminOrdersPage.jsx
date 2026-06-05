@@ -159,7 +159,7 @@ const AdminOrdersPage = () => {
           />
         </div>
       ) : (
-        <EmptyState title="暂无订单" description="当前筛选条件下没有订单数据。" />
+        <EmptyState title="暂无订单" description="当前筛选条件下没有订单数据。" iconSrc="/images/admin/empty/no-order.svg" />
       )}
 
       <Modal

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 金色边框小镜 -->
+  <ellipse cx="80" cy="80" rx="55" ry="65" fill="#ffd765" stroke="#3d2f3b" stroke-width="4"/>
+  <ellipse cx="80" cy="80" rx="45" ry="55" fill="#fffaf0" stroke="#3d2f3b" stroke-width="3"/>
+  <!-- 糖霜格纹 -->
+  <path d="M50 60 L110 60 M50 80 L110 80 M50 100 L110 100" stroke="#ff9fbd" stroke-width="2" stroke-dasharray="4 4"/>
+  <path d="M60 50 L60 110 M80 50 L80 110 M100 50 L100 110" stroke="#ff9fbd" stroke-width="2" stroke-dasharray="4 4"/>
+  <!-- 镜面高光 -->
+  <ellipse cx="65" cy="65" rx="10" ry="8" fill="#fff" opacity="0.6"/>
+</svg>

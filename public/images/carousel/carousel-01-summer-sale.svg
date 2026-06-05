@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="320" viewBox="0 0 600 320" role="img" aria-label="夏季特惠活动">
+  <rect width="600" height="320" fill="#fff0c9"/>
+  <rect x="20" y="10" width="560" height="270" fill="#fff" stroke="#3d2f3b" stroke-width="4" rx="8"/>
+  
+  <rect x="40" y="30" width="250" height="190" fill="#ff9fbd" rx="6"/>
+  
+  <rect x="70" y="50" width="190" height="60" fill="#fff" rx="4"/>
+  <text x="165" y="92" text-anchor="middle" fill="#3d2f3b" font-size="28" font-weight="bold">夏季特惠</text>
+  <text x="165" y="140" text-anchor="middle" fill="#fff" font-size="34" font-weight="bold">全场8折起</text>
+  <text x="165" y="180" text-anchor="middle" fill="#fff" font-size="16">限时特惠进行中</text>
+  
+  <rect x="310" y="30" width="250" height="190" fill="#ffd765" rx="6"/>
+  
+  <circle cx="435" cy="100" r="40" fill="#fff" opacity="0.9"/>
+  <polygon points="420,95 435,80 450,95 435,110" fill="#ff6fa8" stroke="#3d2f3b" stroke-width="2"/>
+  <text x="435" y="145" text-anchor="middle" fill="#3d2f3b" font-size="20" font-weight="bold">新品上市</text>
+  <text x="435" y="175" text-anchor="middle" fill="#3d2f3b" font-size="14">精选好货等你挑</text>
+  
+  <rect x="20" y="240" width="560" height="40" fill="#3d2f3b" rx="6"/>
+  <text x="200" y="268" fill="#ffd765" font-size="18" font-weight="bold">限时特惠 · 全场满199减30</text>
+  <text x="540" y="268" fill="#fff" font-size="14" text-anchor="end">6.1-6.30</text>
+</svg>

@@ -642,6 +642,7 @@
   display: block;
   padding: 0;
   overflow: hidden;
+  position: relative;
 }
 
 .pm-home-carousel-slide-visual .pm-home-carousel-media {
@@ -731,6 +732,37 @@
 
 .pm-home-carousel-dots button.is-active {
   background: var(--pm-color-primary);
+}
+
+.pm-home-carousel-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 20px;
+  background: linear-gradient(to top, rgba(61, 47, 59, 0.9), rgba(61, 47, 59, 0.6));
+  color: #fff;
+}
+
+.pm-home-carousel-title {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.pm-home-carousel-subtitle {
+  margin: 0 0 8px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.pm-home-carousel-action {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--pm-color-primary);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 /* 分页条：首页与分类商品列表共用。 */

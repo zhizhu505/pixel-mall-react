@@ -44,7 +44,9 @@
   position: relative;
   isolation: isolate;
   display: grid;
-  align-content: space-between;
+  grid-template-rows: auto 1fr auto;
+  align-content: start;
+  gap: 8px;
   min-height: 148px;
   padding: 16px 14px 14px;
   overflow: hidden;
@@ -130,7 +132,6 @@
 /* 后台统计卡数字：突出显示主要数值。 */
 .pm-admin-stat strong {
   display: block;
-  margin-bottom: 12px;
   font-size: 28px;
   line-height: 1;
 }
@@ -141,4 +142,11 @@
   font-size: var(--pm-text-sm);
   font-weight: var(--pm-weight-black);
   line-height: 1.25;
+}
+
+/* 后台统计卡图标：显示在数字上方。 */
+.pm-admin-stat-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
