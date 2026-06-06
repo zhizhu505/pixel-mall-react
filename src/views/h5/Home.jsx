@@ -12,6 +12,13 @@ import { carouselActivities } from '../../mock/activities';
 
 const HomeProductFeed = ({ products, keywordLabel, onAddToCart }) => {
   const { page, setPage, totalPages, slice, total, hasPrev, hasNext, pageSize } = usePagination(products, 6);
+  const productColumns = slice.reduce(
+    (columns, product, index) => {
+      columns[index % 2].push({ product, index });
+      return columns;
+    },
+    [[], []],
+  );
 
   if (!products.length) {
     return (
@@ -32,14 +39,18 @@ const HomeProductFeed = ({ products, keywordLabel, onAddToCart }) => {
   return (
     <>
       <section className="pm-product-grid pm-home-product-grid">
-        {slice.map((product, index) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            index={(page - 1) * pageSize + index}
-            showAddLink
-            onAddToCart={onAddToCart}
-          />
+        {productColumns.map((column, columnIndex) => (
+          <div className="pm-home-product-column" key={`home-product-column-${columnIndex + 1}`}>
+            {column.map(({ product, index }) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                index={(page - 1) * pageSize + index}
+                showAddLink
+                onAddToCart={onAddToCart}
+              />
+            ))}
+          </div>
         ))}
       </section>
       <Pagination

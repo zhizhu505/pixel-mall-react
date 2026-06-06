@@ -1,17 +1,54 @@
 /* 地址管理页：表单、默认勾选、列表卡片。 */
 
 .pm-address-page {
+  position: relative;
   display: grid;
   gap: var(--pm-space-5);
   padding-bottom: calc(var(--pm-bottom-bar-height) + var(--pm-space-5));
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 10%, color-mix(in srgb, var(--pm-color-accent) 24%, transparent) 0 38px, transparent 39px),
+    radial-gradient(circle at 88% 20%, color-mix(in srgb, var(--pm-color-accent-2) 24%, transparent) 0 46px, transparent 47px),
+    var(--pm-page-grid-background);
+  background-size: auto, auto, var(--pm-page-grid-size);
+}
+
+.pm-address-page::before {
+  position: absolute;
+  top: 94px;
+  right: -32px;
+  width: 108px;
+  height: 28px;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--pm-color-primary) 0 34%, transparent 34% 43%, var(--pm-color-accent) 43% 72%, transparent 72%),
+    var(--pm-color-surface);
+  border: var(--pm-border-width-thin) solid color-mix(in srgb, var(--pm-color-line) 72%, transparent);
+  opacity: 0.86;
+  transform: rotate(7deg);
 }
 
 .pm-address-toolbar {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   gap: var(--pm-space-3);
   align-items: flex-start;
   justify-content: space-between;
+  padding: var(--pm-space-3) var(--pm-space-2) var(--pm-space-2);
+}
+
+.pm-address-toolbar::after {
+  position: absolute;
+  left: var(--pm-space-2);
+  bottom: -2px;
+  width: 84px;
+  height: 7px;
+  content: "";
+  background: var(--pm-color-primary);
+  box-shadow: 96px 0 0 var(--pm-color-accent-2), 188px 0 0 var(--pm-color-accent);
 }
 
 .pm-address-flow-hint {
@@ -35,27 +72,75 @@
 }
 
 .pm-address-title {
+  position: relative;
+  width: fit-content;
   margin: 0;
-  font-size: var(--pm-text-xl);
+  font-family: var(--pm-font-title);
+  font-size: var(--pm-text-2xl);
   font-weight: var(--pm-weight-black);
   line-height: 1.15;
+  z-index: 0;
+}
+
+.pm-address-title::after {
+  position: absolute;
+  left: 14px;
+  right: -10px;
+  bottom: -4px;
+  height: 9px;
+  content: "";
+  background: color-mix(in srgb, var(--pm-color-accent) 58%, transparent);
+  z-index: -1;
 }
 
 .pm-address-form {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: var(--pm-space-3);
   padding: var(--pm-space-4);
   background:
-    linear-gradient(145deg, color-mix(in srgb, var(--pm-color-primary-soft) 18%, var(--pm-color-surface)), var(--pm-color-surface));
+    linear-gradient(90deg, color-mix(in srgb, var(--pm-color-primary) 20%, transparent) 0 7px, transparent 7px),
+    linear-gradient(145deg, color-mix(in srgb, var(--pm-color-primary-soft) 24%, var(--pm-color-surface)), var(--pm-color-surface));
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pm-color-primary) 12%, transparent);
+  box-shadow:
+    6px 6px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent),
+    -4px 6px 0 color-mix(in srgb, var(--pm-color-accent-2) 18%, transparent);
+}
+
+.pm-address-form::before {
+  position: absolute;
+  top: -12px;
+  right: 18px;
+  width: 66px;
+  height: 22px;
+  content: "";
+  background: color-mix(in srgb, var(--pm-color-accent) 50%, var(--pm-color-surface));
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  transform: rotate(3deg);
 }
 
 .pm-address-form h2,
 .pm-address-list h2 {
+  position: relative;
+  width: fit-content;
   margin: 0;
-  font-size: var(--pm-text-md);
+  font-size: var(--pm-text-lg);
   font-weight: var(--pm-weight-black);
+  line-height: 1.2;
+  z-index: 0;
+}
+
+.pm-address-form h2::after,
+.pm-address-list h2::after {
+  position: absolute;
+  left: 10px;
+  right: -8px;
+  bottom: -3px;
+  height: 7px;
+  content: "";
+  background: color-mix(in srgb, var(--pm-color-accent-2) 44%, transparent);
+  z-index: -1;
 }
 
 .pm-address-control {
@@ -128,6 +213,8 @@
 }
 
 .pm-address-list {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: var(--pm-space-3);
 }
@@ -137,4 +224,67 @@
   padding: var(--pm-space-4);
   background: color-mix(in srgb, var(--pm-color-bg-soft) 45%, var(--pm-color-surface));
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+.pm-address-page .pm-address-card {
+  position: relative;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--pm-color-surface) 92%, transparent), color-mix(in srgb, var(--pm-color-primary-soft) 18%, var(--pm-color-surface)));
+  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent);
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    background-color 150ms ease;
+}
+
+.pm-address-page .pm-address-card:nth-of-type(2n) {
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--pm-color-accent-2) 18%, var(--pm-color-surface)), var(--pm-color-surface));
+  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pm-color-accent-2) 28%, transparent);
+  transform: rotate(-0.7deg);
+}
+
+.pm-address-page .pm-address-card:nth-of-type(3n) {
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--pm-color-accent) 18%, var(--pm-color-surface)), var(--pm-color-surface));
+  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pm-color-accent) 24%, transparent);
+  transform: rotate(0.7deg);
+}
+
+.pm-address-page .pm-address-card:hover {
+  box-shadow: 7px 8px 0 color-mix(in srgb, var(--pm-color-primary) 22%, transparent);
+  transform: translateY(-2px);
+}
+
+.pm-address-page .pm-address-card.is-default {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--pm-color-accent) 44%, transparent) 0 8px, transparent 8px),
+    linear-gradient(145deg, color-mix(in srgb, var(--pm-color-primary-soft) 46%, var(--pm-color-surface)), var(--pm-color-surface));
+}
+
+.pm-address-page .pm-address-name {
+  margin: 0;
+}
+
+.pm-address-page .pm-address-text {
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .pm-address-page {
+    gap: var(--pm-space-4);
+  }
+
+  .pm-address-title {
+    font-size: var(--pm-text-xl);
+  }
+
+  .pm-address-toolbar {
+    padding-inline: 0;
+  }
+
+  .pm-address-page .pm-address-card:nth-of-type(n),
+  .pm-address-page .pm-address-card:hover {
+    transform: none;
+  }
 }

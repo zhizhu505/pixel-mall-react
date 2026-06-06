@@ -20,8 +20,8 @@
   --pm-color-promo: #ff8a6b;
   --pm-color-text: #3b2f3a;
   --pm-color-text-muted: #8b7280;
-  --pm-color-line: #3b2f3a;
-  --pm-color-shadow: rgba(59, 47, 58, 0.18);
+  --pm-color-line: #8f6672;
+  --pm-color-shadow: rgba(143, 102, 114, 0.18);
 }
 
 /* 薄荷主题：主色偏清爽绿色，适合夏日、生活、家居分类。 */
@@ -40,8 +40,8 @@
   --pm-color-promo: #ff8a6b;
   --pm-color-text: #2d3c37;
   --pm-color-text-muted: #6f8a80;
-  --pm-color-line: #2d3c37;
-  --pm-color-shadow: rgba(45, 60, 55, 0.18);
+  --pm-color-line: #6f8a80;
+  --pm-color-shadow: rgba(111, 138, 128, 0.18);
 }
 
 /* 天空蓝主题：主色偏蓝，适合数码、清新、轻量页面。 */
@@ -60,8 +60,8 @@
   --pm-color-promo: #ff8a6b;
   --pm-color-text: #2f3440;
   --pm-color-text-muted: #768093;
-  --pm-color-line: #2f3440;
-  --pm-color-shadow: rgba(47, 52, 64, 0.18);
+  --pm-color-line: #6f7890;
+  --pm-color-shadow: rgba(111, 120, 144, 0.18);
 }
 
 /* 糖果紫主题：主色偏紫，适合二次元、收藏卡片感页面。 */
@@ -80,8 +80,8 @@
   --pm-color-promo: #ff8a6b;
   --pm-color-text: #3a314a;
   --pm-color-text-muted: #80758f;
-  --pm-color-line: #3a314a;
-  --pm-color-shadow: rgba(58, 49, 74, 0.18);
+  --pm-color-line: #847095;
+  --pm-color-shadow: rgba(132, 112, 149, 0.18);
 }
 
 /* DIY 主题：由用户选择颜色后写入 --pm-diy-* 变量。 */
@@ -100,6 +100,6 @@
   --pm-color-promo: var(--pm-diy-promo, #ff8a6b);
   --pm-color-text: var(--pm-diy-text, #3b2f3a);
   --pm-color-text-muted: var(--pm-diy-muted, #8b7280);
-  --pm-color-line: var(--pm-diy-line, #3b2f3a);
-  --pm-color-shadow: var(--pm-diy-shadow, rgba(59, 47, 58, 0.18));
+  --pm-color-line: var(--pm-diy-line, #8f6672);
+  --pm-color-shadow: var(--pm-diy-shadow, rgba(143, 102, 114, 0.18));
 }

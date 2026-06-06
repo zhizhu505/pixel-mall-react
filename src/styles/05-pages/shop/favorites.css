@@ -3,32 +3,186 @@
 
 /* 收藏页容器：控制工具栏、商品网格和空状态的间距。 */
 .pm-favorites-page {
+  position: relative;
   display: grid;
-  gap: var(--pm-space-5);
+  gap: var(--pm-space-4);
+  min-height: 100%;
+  padding-bottom: calc(var(--pm-bottom-bar-height) + var(--pm-space-5));
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 12%, color-mix(in srgb, var(--pm-color-accent) 22%, transparent) 0 40px, transparent 41px),
+    radial-gradient(circle at 92% 24%, color-mix(in srgb, var(--pm-color-accent-2) 24%, transparent) 0 44px, transparent 45px),
+    var(--pm-page-grid-background);
+  background-size: auto, auto, var(--pm-page-grid-size);
+}
+
+.pm-favorites-page::before,
+.pm-favorites-page::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+
+.pm-favorites-page::before {
+  top: 86px;
+  right: -26px;
+  width: 96px;
+  height: 26px;
+  background:
+    linear-gradient(90deg, var(--pm-color-primary) 0 34%, transparent 34% 44%, var(--pm-color-accent) 44% 72%, transparent 72%),
+    var(--pm-color-surface);
+  border: var(--pm-border-width-thin) solid color-mix(in srgb, var(--pm-color-line) 72%, transparent);
+  opacity: 0.86;
+  transform: rotate(7deg);
+}
+
+.pm-favorites-page::after {
+  left: -24px;
+  bottom: 112px;
+  width: 82px;
+  height: 82px;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--pm-color-primary-soft) 74%, transparent) 50%, transparent 50%),
+    linear-gradient(color-mix(in srgb, var(--pm-color-accent-2) 30%, transparent) 50%, transparent 50%);
+  background-size: 14px 14px;
+  transform: rotate(-8deg);
+  opacity: 0.78;
 }
 
 /* 收藏页工具栏：放置搜索、分类筛选、批量管理等操作。 */
 .pm-favorites-toolbar {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   gap: var(--pm-space-3);
   align-items: center;
   justify-content: space-between;
+  padding: var(--pm-space-3) var(--pm-space-1) var(--pm-space-2);
+}
+
+.pm-favorites-toolbar h1,
+.pm-favorites-page > h1 {
+  position: relative;
+  width: fit-content;
+  margin: 0;
+  font-family: var(--pm-font-title);
+  font-size: var(--pm-text-2xl);
+  font-weight: var(--pm-weight-black);
+  line-height: 1.15;
+  z-index: 0;
+}
+
+.pm-favorites-toolbar h1::after,
+.pm-favorites-page > h1::after {
+  position: absolute;
+  left: 14px;
+  right: -10px;
+  bottom: -4px;
+  height: 9px;
+  content: "";
+  background: color-mix(in srgb, var(--pm-color-accent) 58%, transparent);
+  z-index: -1;
 }
 
 /* 收藏商品网格：自适应排列收藏商品卡。 */
 .pm-favorites-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: var(--pm-space-4);
+  gap: var(--pm-space-3);
+  align-items: start;
 }
 
 /* 收藏空状态：无收藏商品时预留展示高度。 */
 .pm-favorites-empty {
+  position: relative;
+  z-index: 1;
   min-height: 300px;
+  padding: var(--pm-space-4);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--pm-color-primary-soft) 24%, var(--pm-color-surface)), var(--pm-color-surface));
+  border: var(--pm-border-width) solid var(--pm-color-line);
+  box-shadow:
+    6px 6px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent),
+    -4px 6px 0 color-mix(in srgb, var(--pm-color-accent-2) 18%, transparent);
+}
+
+.pm-favorites-empty::before {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  width: 72px;
+  height: 22px;
+  content: "";
+  background: color-mix(in srgb, var(--pm-color-accent) 50%, var(--pm-color-surface));
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  transform: rotate(3deg);
 }
 
 .pm-favorites-item {
+  position: relative;
   display: grid;
   gap: var(--pm-space-2);
+  padding: var(--pm-space-1);
+  background: color-mix(in srgb, var(--pm-white) 36%, transparent);
+  border: var(--pm-border-width-thin) solid color-mix(in srgb, var(--pm-color-line) 72%, transparent);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 16%, transparent);
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.pm-favorites-item:nth-child(2n) {
+  background: color-mix(in srgb, var(--pm-color-accent-2) 16%, var(--pm-color-surface));
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-accent-2) 28%, transparent);
+  transform: translateY(10px) rotate(-0.8deg);
+}
+
+.pm-favorites-item:nth-child(3n) {
+  background: color-mix(in srgb, var(--pm-color-accent) 18%, var(--pm-color-surface));
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-accent) 24%, transparent);
+  transform: rotate(0.8deg);
+}
+
+.pm-favorites-item:hover {
+  box-shadow: 6px 7px 0 color-mix(in srgb, var(--pm-color-primary) 22%, transparent);
+  transform: translateY(-3px);
+}
+
+.pm-favorites-item:nth-child(2n):hover {
+  transform: translateY(6px) rotate(-0.8deg);
+}
+
+.pm-favorites-item .pm-btn {
+  justify-self: stretch;
+  min-height: 36px;
+  padding: 8px 10px;
+  font-size: var(--pm-text-xs);
+}
+
+.pm-favorites-page .pm-pagination {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  .pm-favorites-page {
+    gap: var(--pm-space-3);
+  }
+
+  .pm-favorites-toolbar {
+    padding-inline: 0;
+  }
+
+  .pm-favorites-toolbar h1,
+  .pm-favorites-page > h1 {
+    font-size: var(--pm-text-xl);
+  }
+
+  .pm-favorites-item:nth-child(n),
+  .pm-favorites-item:nth-child(n):hover {
+    transform: none;
+  }
 }

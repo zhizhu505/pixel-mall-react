@@ -7,6 +7,8 @@
 }
 
 .pm-cart-page-has-items {
+  --pm-cart-item-fixed-height: 178px;
+
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -63,9 +65,72 @@
   display: grid;
   flex: 1 1 auto;
   gap: var(--pm-space-2);
+  grid-auto-rows: var(--pm-cart-item-fixed-height);
+  align-content: start;
   min-height: 0;
   padding-inline: var(--pm-space-2);
   padding-bottom: var(--pm-space-2);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pm-cart-page-has-items .pm-cart-item {
+  grid-template-columns: auto 96px minmax(0, 1fr);
+  grid-template-rows: 1fr;
+  align-items: start;
+  min-height: var(--pm-cart-item-fixed-height);
+  height: var(--pm-cart-item-fixed-height);
+  padding: var(--pm-space-4) calc(var(--pm-space-4) + 34px) var(--pm-space-4) var(--pm-space-3);
+  overflow: hidden;
+}
+
+.pm-cart-page-has-items .pm-cart-check {
+  align-self: center;
+  margin-top: 0;
+}
+
+.pm-cart-page-has-items .pm-cart-media {
+  width: 92px;
+  height: 108px;
+}
+
+.pm-cart-page-has-items .pm-cart-media .pm-pixel-product {
+  min-height: 100%;
+}
+
+.pm-cart-page-has-items .pm-cart-info {
+  align-self: start;
+  grid-auto-rows: max-content;
+  gap: 6px;
+  min-height: 0;
+}
+
+.pm-cart-page-has-items .pm-cart-title {
+  max-width: 100%;
+  font-size: var(--pm-text-sm);
+  line-height: 1.25;
+}
+
+.pm-cart-page-has-items .pm-cart-spec {
+  font-size: var(--pm-text-xs);
+}
+
+.pm-cart-page-has-items .pm-cart-info > div:first-of-type {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: center;
+  max-height: 34px;
+  overflow: hidden;
+}
+
+.pm-cart-page-has-items .pm-cart-info .pm-quantity-compact {
+  margin-top: 2px;
+}
+
+.pm-cart-page-has-items .pm-cart-remove {
+  top: var(--pm-space-4);
+  right: var(--pm-space-4);
 }
 
 .pm-cart-check {
@@ -188,4 +253,11 @@
 .pm-cart-empty {
   min-height: 280px;
   padding-inline: var(--pm-space-3);
+}
+
+.pm-h5-shell .pm-cart-page-has-items .pm-cart-list {
+  grid-auto-rows: var(--pm-cart-item-fixed-height);
+  align-content: start;
+  gap: var(--pm-space-2);
+  overflow-y: auto;
 }

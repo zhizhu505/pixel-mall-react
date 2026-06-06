@@ -116,7 +116,13 @@ const PayPage = () => {
 
   return (
     <main className="pm-page pm-pay-page">
-      <h1>模拟支付</h1>
+      <header className="pm-pay-hero">
+        <p className="pm-pay-brand">
+          <span className="pm-pay-brand-pixel" aria-hidden />
+          Pixel Cashier
+        </p>
+        <h1>模拟支付</h1>
+      </header>
       <section className="pm-pay-panel">
         <p
           className={`pm-pay-countdown${failed ? ' is-failed' : ''}${expired ? ' is-expired' : ''}`}

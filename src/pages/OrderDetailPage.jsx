@@ -30,36 +30,44 @@ const OrderDetailPage = () => {
 
   return (
     <main className="pm-page pm-order-detail-page">
-      <Link className="pm-btn pm-btn-ghost" to="/orderList">
-        ← 订单列表
-      </Link>
+      <header className="pm-order-detail-hero">
+        <Link className="pm-btn pm-btn-ghost pm-order-detail-back" to="/orderList">
+          ← 订单列表
+        </Link>
+        <p className="pm-order-detail-brand">
+          <span className="pm-order-detail-pixel" aria-hidden />
+          Pixel Receipt
+        </p>
+      </header>
 
-      <section className="pm-order-card">
+      <section className="pm-order-card pm-order-detail-summary">
         <header className="pm-order-head">
           <h1 className="pm-order-title">{currentOrder.orderNo}</h1>
           <StatusTag>{order.getStatusText(currentOrder.status)}</StatusTag>
         </header>
-        <p className="pm-order-desc">下单时间：{currentOrder.createTime}</p>
-        {currentOrder.payTime ? (
-          <p className="pm-order-desc">支付时间：{currentOrder.payTime}</p>
-        ) : null}
-        <p className="pm-order-desc">订单金额：{formatPrice(currentOrder.price)}</p>
+        <div className="pm-order-detail-meta-grid">
+          <p className="pm-order-desc">下单时间：{currentOrder.createTime}</p>
+          {currentOrder.payTime ? (
+            <p className="pm-order-desc">支付时间：{currentOrder.payTime}</p>
+          ) : null}
+          <p className="pm-order-desc pm-order-detail-amount">订单金额：{formatPrice(currentOrder.price)}</p>
+        </div>
       </section>
 
-      <section className="pm-address-card">
-        <h2>收货信息</h2>
+      <section className="pm-address-card pm-order-detail-address">
+        <h2 className="pm-order-detail-section-title">收货信息</h2>
         <p className="pm-address-name">{currentOrder.address?.receiver}</p>
         <p className="pm-address-phone">{currentOrder.address?.phone}</p>
         <p className="pm-address-text">{currentOrder.address?.detail}</p>
       </section>
 
-      <section className="pm-cart-list">
-        <h2>商品清单</h2>
+      <section className="pm-cart-list pm-order-detail-goods">
+        <h2 className="pm-order-detail-section-title">商品清单</h2>
         {(currentOrder.items?.length ? currentOrder.items : [{ goodSnapshot: currentOrder.goodSnapshot, quantity: 1, price: currentOrder.price }]).map((item, index) => {
           const priceInfo = getProductPriceInfo(item.goodSnapshot || item);
 
           return (
-            <article className="pm-cart-item" key={`${item.goodId || index}-${index}`}>
+            <article className="pm-cart-item pm-order-detail-good-item" key={`${item.goodId || index}-${index}`}>
               <div className="pm-cart-info">
                 <h3 className="pm-cart-title">{item.goodSnapshot?.name}</h3>
                 <p className="pm-cart-spec">x{item.quantity || 1}</p>
@@ -74,8 +82,8 @@ const OrderDetailPage = () => {
         })}
       </section>
 
-      <section className="pm-order-card">
-        <h2>物流信息</h2>
+      <section className="pm-order-card pm-order-detail-logistics">
+        <h2 className="pm-order-detail-section-title">物流信息</h2>
         {currentOrder.logistics?.length ? (
           <ul className="pm-logistics-list">
             {currentOrder.logistics.map((node, index) => (

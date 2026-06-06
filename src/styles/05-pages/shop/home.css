@@ -446,28 +446,69 @@
 
 /* 商品网格：收藏卡错位排列，商品卡本体复用公共组件。 */
 .pm-home-product-grid {
-  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
-  gap: 24px;
+  --pm-home-product-gap: 10px;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--pm-home-product-gap);
   align-items: start;
+  padding: 0;
+  overflow: visible;
 }
 
-.pm-home-product-card:nth-child(2) {
+.pm-home-product-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pm-home-product-gap);
+  min-width: 0;
+}
+
+.pm-home-product-column:nth-child(2) {
   margin-top: 18px;
+}
+
+.pm-home-product-column:nth-child(2) .pm-home-product-card:nth-child(2n + 1) {
   background: color-mix(in srgb, var(--pm-color-accent) 16%, var(--pm-color-surface));
-  transform: rotate(-1.1deg);
 }
 
-.pm-home-product-card:nth-child(3) {
-  margin-top: -8px;
-  background: color-mix(in srgb, var(--pm-color-accent) 24%, var(--pm-color-surface));
-  transform: rotate(1deg);
+.pm-home-product-column:nth-child(1) .pm-home-product-card:nth-child(2n) {
+  background: color-mix(in srgb, var(--pm-color-accent) 18%, var(--pm-color-surface));
 }
 
-.pm-home-product-card:nth-child(2) .pm-pixel-product::after {
+.pm-home-product-column:nth-child(2) .pm-home-product-card:nth-child(2n) {
+  background: color-mix(in srgb, var(--pm-color-accent-2) 14%, var(--pm-color-surface));
+}
+
+.pm-home-product-grid .pm-home-product-card {
+  gap: 10px;
+  margin: 0;
+  padding: 14px;
+  background: color-mix(in srgb, var(--pm-color-surface) 92%, transparent);
+  border-width: var(--pm-border-width-thin);
+  box-shadow:
+    8px 8px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent),
+    inset -4px -4px 0 color-mix(in srgb, var(--pm-color-primary-soft) 34%, transparent);
+  transform: none;
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    filter 140ms ease;
+}
+
+.pm-home-product-grid .pm-home-product-card:hover {
+  z-index: 3;
+  filter: saturate(1.05);
+  transform: translate(-2px, -3px);
+  box-shadow:
+    9px 9px 0 color-mix(in srgb, var(--pm-color-primary) 24%, transparent),
+    inset -4px -4px 0 color-mix(in srgb, var(--pm-color-accent) 18%, transparent);
+}
+
+.pm-home-product-column:nth-child(2) .pm-home-product-card:nth-child(2n + 1) .pm-pixel-product::after {
   box-shadow: 20px -20px 0 color-mix(in srgb, var(--pm-color-accent) 58%, white);
 }
 
-.pm-home-product-card:nth-child(3) .pm-pixel-product::before {
+.pm-home-product-column:nth-child(1) .pm-home-product-card:nth-child(2n) .pm-pixel-product::before {
   background:
     linear-gradient(90deg, transparent 0 23%, rgba(255, 255, 255, 0.94) 23% 36%, transparent 36% 56%, rgba(255, 255, 255, 0.94) 56% 78%, transparent 78%),
     linear-gradient(180deg, transparent 0 58%, color-mix(in srgb, var(--pm-color-primary) 90%, transparent) 58% 72%, transparent 72%),
@@ -602,11 +643,15 @@
   }
 
   .pm-home-product-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    --pm-home-product-gap: 8px;
   }
 
-  .pm-home-product-card:nth-child(n) {
-    margin-top: 0;
+  .pm-home-product-column:nth-child(2) {
+    margin-top: 12px;
+  }
+
+  .pm-home-product-grid .pm-home-product-card:nth-child(n) {
     transform: none;
   }
 
@@ -617,6 +662,36 @@
   .pm-home-carousel-copy h2 {
     font-size: var(--pm-text-xl);
   }
+}
+
+.pm-h5-shell .pm-home-product-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 0;
+}
+
+.pm-h5-shell .pm-home-product-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pm-h5-shell .pm-home-product-column:nth-child(2) {
+  margin-top: 12px;
+}
+
+.pm-h5-shell .pm-home-product-grid .pm-home-product-card:nth-child(n) {
+  margin-top: 0;
+  padding: var(--pm-space-2);
+  gap: var(--pm-space-2);
+  transform: none;
+  box-shadow:
+    5px 5px 0 color-mix(in srgb, var(--pm-color-primary) 16%, transparent),
+    inset -3px -3px 0 color-mix(in srgb, var(--pm-color-primary-soft) 30%, transparent);
+}
+
+.pm-h5-shell .pm-home-product-grid .pm-home-product-card:hover {
+  transform: translate(-1px, -2px);
 }
 
 /* 首页轮播：主推商品自动切换展示。 */
