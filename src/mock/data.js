@@ -376,8 +376,8 @@ export const defaultOrders = [
       status: 'on-sale',
     },
     logistics: [
-      { time: seedTime, text: '订单已支付，等待发货。' },
-      { time: '2026-06-04 14:00:00', text: '仓库已打包，等待揽件。' },
+      { time: seedTime, text: '订单支付成功。' },
+      { time: '2026-06-04 14:00:00', text: '订单已发货，物流单号 PIXEL-1' },
     ],
   },
 ];

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import { getProductTone } from '../../utils/productDisplay';
 
@@ -26,10 +25,9 @@ const Carousel = ({ items, intervalMs = 2500, className = '' }) => {
 
   return (
     <section className={`pm-home-carousel ${className}`.trim()} aria-label="轮播活动">
-      <Link
+      <div
         className="pm-home-carousel-slide pm-home-carousel-slide-visual"
-        to={active.link || `/detail/${active.id}`}
-        aria-label={active.name}
+        aria-label={active.title || active.name}
       >
         <div className="pm-home-carousel-media">
           {active.cover ? (
@@ -45,12 +43,9 @@ const Carousel = ({ items, intervalMs = 2500, className = '' }) => {
           <div className="pm-home-carousel-caption">
             <h3 className="pm-home-carousel-title">{active.title}</h3>
             <p className="pm-home-carousel-subtitle">{active.subtitle}</p>
-            {active.actionText && (
-              <span className="pm-home-carousel-action">{active.actionText}</span>
-            )}
           </div>
         )}
-      </Link>
+      </div>
       <div className="pm-home-carousel-dots" role="tablist" aria-label="轮播指示器">
         {items.map((item, index) => (
           <button

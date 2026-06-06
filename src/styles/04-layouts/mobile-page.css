@@ -106,12 +106,6 @@
   white-space: nowrap;
 }
 
-.pm-h5-shell .pm-home-admin-link {
-  min-height: 40px;
-  padding: 8px 10px;
-  font-size: var(--pm-text-xs);
-}
-
 .pm-h5-shell .pm-home-section-heading h2 {
   font-size: var(--pm-text-lg);
 }

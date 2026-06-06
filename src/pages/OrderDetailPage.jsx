@@ -7,12 +7,13 @@ import { formatPrice, getProductPriceInfo } from '../utils/productDisplay';
 
 const OrderDetailPage = () => {
   const { orderId } = useParams();
-  const { order } = useServices();
+  const { order, user } = useServices();
   useServiceVersion(order);
+  const currentUser = user.getCurrentUser();
   const parsedOrderId = Number(orderId);
   const currentOrder = order.getOrderById(parsedOrderId);
 
-  if (!currentOrder) {
+  if (!currentOrder || currentOrder.userId !== currentUser.id) {
     return (
       <main className="pm-page pm-order-detail-page">
         <EmptyState
@@ -27,6 +28,17 @@ const OrderDetailPage = () => {
       </main>
     );
   }
+
+  const handleConfirmReceipt = () => {
+    if (!window.confirm('确认已收到商品？')) {
+      return;
+    }
+
+    const result = order.confirmReceipt(currentOrder.id, currentUser.id);
+    if (!result.success) {
+      window.alert(result.message);
+    }
+  };
 
   return (
     <main className="pm-page pm-order-detail-page">
@@ -102,6 +114,11 @@ const OrderDetailPage = () => {
         <Link className="pm-btn pm-btn-primary" to={`/pay/${currentOrder.id}`}>
           继续支付
         </Link>
+      ) : null}
+      {currentOrder.status === 2 ? (
+        <button className="pm-btn pm-btn-primary" type="button" onClick={handleConfirmReceipt}>
+          确认收货
+        </button>
       ) : null}
     </main>
   );

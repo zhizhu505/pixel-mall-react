@@ -154,15 +154,47 @@ class OrderService extends SubscribableService {
   shipOrder(orderId, trackingNo) {
     const order = this._findOrder(orderId);
 
-    if (!order || order.status < 1) {
-      return false;
+    if (!order) {
+      return { success: false, message: '订单不存在。' };
+    }
+
+    if (order.status !== 1) {
+      return { success: false, message: '只有已支付订单才能发货。' };
     }
 
     order.status = 2;
-    order.logistics.unshift({ time: new Date().toLocaleString(), text: `订单已发货，物流单号 ${trackingNo || `PIXEL-${order.id}`}` });
+    order.logistics.unshift({
+      time: new Date().toLocaleString(),
+      text: `订单已发货，物流单号 ${trackingNo || `PIXEL-${order.id}`}`,
+    });
     this._saveData();
     this.notify();
-    return true;
+    return { success: true, message: '订单已发货。' };
+  }
+
+  confirmReceipt(orderId, userId) {
+    const order = this._findOrder(orderId);
+
+    if (!order) {
+      return { success: false, message: '订单不存在。' };
+    }
+
+    if (Number(userId) !== order.userId) {
+      return { success: false, message: '无权操作此订单。' };
+    }
+
+    if (order.status !== 2) {
+      return { success: false, message: '仅已发货订单可确认收货。' };
+    }
+
+    order.status = 3;
+    order.logistics.unshift({
+      time: new Date().toLocaleString(),
+      text: '买家已确认收货，交易完成。',
+    });
+    this._saveData();
+    this.notify();
+    return { success: true, message: '已确认收货，订单已完成。' };
   }
 
   updateOrderStatus(orderId, status) {
@@ -241,7 +273,7 @@ class OrderService extends SubscribableService {
   }
 
   getStatusText(status) {
-    if (status === 0) return '未支付';
+    if (status === 0) return '待支付';
     if (status === 1) return '已支付';
     if (status === 2) return '已发货';
     return '已完成';

@@ -741,23 +741,6 @@
   border-right: 0;
 }
 
-.pm-home-admin-link {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 46px;
-  padding: 8px 14px;
-  font-size: var(--pm-text-sm);
-  white-space: nowrap;
-  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 28%, transparent);
-  transform: rotate(1.2deg);
-}
-
-.pm-home-admin-link:hover {
-  transform: rotate(1.2deg) translate(2px, 2px);
-}
-
 .pm-home-section-heading h2 {
   margin: 0;
   font-size: var(--pm-text-xl);
@@ -826,18 +809,9 @@
 }
 
 .pm-home-carousel-subtitle {
-  margin: 0 0 8px;
+  margin: 0;
   font-size: 14px;
   opacity: 0.9;
-}
-
-.pm-home-carousel-action {
-  display: inline-block;
-  padding: 4px 12px;
-  background: var(--pm-color-primary);
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: bold;
 }
 
 /* 分页条：首页与分类商品列表共用。 */

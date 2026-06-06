@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import EmptyState from '../components/common/EmptyState';
@@ -17,13 +16,20 @@ const OrderListPage = () => {
   const [searchParams] = useSearchParams();
   const currentUser = user.getCurrentUser();
   const status = searchParams.get('status') || 'all';
-
-  const orders = useMemo(
-    () => order.getOrderList({ userId: currentUser.id, status }),
-    [order, currentUser.id, status],
-  );
+  const orders = order.getOrderList({ userId: currentUser.id, status });
 
   const { page, setPage, totalPages, slice, total, hasPrev, hasNext } = usePagination(orders, 5);
+
+  const handleConfirmReceipt = (orderId) => {
+    if (!window.confirm('确认已收到商品？')) {
+      return;
+    }
+
+    const result = order.confirmReceipt(orderId, currentUser.id);
+    if (!result.success) {
+      window.alert(result.message);
+    }
+  };
 
   const orderTabs = (
     <div className="pm-order-tabs" role="tablist" aria-label="订单状态筛选">
@@ -108,6 +114,15 @@ const OrderListPage = () => {
                         <Link className="pm-btn pm-btn-primary" to={`/pay/${item.id}`}>
                           去支付
                         </Link>
+                      ) : null}
+                      {item.status === 2 ? (
+                        <button
+                          className="pm-btn pm-btn-primary"
+                          type="button"
+                          onClick={() => handleConfirmReceipt(item.id)}
+                        >
+                          确认收货
+                        </button>
                       ) : null}
                     </footer>
                   </article>

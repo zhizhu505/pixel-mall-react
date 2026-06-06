@@ -109,9 +109,6 @@ const Home = () => {
           onSubmit={handleSearch}
           placeholder="搜索像素包、发夹、香氛..."
         />
-        <Link className="pm-btn pm-btn-ghost pm-home-admin-link" to="/admin/login">
-          后台
-        </Link>
       </div>
 
       {carouselItems.length ? <Carousel items={carouselItems} /> : null}

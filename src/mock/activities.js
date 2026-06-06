@@ -5,8 +5,6 @@ export const carouselActivities = [
     cover: '/images/carousel/carousel-01-summer-sale.svg',
     title: '夏季特惠',
     subtitle: '限时特惠 · 全场满199减30',
-    actionText: '立即抢购',
-    link: '/category/cat-bag',
   },
   {
     id: 'activity-2',
@@ -14,8 +12,6 @@ export const carouselActivities = [
     cover: '/images/carousel/carousel-02-new-arrival.svg',
     title: '新品首发',
     subtitle: '像素包包系列全新上市',
-    actionText: '查看新品',
-    link: '/category/cat-bag',
   },
   {
     id: 'activity-3',
@@ -23,8 +19,6 @@ export const carouselActivities = [
     cover: '/images/carousel/carousel-03-member.svg',
     title: '会员日',
     subtitle: '双倍积分 + 专属折扣',
-    actionText: '立即登录',
-    link: '/login',
   },
   {
     id: 'activity-4',
@@ -32,7 +26,5 @@ export const carouselActivities = [
     cover: '/images/carousel/carousel-04-gift-box.svg',
     title: '节日礼盒',
     subtitle: '礼遇相伴 · 满299赠精美礼品',
-    actionText: '选购礼盒',
-    link: '/category/cat-gift',
   },
 ];

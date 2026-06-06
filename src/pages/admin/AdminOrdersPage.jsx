@@ -47,12 +47,7 @@ const AdminOrdersPage = () => {
   };
 
   const handleShip = (orderId) => {
-    const success = order.shipOrder(orderId);
-    setMessage(success ? '订单已发货。' : '当前订单未支付，不能发货。');
-  };
-
-  const handleStatusChange = (orderId, nextStatus) => {
-    const result = order.updateOrderStatus(orderId, nextStatus);
+    const result = order.shipOrder(orderId);
     setMessage(result.message);
   };
 
@@ -66,7 +61,7 @@ const AdminOrdersPage = () => {
       <div className="pm-admin-page-header">
         <div>
           <h2 className="pm-section-title">订单管理</h2>
-          <p className="pm-help">支持订单筛选、发货、状态调整和物流信息展示。</p>
+          <p className="pm-help">支持订单筛选、发货和物流信息展示，完成后由买家确认收货。</p>
         </div>
         <Button type="button" variant="ghost" onClick={handleRefresh}>刷新</Button>
       </div>
@@ -136,10 +131,7 @@ const AdminOrdersPage = () => {
                         <div className="pm-admin-inline-actions">
                           <Button type="button" variant="ghost" onClick={() => setViewingOrderId(currentOrder.id)}>查看</Button>
                           <PermissionGate permission="orders:manage">
-                            <Button type="button" variant="mint" onClick={() => handleShip(currentOrder.id)} disabled={currentOrder.status < 1 || currentOrder.status > 1}>发货</Button>
-                          </PermissionGate>
-                          <PermissionGate permission="orders:manage">
-                            <Button type="button" variant="ghost" onClick={() => handleStatusChange(currentOrder.id, 3)} disabled={currentOrder.status !== 2}>完成</Button>
+                            <Button type="button" variant="mint" onClick={() => handleShip(currentOrder.id)} disabled={currentOrder.status !== 1}>发货</Button>
                           </PermissionGate>
                         </div>
                       </td>
