@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import EmptyState from '../components/common/EmptyState';
@@ -13,6 +14,19 @@ const sortOptions = [
   { key: 'price-desc', label: '价格降序' },
   { key: 'stock-desc', label: '库存优先' },
 ];
+
+const SearchHeaderBar = ({ initialValue, onSubmit }) => {
+  const [draftKeyword, setDraftKeyword] = useState(initialValue);
+
+  return (
+    <SearchBar
+      value={draftKeyword}
+      onChange={setDraftKeyword}
+      onSubmit={onSubmit}
+      placeholder="搜索包包、礼盒、香氛..."
+    />
+  );
+};
 
 const SearchPage = () => {
   const { good, search, user } = useServices();
@@ -67,7 +81,7 @@ const SearchPage = () => {
       <header className="pm-search-header">
         <p className="pm-section-eyebrow">Smart Search</p>
         <h1>搜索商品</h1>
-        <SearchBar value={keyword} onSubmit={handleSearch} placeholder="搜索包包、礼盒、香氛..." />
+        <SearchHeaderBar key={keyword} initialValue={keyword} onSubmit={handleSearch} />
       </header>
 
       <section className="pm-search-suggestion-panel">

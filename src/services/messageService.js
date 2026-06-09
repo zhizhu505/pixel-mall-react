@@ -46,6 +46,14 @@ const mergeMessageDefaults = (message) => ({
   ...message,
 });
 
+const mergeDefaultMessages = (storedMessages) => {
+  const storedList = Array.isArray(storedMessages) ? storedMessages : [];
+  const storedIds = new Set(storedList.map((message) => message.id));
+  const missingDefaults = defaultMessages.filter((message) => !storedIds.has(message.id));
+
+  return [...missingDefaults, ...storedList].map(mergeMessageDefaults);
+};
+
 class MessageService extends SubscribableService {
   list = [];
 
@@ -130,7 +138,7 @@ class MessageService extends SubscribableService {
   }
 
   _loadData() {
-    this.list = loadFromStorage([MESSAGE_KEY], defaultMessages).map(mergeMessageDefaults);
+    this.list = mergeDefaultMessages(loadFromStorage([MESSAGE_KEY], defaultMessages));
     this._saveData();
   }
 
