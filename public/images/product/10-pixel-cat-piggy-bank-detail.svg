@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 像素猫咪存钱罐 - 细节图：投币口、底部橡胶塞 -->
+  <rect x="40" y="50" width="80" height="70" fill="#ffc0cb" stroke="#3d2f3b" stroke-width="4" rx="10"/>
+  <!-- 猫咪脸部 -->
+  <circle cx="80" cy="75" r="20" fill="#ffc0cb" stroke="#3d2f3b" stroke-width="3"/>
+  <circle cx="70" cy="70" r="5" fill="#3d2f3b"/>
+  <circle cx="90" cy="70" r="5" fill="#3d2f3b"/>
+  <ellipse cx="80" cy="82" rx="5" ry="3" fill="#3d2f3b"/>
+  <!-- 投币口 -->
+  <rect x="60" y="45" width="40" height="8" fill="#3d2f3b"/>
+  <rect x="62" y="43" width="36" height="4" fill="#8b7355"/>
+  <!-- 底部橡胶塞 -->
+  <circle cx="80" cy="125" r="8" fill="#8b7355" stroke="#3d2f3b" stroke-width="2"/>
+</svg>

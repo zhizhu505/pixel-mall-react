@@ -19,22 +19,76 @@ const productImages = {
   15: '/images/product/15-cream-season-gift-box.svg',
 };
 
+const productDetailImages = {
+  1: '/images/product/01-strawberry-cloud-bag-detail.svg',
+  2: '/images/product/02-almond-cream-hairclip-detail.svg',
+  3: '/images/product/03-golden-frost-mirror-detail.svg',
+  4: '/images/product/04-cream-moon-bag-detail.svg',
+  5: '/images/product/05-rose-check-detail.svg',
+  6: '/images/product/06-lemon-pixel-backpack-detail.svg',
+  7: '/images/product/07-sakura-hair-tie-detail.svg',
+  8: '/images/product/08-star-sand-ear-clip-detail.svg',
+  9: '/images/product/09-cat-check-brooch-detail.svg',
+  10: '/images/product/10-pixel-cat-piggy-bank-detail.svg',
+  11: '/images/product/11-cream-candle-house-detail.svg',
+  12: '/images/product/12-pink-bunny-frame-detail.svg',
+  13: '/images/product/13-strawberry-milk-notebook-detail.svg',
+  14: '/images/product/14-pixel-stamp-set-detail.svg',
+  15: '/images/product/15-cream-season-gift-box-detail.svg',
+};
+
+const productSceneImages = {
+  1: '/images/product/01-strawberry-cloud-bag-scene.svg',
+  2: '/images/product/02-almond-cream-hairclip-scene.svg',
+  3: '/images/product/03-golden-frost-mirror-scene.svg',
+  4: '/images/product/04-cream-moon-bag-scene.svg',
+  5: '/images/product/05-rose-check-scene.svg',
+  6: '/images/product/06-lemon-pixel-backpack-scene.svg',
+  7: '/images/product/07-sakura-hair-tie-scene.svg',
+  8: '/images/product/08-star-sand-ear-clip-scene.svg',
+  9: '/images/product/09-cat-check-brooch-scene.svg',
+  10: '/images/product/10-pixel-cat-piggy-bank-scene.svg',
+  11: '/images/product/11-cream-candle-house-scene.svg',
+  12: '/images/product/12-pink-bunny-frame-scene.svg',
+  13: '/images/product/13-strawberry-milk-notebook-scene.svg',
+  14: '/images/product/14-pixel-stamp-set-scene.svg',
+  15: '/images/product/15-cream-season-gift-box-scene.svg',
+};
+
+const productInfoImages = {
+  1: '/images/product/01-strawberry-cloud-bag-info.svg',
+  2: '/images/product/02-almond-cream-hairclip-info.svg',
+  3: '/images/product/03-golden-frost-mirror-info.svg',
+  4: '/images/product/04-cream-moon-bag-info.svg',
+  5: '/images/product/05-rose-check-info.svg',
+  6: '/images/product/06-lemon-pixel-backpack-info.svg',
+  7: '/images/product/07-sakura-hair-tie-info.svg',
+  8: '/images/product/08-star-sand-ear-clip-info.svg',
+  9: '/images/product/09-cat-check-brooch-info.svg',
+  10: '/images/product/10-pixel-cat-piggy-bank-info.svg',
+  11: '/images/product/11-cream-candle-house-info.svg',
+  12: '/images/product/12-pink-bunny-frame-info.svg',
+  13: '/images/product/13-strawberry-milk-notebook-info.svg',
+  14: '/images/product/14-pixel-stamp-set-info.svg',
+  15: '/images/product/15-cream-season-gift-box-info.svg',
+};
+
 const productGalleryImages = {
-  1: [productImages[1], productImages[4], productImages[5]],
-  2: [productImages[2], productImages[7]],
-  3: [productImages[3]],
-  4: [productImages[4], productImages[1], productImages[6], productImages[15]],
-  5: [productImages[5], productImages[1], productImages[8]],
-  6: [productImages[6], productImages[14]],
-  7: [productImages[7], productImages[2], productImages[9], productImages[13]],
-  8: [productImages[8], productImages[7]],
-  9: [productImages[9]],
-  10: [productImages[10], productImages[12], productImages[11]],
-  11: [productImages[11], productImages[10]],
-  12: [productImages[12], productImages[10], productImages[3]],
-  13: [productImages[13], productImages[14]],
-  14: [productImages[14], productImages[13], productImages[7]],
-  15: [productImages[15], productImages[2], productImages[14], productImages[13]],
+  1: [productImages[1], productDetailImages[1], productSceneImages[1]],
+  2: [productImages[2], productDetailImages[2], productSceneImages[2]],
+  3: [productImages[3], productDetailImages[3], productSceneImages[3]],
+  4: [productImages[4], productDetailImages[4], productSceneImages[4]],
+  5: [productImages[5], productDetailImages[5], productSceneImages[5]],
+  6: [productImages[6], productDetailImages[6], productSceneImages[6]],
+  7: [productImages[7], productDetailImages[7], productSceneImages[7]],
+  8: [productImages[8], productDetailImages[8], productSceneImages[8]],
+  9: [productImages[9], productDetailImages[9], productSceneImages[9]],
+  10: [productImages[10], productDetailImages[10], productSceneImages[10]],
+  11: [productImages[11], productDetailImages[11], productSceneImages[11]],
+  12: [productImages[12], productDetailImages[12], productSceneImages[12]],
+  13: [productImages[13], productDetailImages[13], productSceneImages[13]],
+  14: [productImages[14], productDetailImages[14], productSceneImages[14]],
+  15: [productImages[15], productDetailImages[15], productSceneImages[15]],
 };
 
 const reviewNicknames = ['奶油收藏家', '认真挑礼物', '通勤小包控', '桌面布置员', '像素甜品师', '周末出逃人'];
@@ -86,9 +140,11 @@ const buildDefaultReviews = (item) => reviewAngles.map((angle, index) => ({
 
 const withProductGalleryImages = (items) => items.map((item) => {
   const images = productGalleryImages[item.id] || [item.cover].filter(Boolean);
+  const detailImage = productInfoImages[item.id];
   return {
     ...item,
     images,
+    detailImage,
     qaItems: [...(Array.isArray(item.qaItems) ? item.qaItems : []), ...buildDefaultQaItems(item)].slice(0, 4),
     reviews: [...(Array.isArray(item.reviews) ? item.reviews : []), ...buildDefaultReviews(item)].slice(0, 4),
   };

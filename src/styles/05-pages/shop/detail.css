@@ -22,20 +22,37 @@
 
 .pm-detail-nav-btn {
   flex: 0 0 auto;
-  width: 36px;
-  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
   color: var(--pm-color-primary-deep);
-  font-size: var(--pm-text-lg);
+  font-size: var(--pm-text-base);
   font-weight: var(--pm-weight-black);
+  line-height: 1;
   background: var(--pm-color-surface);
-  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  border: 2px solid var(--pm-color-primary-deep);
   border-radius: 50%;
-  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent);
+  box-shadow:
+    2px 2px 0 var(--pm-color-primary),
+    4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 30%, transparent);
+  transition: all 0.15s ease;
+  cursor: pointer;
 }
 
 .pm-detail-nav-btn:hover {
   background: var(--pm-color-primary-soft);
-  transform: translate(-1px, -1px);
+  transform: translate(-2px, -2px);
+  box-shadow:
+    3px 3px 0 var(--pm-color-primary),
+    5px 5px 0 color-mix(in srgb, var(--pm-color-primary) 30%, transparent);
+}
+
+.pm-detail-nav-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow:
+    1px 1px 0 var(--pm-color-primary),
+    2px 2px 0 color-mix(in srgb, var(--pm-color-primary) 30%, transparent);
 }
 
 .pm-detail-hero {
@@ -497,6 +514,23 @@
   }
 }
 
+.pm-detail-info-card {
+  background: var(--pm-color-bg-soft);
+}
+
+.pm-detail-info-image {
+  overflow: hidden;
+  background: var(--pm-color-surface);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+}
+
+.pm-detail-info-image img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
 .pm-detail-service-modal article strong,
 .pm-detail-service-modal article span,
 .pm-detail-service-modal article p {
@@ -868,9 +902,18 @@
 }
 
 .pm-h5-shell .pm-detail-nav-btn {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   font-size: var(--pm-text-sm);
+  box-shadow:
+    2px 2px 0 var(--pm-color-primary),
+    3px 3px 0 color-mix(in srgb, var(--pm-color-primary) 30%, transparent);
+}
+
+.pm-h5-shell .pm-detail-nav-btn:hover {
+  box-shadow:
+    3px 3px 0 var(--pm-color-primary),
+    4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 30%, transparent);
 }
 
 .pm-h5-shell .pm-detail-hero {

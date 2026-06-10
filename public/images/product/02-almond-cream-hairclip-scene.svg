@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 杏仁奶油发夹 - 场景图：发型佩戴效果 -->
+  <rect x="0" y="0" width="160" height="160" fill="#fef9f3"/>
+  <!-- 头发剪影 -->
+  <ellipse cx="80" cy="50" rx="35" ry="40" fill="#3d2f3b"/>
+  <ellipse cx="80" cy="90" rx="30" ry="35" fill="#3d2f3b"/>
+  <!-- 发夹佩戴效果 -->
+  <path d="M65 70 Q80 55 95 70" fill="none" stroke="#ffddc1" stroke-width="10" stroke-linecap="round"/>
+  <path d="M68 73 Q80 58 92 73" fill="none" stroke="#ffd4a8" stroke-width="7" stroke-linecap="round"/>
+  <!-- 发丝细节 -->
+  <path d="M50 60 Q55 55 60 65" fill="none" stroke="#3d2f3b" stroke-width="3"/>
+  <path d="M100 60 Q105 55 110 65" fill="none" stroke="#3d2f3b" stroke-width="3"/>
+</svg>

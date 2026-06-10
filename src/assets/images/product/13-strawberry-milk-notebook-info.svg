@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180" viewBox="0 0 240 180">
+  <!-- 草莓牛奶方格便签本 - 图文介绍图：内页纸张、A6尺寸、书写效果说明 -->
+  <rect x="0" y="0" width="240" height="180" fill="#fff5f8"/>
+  <text x="20" y="25" font-size="14" font-weight="bold" fill="#3d2f3b">内页纸张、A6尺寸、书写效果说明</text>
+  <!-- 便签本展示 -->
+  <rect x="40" y="50" width="55" height="70" fill="#fff5f8" stroke="#3d2f3b" stroke-width="2"/>
+  <circle cx="67" cy="65" r="8" fill="#ff6fa8" stroke="#3d2f3b" stroke-width="1.5"/>
+  <!-- 尺寸标注 -->
+  <line x1="40" y="45" x2="95" y2="45" stroke="#3d2f3b" stroke-width="1"/>
+  <text x="60" y="38" font-size="9" fill="#666">105mm</text>
+  <line x1="35" y="50" x2="35" y2="120" stroke="#3d2f3b" stroke-width="1"/>
+  <text x="18" y="80" font-size="9" fill="#666">148mm</text>
+  <!-- 规格说明 -->
+  <rect x="120" y="50" width="100" height="70" fill="#fff" stroke="#3d2f3b" stroke-width="2" rx="5"/>
+  <text x="130" y="67" font-size="10" fill="#666">A6 尺寸</text>
+  <text x="130" y="82" font-size="10" fill="#666">80 张内页</text>
+  <text x="130" y="97" font-size="10" fill="#666">70g 书写纸</text>
+  <text x="130" y="112" font-size="10" fill="#666">方格印刷</text>
+</svg>

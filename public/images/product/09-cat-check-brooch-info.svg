@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180" viewBox="0 0 240 180">
+  <!-- 猫咪格子胸针 - 图文介绍图：背针结构、安全扣和适配位置说明 -->
+  <rect x="0" y="0" width="240" height="180" fill="#fff5f8"/>
+  <text x="20" y="25" font-size="14" font-weight="bold" fill="#3d2f3b">背针结构、安全扣和适配位置说明</text>
+  <!-- 胸针背面结构 -->
+  <rect x="40" y="50" width="60" height="30" fill="#c0c0c0" stroke="#3d2f3b" stroke-width="2"/>
+  <line x1="70" y1="50" x2="70" y2="100" stroke="#c0c0c0" stroke-width="3"/>
+  <circle cx="70" cy="100" r="5" fill="#808080" stroke="#3d2f3b" stroke-width="1"/>
+  <rect x="60" y="85" width="20" height="12" fill="#c0c0c0" stroke="#3d2f3b" stroke-width="1"/>
+  <!-- 适配位置示意 -->
+  <rect x="130" y="40" width="80" height="80" fill="#fff" stroke="#3d2f3b" stroke-width="2"/>
+  <circle cx="170" cy="70" r="10" fill="#ff9fbd" stroke="#3d2f3b" stroke-width="1.5"/>
+  <text x="135" y="130" font-size="10" fill="#666">衣服、包包、帽子均可佩戴</text>
+</svg>

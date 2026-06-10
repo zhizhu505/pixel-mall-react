@@ -5,10 +5,14 @@ import SubscribableService from './subscribableService';
 
 const PRODUCT_KEY = 'pixelMall:products';
 const CATEGORY_KEY = 'pixelMall:categories';
+const CACHE_VERSION_KEY = 'pixelMall:cacheVersion';
+const CURRENT_CACHE_VERSION = '2';
 const DEFAULT_ON_SALE_STOCK = 60;
 const LOW_STOCK_WARNING_THRESHOLD = 5;
 const defaultProductCoverById = Object.fromEntries(defaultProducts.map((product) => [product.id, product.cover]));
 const defaultProductDetailById = Object.fromEntries(defaultProducts.map((product) => [product.id, {
+  images: product.images,
+  detailImage: product.detailImage,
   media: product.media,
   specGroups: product.specGroups,
   variants: product.variants,
@@ -414,13 +418,14 @@ class GoodService extends SubscribableService {
 
   _normalizeProduct(input) {
     const category = this.categories.find((item) => item.id === input.categoryId) || this.categories[0];
-    const images = normalizeImageList(input.images, input.cover || input.img || '/favicon.svg');
+    const defaultDetail = defaultProductDetailById[Number(input.id)] || {};
+    const sourceImages = Array.isArray(input.images) && input.images.length ? input.images : defaultDetail.images;
+    const images = normalizeImageList(sourceImages, input.cover || input.img || '/favicon.svg');
     const cover = normalizeText(input.cover || input.img || images[0] || '/favicon.svg');
     const legacyPrice = normalizeMoney(input.price);
     const nextCurrentPrice = normalizeMoney(input.currentPrice ?? legacyPrice);
     const nextOriginalPrice = Math.max(normalizeMoney(input.originalPrice ?? legacyPrice), nextCurrentPrice);
     const saleTag = normalizeText(input.saleTag);
-    const defaultDetail = defaultProductDetailById[Number(input.id)] || {};
     const qaItems = normalizePlainList(input.qaItems);
     const reviews = normalizePlainList(input.reviews);
     const normalizedProduct = {
@@ -436,6 +441,7 @@ class GoodService extends SubscribableService {
       cover,
       img: cover,
       images,
+      detailImage: input.detailImage || defaultDetail.detailImage,
       media: normalizeMediaList(input.media, images, cover),
       specGroups: normalizeSpecGroups(input.specGroups),
       variants: normalizeVariants(input.variants),
@@ -482,6 +488,15 @@ class GoodService extends SubscribableService {
   }
 
   _loadData() {
+    const storedVersion = localStorage.getItem(CACHE_VERSION_KEY);
+    const isCacheValid = storedVersion === CURRENT_CACHE_VERSION;
+    
+    if (!isCacheValid) {
+      localStorage.removeItem(PRODUCT_KEY);
+      localStorage.removeItem(CATEGORY_KEY);
+      localStorage.setItem(CACHE_VERSION_KEY, CURRENT_CACHE_VERSION);
+    }
+
     const hasCategoryStorage = hasStoredValue(CATEGORY_KEY);
     const hasProductStorage = hasStoredValue(PRODUCT_KEY);
 
@@ -510,11 +525,17 @@ class GoodService extends SubscribableService {
       const productId = Number(product.id);
       const defaultCover = defaultProductCoverById[productId];
       const defaultDetail = defaultProductDetailById[productId] || {};
+      const storedImages = Array.isArray(product.images) && product.images.length >= 3
+        ? product.images
+        : defaultDetail.images;
+      const storedDetailImage = product.detailImage || defaultDetail.detailImage;
       return this._normalizeProduct({
         description: '',
         status: 'on-sale',
         ...defaultDetail,
         ...product,
+        images: storedImages,
+        detailImage: storedDetailImage,
         cover: defaultCover || product.cover || product.img,
       });
     });

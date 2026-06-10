@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180" viewBox="0 0 240 180">
+  <!-- 粉兔像素相框 - 图文介绍图：支架/壁挂两用方式和照片尺寸说明 -->
+  <rect x="0" y="0" width="240" height="180" fill="#fff5f8"/>
+  <text x="20" y="25" font-size="14" font-weight="bold" fill="#3d2f3b">支架/壁挂两用方式和照片尺寸说明</text>
+  <!-- 相框正面 -->
+  <rect x="30" y="50" width="60" height="45" fill="#fff" stroke="#ff9fbd" stroke-width="4"/>
+  <rect x="36" y="56" width="48" height="33" fill="#e8f4f8" stroke="#3d2f3b" stroke-width="1"/>
+  <!-- 尺寸标注 -->
+  <line x1="30" y1="45" x2="90" y2="45" stroke="#3d2f3b" stroke-width="1"/>
+  <text x="55" y="38" font-size="9" fill="#666">60mm</text>
+  <line x1="25" y1="50" x2="25" y2="95" stroke="#3d2f3b" stroke-width="1"/>
+  <text x="8" y="70" font-size="9" fill="#666">45mm</text>
+  <!-- 使用方式 -->
+  <rect x="120" y="45" width="100" height="60" fill="#fff" stroke="#3d2f3b" stroke-width="2" rx="5"/>
+  <text x="130" y="62" font-size="10" fill="#666">桌面摆放</text>
+  <text x="130" y="77" font-size="10" fill="#666">墙面悬挂</text>
+  <text x="130" y="92" font-size="10" fill="#666">适配 3×4 寸照片</text>
+</svg>

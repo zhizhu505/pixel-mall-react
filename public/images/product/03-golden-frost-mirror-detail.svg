@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 金色糖霜小镜 - 细节图：打开镜面、折叠轴 -->
+  <rect x="30" y="30" width="100" height="100" fill="#fff" stroke="#ffd700" stroke-width="6" rx="8"/>
+  <!-- 镜面 -->
+  <rect x="40" y="40" width="80" height="80" fill="#e8f4f8" stroke="#3d2f3b" stroke-width="2"/>
+  <line x1="40" y1="40" x2="120" y2="120" stroke="#c0c0c0" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="120" y1="40" x2="40" y2="120" stroke="#c0c0c0" stroke-width="1" stroke-dasharray="2 2"/>
+  <!-- 金色边框细节 -->
+  <rect x="35" y="35" width="30" height="10" fill="#ffd700"/>
+  <rect x="95" y="35" width="30" height="10" fill="#ffd700"/>
+  <!-- 折叠轴 -->
+  <rect x="76" y="30" width="8" height="100" fill="#ffd700"/>
+  <circle cx="80" cy="80" r="4" fill="#3d2f3b"/>
+</svg>

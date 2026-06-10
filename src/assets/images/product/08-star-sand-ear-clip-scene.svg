@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 星沙像素耳夹套装 - 场景图：上耳佩戴效果 -->
+  <rect x="0" y="0" width="160" height="160" fill="#fffaf0"/>
+  <!-- 脸部轮廓 -->
+  <circle cx="80" cy="70" r="35" fill="#ffe4e1" stroke="#3d2f3b" stroke-width="2"/>
+  <!-- 耳朵 -->
+  <path d="M105 55 Q120 50 120 65 Q120 80 105 75 Z" fill="#ffe4e1" stroke="#3d2f3b" stroke-width="2"/>
+  <!-- 耳夹佩戴 -->
+  <path d="M108 60 L112 68 L106 68 Z" fill="#ffd700" stroke="#3d2f3b" stroke-width="1.5"/>
+  <circle cx="108" cy="78" r="6" fill="#fff" stroke="#ffd700" stroke-width="1.5"/>
+</svg>

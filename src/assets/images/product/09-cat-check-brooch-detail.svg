@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 猫咪格子胸针 - 细节图：珐琅、金属针扣 -->
+  <rect x="40" y="40" width="80" height="80" fill="#fff" stroke="#3d2f3b" stroke-width="2" rx="10"/>
+  <!-- 猫咪图案 -->
+  <circle cx="80" cy="60" r="18" fill="#ff9fbd" stroke="#3d2f3b" stroke-width="2"/>
+  <circle cx="72" cy="55" r="3" fill="#3d2f3b"/>
+  <circle cx="88" cy="55" r="3" fill="#3d2f3b"/>
+  <ellipse cx="80" cy="68" rx="4" ry="3" fill="#3d2f3b"/>
+  <line x1="65" y1="62" x2="55" y2="60" stroke="#3d2f3b" stroke-width="2"/>
+  <line x1="95" y1="60" x2="105" y2="62" stroke="#3d2f3b" stroke-width="2"/>
+  <!-- 金属针扣 -->
+  <rect x="65" y="90" width="30" height="15" fill="#c0c0c0" stroke="#3d2f3b" stroke-width="1"/>
+  <circle cx="70" cy="97" r="3" fill="#808080"/>
+</svg>

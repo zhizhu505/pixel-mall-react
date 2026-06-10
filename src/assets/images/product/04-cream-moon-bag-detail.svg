@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 奶油月亮手提包 - 细节图：月牙提手、金色锁扣 -->
+  <rect x="35" y="50" width="90" height="70" fill="#fff5e6" stroke="#3d2f3b" stroke-width="4"/>
+  <!-- 月牙提手 -->
+  <path d="M50 50 V20 Q50 5 80 5 Q110 5 110 20 V50" fill="none" stroke="#ffddc1" stroke-width="8"/>
+  <path d="M55 50 V22 Q55 8 80 8 Q105 8 105 22 V50" fill="#fff5e6"/>
+  <!-- 金色锁扣 -->
+  <circle cx="80" cy="65" r="10" fill="#ffd700" stroke="#3d2f3b" stroke-width="2"/>
+  <rect x="75" y="60" width="10" height="10" fill="#3d2f3b"/>
+  <!-- 内衬粉格纹 -->
+  <rect x="40" y="55" width="80" height="15" fill="#fff"/>
+  <line x1="40" y1="55" x2="120" y2="55" stroke="#ff9fbd" stroke-width="1"/>
+  <line x1="40" y1="62" x2="120" y2="62" stroke="#ff9fbd" stroke-width="1"/>
+  <line x1="40" y1="69" x2="120" y2="69" stroke="#ff9fbd" stroke-width="1"/>
+</svg>

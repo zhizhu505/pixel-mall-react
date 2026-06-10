@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 柠檬像素双肩包 - 场景图：通勤背书包/放电脑场景 -->
+  <rect x="0" y="110" width="160" height="50" fill="#f0f5e6"/>
+  <!-- 人物背影 -->
+  <circle cx="80" cy="40" r="12" fill="#ffe4e1" stroke="#3d2f3b" stroke-width="2"/>
+  <rect x="60" y="52" width="40" height="45" fill="#87ceeb" stroke="#3d2f3b" stroke-width="2"/>
+  <!-- 双肩包 -->
+  <rect x="55" y="65" width="50" height="45" fill="#fffacd" stroke="#3d2f3b" stroke-width="3"/>
+  <path d="M60 65 V35 M100 65 V35" stroke="#ffd700" stroke-width="5"/>
+  <ellipse cx="80" cy="80" rx="8" ry="6" fill="#fffacd" stroke="#3d2f3b" stroke-width="2"/>
+</svg>

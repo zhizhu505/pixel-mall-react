@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 星沙像素耳夹套装 - 细节图：弹簧夹扣、吊坠细节 -->
+  <rect x="30" y="30" width="100" height="100" fill="#fffaf0" stroke="#3d2f3b" stroke-width="2" rx="10"/>
+  <!-- 耳夹主体 -->
+  <path d="M60 50 L65 70 L55 70 Z" fill="#ffd700" stroke="#3d2f3b" stroke-width="2"/>
+  <rect x="58" y="70" width="6" height="15" fill="#ffd700" stroke="#3d2f3b" stroke-width="1"/>
+  <!-- 弹簧结构 -->
+  <circle cx="62" cy="75" r="4" fill="none" stroke="#3d2f3b" stroke-width="1.5"/>
+  <!-- 吊坠 -->
+  <circle cx="60" cy="95" r="8" fill="#fff" stroke="#ffd700" stroke-width="2"/>
+  <circle cx="60" cy="95" r="4" fill="#ffd700"/>
+  <!-- 第二只耳夹 -->
+  <path d="M90 55 L95 75 L85 75 Z" fill="#ffd700" stroke="#3d2f3b" stroke-width="2"/>
+  <rect x="88" y="75" width="6" height="15" fill="#ffd700" stroke="#3d2f3b" stroke-width="1"/>
+  <circle cx="90" cy="100" r="10" fill="#fff" stroke="#ffd700" stroke-width="2"/>
+</svg>

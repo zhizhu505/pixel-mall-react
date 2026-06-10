@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- 柠檬像素双肩包 - 细节图：背带、侧袋、容量分层 -->
+  <rect x="35" y="35" width="90" height="95" fill="#fffacd" stroke="#3d2f3b" stroke-width="4"/>
+  <!-- 背带 -->
+  <path d="M40 45 V25 Q30 15 35 10" fill="none" stroke="#ffd700" stroke-width="6"/>
+  <path d="M120 45 V25 Q130 15 125 10" fill="none" stroke="#ffd700" stroke-width="6"/>
+  <!-- 侧袋 -->
+  <rect x="25" y="70" width="12" height="30" fill="#fffacd" stroke="#3d2f3b" stroke-width="2"/>
+  <!-- 柠檬装饰 -->
+  <ellipse cx="80" cy="70" rx="15" ry="12" fill="#fffacd" stroke="#3d2f3b" stroke-width="2"/>
+  <circle cx="75" cy="68" r="3" fill="#3d2f3b"/>
+  <circle cx="85" cy="68" r="3" fill="#3d2f3b"/>
+  <path d="M80 82 L80 90" stroke="#3d2f3b" stroke-width="2"/>
+</svg>

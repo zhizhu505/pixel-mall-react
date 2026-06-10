@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="520" viewBox="0 0 400 520">
+  <rect x="10" y="10" width="380" height="500" fill="#fff5f7" stroke="#ff9fbd" stroke-width="3" rx="8"/>
+  <rect x="20" y="20" width="360" height="480" fill="#fff" stroke="#ffc8d4" stroke-width="2"/>
+  
+  <rect x="30" y="30" width="340" height="160" fill="#ffe8ec" stroke="#ff9fbd" stroke-width="2"/>
+  <text x="200" y="115" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#ff6b8a">🍓 草莓云朵像素包</text>
+  <text x="200" y="145" text-anchor="middle" font-family="Arial" font-size="14" fill="#999">Strawberry Cloud Pixel Bag</text>
+  
+  <rect x="30" y="200" width="340" height="80" fill="#fff8f9" stroke="#ff9fbd" stroke-width="1.5"/>
+  <text x="55" y="225" font-family="Arial" font-size="14" font-weight="bold" fill="#ff6b8a">【产品参数】</text>
+  <text x="55" y="250" font-family="Arial" font-size="12" fill="#666">材质：优质帆布 + 刺绣工艺</text>
+  <text x="55" y="270" font-family="Arial" font-size="12" fill="#666">尺寸：22cm × 18cm × 8cm</text>
+  <text x="220" y="250" font-family="Arial" font-size="12" fill="#666">肩带：可调节长度 80-130cm</text>
+  <text x="220" y="270" font-family="Arial" font-size="12" fill="#666">重量：约280g</text>
+  
+  <rect x="30" y="290" width="340" height="90" fill="#fff8f9" stroke="#ff9fbd" stroke-width="1.5"/>
+  <text x="55" y="315" font-family="Arial" font-size="14" font-weight="bold" fill="#ff6b8a">【设计亮点】</text>
+  <text x="55" y="340" font-family="Arial" font-size="12" fill="#666">★ 可爱草莓刺绣图案</text>
+  <text x="55" y="360" font-family="Arial" font-size="12" fill="#666">★ 云朵造型前袋设计</text>
+  <text x="55" y="380" font-family="Arial" font-size="12" fill="#666">★ 金属拉链头装饰</text>
+  
+  <rect x="30" y="390" width="340" height="80" fill="#fff8f9" stroke="#ff9fbd" stroke-width="1.5"/>
+  <text x="55" y="415" font-family="Arial" font-size="14" font-weight="bold" fill="#ff6b8a">【使用场景】</text>
+  <text x="55" y="440" font-family="Arial" font-size="12" fill="#666">日常通勤 / 校园穿搭 / 约会出游</text>
+  <text x="55" y="460" font-family="Arial" font-size="12" fill="#666">适合搭配休闲、甜美风格服饰</text>
+  
+  <rect x="50" y="480" width="300" height="25" fill="#ff9fbd" rx="12"/>
+  <text x="200" y="498" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#fff">✨ Pixel Mall 品质保证 ✨</text>
+</svg>

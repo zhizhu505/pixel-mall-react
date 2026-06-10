@@ -348,10 +348,17 @@ const DetailPage = () => {
     <main className="pm-page pm-detail-page">
       <nav className="pm-detail-top-nav" aria-label="商品详情导航">
         <button className="pm-icon-btn pm-detail-nav-btn" type="button" aria-label="返回上一页" onClick={() => navigate(-1)}>
-          ←
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 4L5 9L10 14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M5 9H15" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+          </svg>
         </button>
         <button className="pm-icon-btn pm-detail-nav-btn" type="button" aria-label="分享商品" onClick={handleShare}>
-          ↗
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 9V15C3 15.5523 3.44772 16 4 16H14C14.5523 16 15 15.5523 15 15V9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 5L9 2L6 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M9 2V11" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
         </button>
       </nav>
 
@@ -364,11 +371,6 @@ const DetailPage = () => {
                 {heroTags.map((tag) => <span key={tag}>{tag}</span>)}
               </div>
             ) : null}
-          </div>
-          <div className="pm-detail-media-strip" aria-label="商品图片数量">
-            {productImages.slice(0, 9).map((image, index) => (
-              <span className="pm-detail-media-chip" key={`${image}-${index}`}>图 {index + 1}</span>
-            ))}
           </div>
         </div>
 
@@ -526,6 +528,16 @@ const DetailPage = () => {
             ))}
           </div>
         </article>
+
+        {product?.detailImage ? (
+          <article className="pm-detail-section-card pm-detail-info-card">
+            <p className="pm-section-eyebrow">Info</p>
+            <h2>图文介绍</h2>
+            <div className="pm-detail-info-image">
+              <img src={product.detailImage} alt={`${product.name} 图文介绍`} />
+            </div>
+          </article>
+        ) : null}
 
         <article className="pm-detail-section-card">
           <p className="pm-section-eyebrow">Notice</p>
