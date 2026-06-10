@@ -109,6 +109,10 @@ const CartPage = () => {
       <section className="pm-cart-list">
         {items.map((item) => {
           const priceInfo = getProductPriceInfo(item.product || item.goodSnapshot);
+          const currentPrice = Number(item.variant?.price ?? priceInfo.currentPrice) || 0;
+          const originalPrice = Number(item.variant?.originalPrice ?? priceInfo.originalPrice) || currentPrice;
+          const hasDiscount = originalPrice > currentPrice;
+          const discountLabel = priceInfo.saleTag || (hasDiscount ? '折扣优惠' : '');
 
           return (
             <article className="pm-cart-item" key={item.id}>
@@ -131,34 +135,37 @@ const CartPage = () => {
               <div className="pm-cart-info">
                 <h3 className="pm-cart-title">{item.product?.name || '商品已失效'}</h3>
                 <p className="pm-cart-spec">
-                  {item.isAvailable ? item.product?.categoryName || '像素好物' : '已下架或售罄'}
+                  {item.isAvailable ? item.specText || item.product?.categoryName || '像素好物' : '已下架或售罄'}
                 </p>
-                <div>
+                <div className="pm-cart-price-row">
                   <strong className="pm-cart-price pm-price">
-                    {item.isAvailable ? formatPrice(priceInfo.currentPrice) : '--'}
+                    {item.isAvailable ? formatPrice(currentPrice) : '--'}
                   </strong>
-                  {item.isAvailable && priceInfo.hasDiscount ? <span className="pm-old-price">{formatPrice(priceInfo.originalPrice)}</span> : null}
-                  {item.isAvailable && priceInfo.saleTag ? <span className="pm-tag pm-tag-sale">{priceInfo.saleTag}</span> : null}
+                  {item.isAvailable && hasDiscount ? <span className="pm-old-price">{formatPrice(originalPrice)}</span> : null}
                 </div>
-                <div className="pm-quantity pm-quantity-compact">
-                  <button
-                    type="button"
-                    className="pm-quantity-btn"
-                    aria-label="减少数量"
-                    onClick={() => handleDecrease(item)}
-                  >
-                    -
-                  </button>
-                  <span className="pm-quantity-value">{item.count}</span>
-                  <button
-                    type="button"
-                    className="pm-quantity-btn"
-                    aria-label="增加数量"
-                    disabled={!item.isAvailable}
-                    onClick={() => handleIncrease(item)}
-                  >
-                    +
-                  </button>
+                {item.isAvailable && discountLabel ? <span className="pm-cart-discount-name">{discountLabel}</span> : null}
+                <div className="pm-cart-quantity-row">
+                  <span className="pm-cart-quantity-label">数量 x{item.count}</span>
+                  <div className="pm-quantity pm-quantity-compact">
+                    <button
+                      type="button"
+                      className="pm-quantity-btn"
+                      aria-label="减少数量"
+                      onClick={() => handleDecrease(item)}
+                    >
+                      -
+                    </button>
+                    <span className="pm-quantity-value">{item.count}</span>
+                    <button
+                      type="button"
+                      className="pm-quantity-btn"
+                      aria-label="增加数量"
+                      disabled={!item.isAvailable}
+                      onClick={() => handleIncrease(item)}
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
               </div>
               <button

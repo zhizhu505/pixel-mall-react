@@ -9,6 +9,23 @@ import { formatPrice, getProductPriceInfo, getProductTone } from '../utils/produ
 import { readSelectedAddressId } from '../utils/orderAddress';
 import { collectErrors, validatePhone, validateRequired } from '../utils/validation';
 
+const readPendingOrderState = (goodId) => {
+  try {
+    const rawValue = window.sessionStorage.getItem(`pm-pending-order-${goodId}`);
+    return rawValue ? JSON.parse(rawValue) : null;
+  } catch {
+    return null;
+  }
+};
+
+const clearPendingOrderState = (goodId) => {
+  try {
+    window.sessionStorage.removeItem(`pm-pending-order-${goodId}`);
+  } catch {
+    return;
+  }
+};
+
 const CreateOrderPage = () => {
   'use no memo';
 
@@ -21,6 +38,7 @@ const CreateOrderPage = () => {
   const parsedGoodId = Number(goodId);
   const product = good.getGoodById(parsedGoodId);
   const returnPath = `/createOrder/${goodId}`;
+  const pendingOrderState = location.state?.selectedSpecs ? location.state : readPendingOrderState(goodId) || {};
 
   const defaultAddr = address.getDefaultAddress(currentUser.id);
   const [quantity, setQuantity] = useState(1);
@@ -58,8 +76,20 @@ const CreateOrderPage = () => {
     );
   }
 
+  const selectedSpecsState = pendingOrderState.selectedSpecs && typeof pendingOrderState.selectedSpecs === 'object' ? pendingOrderState.selectedSpecs : {};
+  const variantIdState = pendingOrderState.variantId || '';
+  const selectedVariant = product.variants?.find((variant) => variant.id === variantIdState) || null;
   const priceInfo = getProductPriceInfo(product);
-  const lineTotal = priceInfo.currentPrice * quantity;
+  const unitPrice = Number(selectedVariant?.price ?? priceInfo.currentPrice) || 0;
+  const lineTotal = unitPrice * quantity;
+  const maxStock = Number(selectedVariant?.stock ?? product.stock) || 0;
+  const selectedSpecText = pendingOrderState.specText || product.specGroups
+    ?.map((group) => {
+      const option = group.options?.find((item) => item.id === selectedSpecsState[group.id]);
+      return option?.label || '';
+    })
+    .filter(Boolean)
+    .join(' / ') || '';
 
   const handleSubmit = async () => {
     if (!shippingAddress) {
@@ -88,9 +118,14 @@ const CreateOrderPage = () => {
     const created = await api.orders.create(
       currentUser.id,
       product.id,
-      priceInfo.currentPrice,
+      unitPrice,
       quantity,
       payload,
+      {
+        selectedSpecs: selectedSpecsState,
+        variantId: selectedVariant?.id || variantIdState,
+        specText: selectedSpecText,
+      },
     );
 
     if (!created) {
@@ -99,6 +134,7 @@ const CreateOrderPage = () => {
       return;
     }
 
+    clearPendingOrderState(goodId);
     navigate(`/pay/${created.id}`);
   };
 
@@ -123,10 +159,11 @@ const CreateOrderPage = () => {
         <div className="pm-create-order-product-body">
           <h2 className="pm-create-order-product-name">{product.name}</h2>
           <p className="pm-create-order-product-meta">
-            <span className="pm-price">{formatPrice(priceInfo.currentPrice)}</span>
-            {priceInfo.hasDiscount ? <span className="pm-old-price">{formatPrice(priceInfo.originalPrice)}</span> : null}
+            <span className="pm-price">{formatPrice(unitPrice)}</span>
+            {priceInfo.hasDiscount ? <span className="pm-old-price">{formatPrice(selectedVariant?.originalPrice ?? priceInfo.originalPrice)}</span> : null}
             {priceInfo.saleTag ? <span className="pm-tag pm-tag-sale">{priceInfo.saleTag}</span> : null}
-            <span className="pm-create-order-stock">库存 {product.stock}</span>
+            {selectedSpecText ? <span className="pm-tag pm-tag-info">{selectedSpecText}</span> : null}
+            <span className="pm-create-order-stock">库存 {maxStock}</span>
           </p>
           <div className="pm-quantity pm-quantity-compact">
             <button
@@ -142,8 +179,8 @@ const CreateOrderPage = () => {
               type="button"
               className="pm-quantity-btn"
               aria-label="增加数量"
-              disabled={quantity >= product.stock}
-              onClick={() => setQuantity((value) => Math.min(product.stock, value + 1))}
+              disabled={quantity >= maxStock}
+              onClick={() => setQuantity((value) => Math.min(maxStock, value + 1))}
             >
               +
             </button>

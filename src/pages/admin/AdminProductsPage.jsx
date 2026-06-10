@@ -11,6 +11,35 @@ import { useServiceSnapshot } from '../../hooks/useServices';
 import { usePagination } from '../../hooks/usePagination';
 import { formatPrice, getProductPriceInfo } from '../../utils/productDisplay';
 
+const DEFAULT_CAROUSEL_IMAGES_TEXT = ['/favicon.svg', '/favicon.svg'].join('\n');
+
+const formatJsonText = (value) => JSON.stringify(value ?? null, null, 2);
+
+const parseJsonText = (value, fallback, label) => {
+  const text = String(value || '').trim();
+  if (!text) return fallback;
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error(`${label} 必须是有效 JSON。`);
+  }
+};
+
+const formatImagesText = (images = [], cover = '/favicon.svg') => (
+  (images.length ? images : [cover, '/favicon.svg'])
+    .filter(Boolean)
+    .join('\n')
+);
+
+const parseImagesText = (imagesText, cover) => {
+  const images = String(imagesText || '')
+    .split(/\r?\n/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  return images.length ? images : [cover || '/favicon.svg', '/favicon.svg'];
+};
+
 const createInitialForm = (categories) => ({
   id: null,
   name: '',
@@ -20,6 +49,15 @@ const createInitialForm = (categories) => ({
   categoryId: categories[0]?.id || '',
   stock: 0,
   cover: '/favicon.svg',
+  imagesText: DEFAULT_CAROUSEL_IMAGES_TEXT,
+  mediaText: '[]',
+  specGroupsText: '[]',
+  variantsText: '[]',
+  servicesText: '[]',
+  promotionInfoText: '{\n  "shipping": "",\n  "tags": [],\n  "coupons": []\n}',
+  detailSectionsText: '[]',
+  qaItemsText: '[]',
+  shopBadgesText: '[]',
   description: '',
   status: 'on-sale',
 });
@@ -92,8 +130,31 @@ const AdminProductsPage = () => {
       return;
     }
 
+    const images = parseImagesText(form.imagesText, form.cover);
+    const cover = form.cover.trim() || images[0] || '/favicon.svg';
+    let detailPayload;
+
+    try {
+      detailPayload = {
+        media: parseJsonText(form.mediaText, [], '媒体配置'),
+        specGroups: parseJsonText(form.specGroupsText, [], '规格组配置'),
+        variants: parseJsonText(form.variantsText, [], 'SKU 配置'),
+        services: parseJsonText(form.servicesText, [], '服务保障配置'),
+        promotionInfo: parseJsonText(form.promotionInfoText, {}, '优惠配置'),
+        detailSections: parseJsonText(form.detailSectionsText, [], '详情模块配置'),
+        qaItems: parseJsonText(form.qaItemsText, [], '问大家配置'),
+        shopBadges: parseJsonText(form.shopBadgesText, [], '店铺标签配置'),
+      };
+    } catch (error) {
+      setMessage(error.message);
+      return;
+    }
+
     const payload = {
       ...form,
+      ...detailPayload,
+      cover,
+      images,
       originalPrice: canEditDiscount ? originalPrice : currentPrice,
       currentPrice,
       price: currentPrice,
@@ -135,6 +196,15 @@ const AdminProductsPage = () => {
       categoryId: product.categoryId,
       stock: product.stock,
       cover: product.cover,
+      imagesText: formatImagesText(product.images, product.cover),
+      mediaText: formatJsonText(product.media || []),
+      specGroupsText: formatJsonText(product.specGroups || []),
+      variantsText: formatJsonText(product.variants || []),
+      servicesText: formatJsonText(product.services || []),
+      promotionInfoText: formatJsonText(product.promotionInfo || {}),
+      detailSectionsText: formatJsonText(product.detailSections || []),
+      qaItemsText: formatJsonText(product.qaItems || []),
+      shopBadgesText: formatJsonText(product.shopBadges || []),
       description: product.description,
       status: product.status,
     });
@@ -237,6 +307,7 @@ const AdminProductsPage = () => {
                   <th>分类</th>
                   <th>价格</th>
                   <th>库存</th>
+                  <th>销量</th>
                   <th>状态</th>
                   <th>更新时间</th>
                   <th>操作</th>
@@ -261,6 +332,7 @@ const AdminProductsPage = () => {
                         </div>
                       </td>
                       <td>{product.stock}</td>
+                      <td>{Number(product.sales) || 0}</td>
                       <td>
                         <StatusTag value={product.status}>
                           {product.status === 'on-sale' ? '上架中' : product.status === 'off-sale' ? '已下架' : '已删除'}
@@ -361,6 +433,10 @@ const AdminProductsPage = () => {
                 <p>{viewingProduct.stock}</p>
               </div>
               <div>
+                <p className="pm-label">销量</p>
+                <p>{Number(viewingProduct.sales) || 0}</p>
+              </div>
+              <div>
                 <p className="pm-label">状态</p>
                 <StatusTag value={viewingProduct.status}>{viewingProduct.status === 'on-sale' ? '上架中' : viewingProduct.status === 'off-sale' ? '已下架' : '已删除'}</StatusTag>
               </div>
@@ -388,8 +464,34 @@ const AdminProductsPage = () => {
               <img src={viewingProduct.cover} alt={viewingProduct.name} />
             </div>
             <div>
+              <p className="pm-label">轮播图片</p>
+              <p className="pm-admin-detail-copy">{formatImagesText(viewingProduct.images, viewingProduct.cover)}</p>
+            </div>
+            <div>
               <p className="pm-label">商品描述</p>
               <p className="pm-admin-detail-copy">{viewingProduct.description}</p>
+            </div>
+            <div className="pm-admin-detail-grid">
+              <div>
+                <p className="pm-label">规格组</p>
+                <p>{viewingProduct.specGroups?.length || 0} 组</p>
+              </div>
+              <div>
+                <p className="pm-label">SKU 库存</p>
+                <p>{viewingProduct.variants?.length || 0} 个组合</p>
+              </div>
+              <div>
+                <p className="pm-label">服务保障</p>
+                <p>{viewingProduct.services?.length || 0} 项</p>
+              </div>
+              <div>
+                <p className="pm-label">详情模块</p>
+                <p>{viewingProduct.detailSections?.length || 0} 个</p>
+              </div>
+              <div>
+                <p className="pm-label">问大家</p>
+                <p>{viewingProduct.qaItems?.length || 0} 条</p>
+              </div>
             </div>
           </div>
         ) : null}

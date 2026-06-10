@@ -1,5 +1,5 @@
 import { defaultCategories, defaultProducts, defaultShops } from '../mock/data';
-import { buildProductSnapshot, getProductPriceInfo } from '../utils/productDisplay';
+import { buildProductSnapshot, getProductPriceInfo, resolveProductImageList } from '../utils/productDisplay';
 import { cloneValue, loadFromStorage, saveToStorage } from '../utils/storage';
 import SubscribableService from './subscribableService';
 
@@ -8,6 +8,17 @@ const CATEGORY_KEY = 'pixelMall:categories';
 const DEFAULT_ON_SALE_STOCK = 60;
 const LOW_STOCK_WARNING_THRESHOLD = 5;
 const defaultProductCoverById = Object.fromEntries(defaultProducts.map((product) => [product.id, product.cover]));
+const defaultProductDetailById = Object.fromEntries(defaultProducts.map((product) => [product.id, {
+  media: product.media,
+  specGroups: product.specGroups,
+  variants: product.variants,
+  services: product.services,
+  promotionInfo: product.promotionInfo,
+  detailSections: product.detailSections,
+  qaItems: product.qaItems,
+  reviews: product.reviews,
+  shopBadges: product.shopBadges,
+}]));
 const shopIdByProductId = Object.fromEntries(
   defaultShops.flatMap((shop) => shop.productIds.map((productId) => [productId, shop.id])),
 );
@@ -24,6 +35,13 @@ const normalizeStock = (value, status) => {
   }
   return status === 'on-sale' ? DEFAULT_ON_SALE_STOCK : 0;
 };
+const normalizeSales = (value, productId) => {
+  const sales = Number(value);
+  if (Number.isFinite(sales) && sales >= 0) {
+    return Math.floor(sales);
+  }
+  return 120 + (Number(productId) || 0) * 17;
+};
 const hasCategoryId = (category) => Boolean(normalizeText(category?.id));
 const normalizeCategory = (input, fallbackSort = 1) => ({
   id: normalizeText(input.id),
@@ -33,6 +51,58 @@ const normalizeCategory = (input, fallbackSort = 1) => ({
 });
 
 const hasStoredValue = (key) => typeof window !== 'undefined' && window.localStorage.getItem(key) !== null;
+const normalizeImageList = (images, cover) => resolveProductImageList(images, cover).slice(0, 8);
+const normalizePlainList = (items) => (Array.isArray(items) ? items.map((item) => cloneValue(item)).filter(Boolean) : []);
+const normalizeMediaList = (media, images, cover) => {
+  const source = Array.isArray(media) && media.length
+    ? media
+    : normalizeImageList(images, cover).map((src) => ({ type: 'image', src }));
+
+  return source.map((item, index) => {
+    const type = item.type === 'video' ? 'video' : 'image';
+    return {
+      ...cloneValue(item),
+      type,
+      src: type === 'image' ? normalizeText(item.src || item.cover || cover) : normalizeText(item.src || ''),
+      cover: normalizeText(item.cover || item.src || cover),
+      title: normalizeText(item.title) || (type === 'video' ? '商品短视频' : `商品图片 ${index + 1}`),
+      duration: normalizeText(item.duration),
+    };
+  });
+};
+const normalizeSpecGroups = (groups) => normalizePlainList(groups)
+  .map((group) => ({
+    id: normalizeText(group.id),
+    name: normalizeText(group.name),
+    options: normalizePlainList(group.options)
+      .map((option) => ({ id: normalizeText(option.id), label: normalizeText(option.label || option.name) }))
+      .filter((option) => option.id && option.label),
+  }))
+  .filter((group) => group.id && group.name && group.options.length);
+const normalizeVariants = (variants) => normalizePlainList(variants)
+  .map((variant) => ({
+    ...variant,
+    id: normalizeText(variant.id),
+    specs: variant.specs && typeof variant.specs === 'object' ? cloneValue(variant.specs) : {},
+    stock: normalizeStock(variant.stock, 'on-sale'),
+    price: variant.price === undefined ? undefined : normalizeMoney(variant.price),
+    originalPrice: variant.originalPrice === undefined ? undefined : normalizeMoney(variant.originalPrice),
+    delivery: normalizeText(variant.delivery),
+  }))
+  .filter((variant) => variant.id);
+const normalizeServices = (services) => normalizePlainList(services)
+  .map((service) => ({
+    key: normalizeText(service.key || service.label),
+    label: normalizeText(service.label),
+    summary: normalizeText(service.summary),
+    detail: normalizeText(service.detail),
+  }))
+  .filter((service) => service.key && service.label);
+const normalizePromotionInfo = (input) => ({
+  shipping: normalizeText(input?.shipping),
+  tags: normalizePlainList(input?.tags).map(normalizeText).filter(Boolean),
+  coupons: normalizePlainList(input?.coupons).map(normalizeText).filter(Boolean),
+});
 
 class GoodService extends SubscribableService {
   products = [];
@@ -344,11 +414,15 @@ class GoodService extends SubscribableService {
 
   _normalizeProduct(input) {
     const category = this.categories.find((item) => item.id === input.categoryId) || this.categories[0];
-    const cover = normalizeText(input.cover || input.img || '/favicon.svg');
+    const images = normalizeImageList(input.images, input.cover || input.img || '/favicon.svg');
+    const cover = normalizeText(input.cover || input.img || images[0] || '/favicon.svg');
     const legacyPrice = normalizeMoney(input.price);
     const nextCurrentPrice = normalizeMoney(input.currentPrice ?? legacyPrice);
     const nextOriginalPrice = Math.max(normalizeMoney(input.originalPrice ?? legacyPrice), nextCurrentPrice);
     const saleTag = normalizeText(input.saleTag);
+    const defaultDetail = defaultProductDetailById[Number(input.id)] || {};
+    const qaItems = normalizePlainList(input.qaItems);
+    const reviews = normalizePlainList(input.reviews);
     const normalizedProduct = {
       id: Number(input.id),
       name: normalizeText(input.name),
@@ -358,12 +432,23 @@ class GoodService extends SubscribableService {
       saleTag,
       categoryId: input.categoryId || category?.id || '',
       categoryName: category?.name || '',
-      shopId: input.shopId || shopIdByProductId[Number(input.id)] || '',
+      shopId: normalizeText(input.shopId) || shopIdByProductId[Number(input.id)] || '',
       cover,
       img: cover,
+      images,
+      media: normalizeMediaList(input.media, images, cover),
+      specGroups: normalizeSpecGroups(input.specGroups),
+      variants: normalizeVariants(input.variants),
+      services: normalizeServices(input.services),
+      promotionInfo: normalizePromotionInfo(input.promotionInfo),
+      detailSections: normalizePlainList(input.detailSections),
+      qaItems: qaItems.length ? qaItems : normalizePlainList(defaultDetail.qaItems),
+      reviews: reviews.length ? reviews : normalizePlainList(defaultDetail.reviews),
+      shopBadges: normalizePlainList(input.shopBadges).map(normalizeText).filter(Boolean),
       description: normalizeText(input.description),
       status: input.status || 'off-sale',
       stock: normalizeStock(input.stock, input.status || 'off-sale'),
+      sales: normalizeSales(input.sales, input.id),
       createdAt: input.createdAt || new Date().toLocaleString(),
       updatedAt: input.updatedAt || new Date().toLocaleString(),
     };
@@ -387,11 +472,20 @@ class GoodService extends SubscribableService {
     saveToStorage(CATEGORY_KEY, this.categories);
   }
 
+  _normalizeShop(input) {
+    const cover = normalizeText(input.cover || '/favicon.svg');
+    return {
+      ...cloneValue(input),
+      cover,
+      images: normalizeImageList(input.images, cover),
+    };
+  }
+
   _loadData() {
     const hasCategoryStorage = hasStoredValue(CATEGORY_KEY);
     const hasProductStorage = hasStoredValue(PRODUCT_KEY);
 
-    this.shops = defaultShops.map((shop) => cloneValue(shop));
+    this.shops = defaultShops.map((shop) => this._normalizeShop(shop));
 
     const legacyCategories = hasCategoryStorage ? [] : loadFromStorage([CATEGORY_KEY], defaultCategories);
     const categorySource = hasCategoryStorage
@@ -413,10 +507,13 @@ class GoodService extends SubscribableService {
         : defaultProducts;
 
     this.products = productSource.map((product) => {
-      const defaultCover = defaultProductCoverById[Number(product.id)];
+      const productId = Number(product.id);
+      const defaultCover = defaultProductCoverById[productId];
+      const defaultDetail = defaultProductDetailById[productId] || {};
       return this._normalizeProduct({
         description: '',
         status: 'on-sale',
+        ...defaultDetail,
         ...product,
         cover: defaultCover || product.cover || product.img,
       });

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import EmptyState from '../components/common/EmptyState';
@@ -8,6 +8,8 @@ const ChatPage = () => {
   const { messageId } = useParams();
   const navigate = useNavigate();
   const { message, user } = useServices();
+  const [draft, setDraft] = useState('');
+  const threadEndRef = useRef(null);
   const currentUser = useServiceSnapshot(user, (service) => service.getCurrentUser());
   const selectedMessage = useServiceSnapshot(message, (service) => (
     currentUser && messageId ? service.getMessageById(currentUser.id, messageId) : null
@@ -23,6 +25,22 @@ const ChatPage = () => {
       message.markAsRead(currentUser.id, messageId);
     }
   }, [currentUser, message, messageId]);
+
+  useEffect(() => {
+    threadEndRef.current?.scrollIntoView({ block: 'end' });
+  }, [thread.length]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!currentUser || !selectedMessage) {
+      return;
+    }
+
+    const result = message.sendChatMessage(currentUser.id, selectedMessage.id, draft);
+    if (result.success) {
+      setDraft('');
+    }
+  };
 
   if (!selectedMessage) {
     return (
@@ -54,8 +72,18 @@ const ChatPage = () => {
                 <small>{item.createdAt}</small>
               </div>
             ))}
+            <span ref={threadEndRef} aria-hidden />
           </div>
-          <div className="pm-chat-compose-placeholder">展示聊天记录中，如需继续咨询请稍后接入在线客服。</div>
+          <form className="pm-chat-compose" onSubmit={handleSubmit}>
+            <textarea
+              value={draft}
+              rows="2"
+              maxLength="120"
+              placeholder="输入想咨询的问题"
+              onChange={(event) => setDraft(event.target.value)}
+            />
+            <button className="pm-btn pm-btn-primary" type="submit" disabled={!draft.trim()}>发送</button>
+          </form>
         </section>
       ) : (
         <article className="pm-message-detail pm-message-detail-page">

@@ -9,6 +9,8 @@ import {
   CreateOrderPage,
   DetailPage,
   FavoritesPage,
+  ProductReviewsPage,
+  ProductQaPage,
   FeaturedShopsPage,
   FootprintsPage,
   HomePage,
@@ -33,6 +35,8 @@ export const h5Routes = [
   { path: 'login', Component: LoginPage },
   { path: 'activity/:slug', Component: ActivityPage },
   { path: 'detail/:goodId', Component: DetailPage },
+  { path: 'detail/:goodId/reviews', Component: ProductReviewsPage },
+  { path: 'detail/:goodId/qa', Component: ProductQaPage },
   { path: 'featured-shops', Component: FeaturedShopsPage },
   { path: 'shop/:shopId', Component: ShopPage },
   {

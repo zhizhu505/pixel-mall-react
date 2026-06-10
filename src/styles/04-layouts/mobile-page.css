@@ -698,7 +698,7 @@
 }
 
 .pm-h5-shell .pm-home-product-meta > span:first-child,
-.pm-h5-shell .pm-product-stock,
+.pm-h5-shell .pm-product-sales,
 .pm-h5-shell .pm-product-cart-badge {
   padding: 2px 4px;
   font-size: 9px;
@@ -889,7 +889,7 @@
   font-size: 11px;
 }
 
-.pm-h5-shell .pm-category-product-card .pm-product-stock {
+.pm-h5-shell .pm-category-product-card .pm-product-sales {
   min-height: 18px;
   padding: 2px 4px;
   font-size: 9px;

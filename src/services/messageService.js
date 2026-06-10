@@ -9,14 +9,17 @@ const defaultMessages = [
     userId: 1,
     type: 'chat',
     title: '像素客服',
-    content: '欢迎来到 Pixel Mall，有任何商品搭配问题都可以随时咨询我们。',
-    createdAt: '2026/06/09 09:30',
+    content: '会员日礼盒可以帮你预留，今天 18:00 前下单会一起打包。',
+    createdAt: '2026/06/09 10:12',
     read: false,
     participants: ['我', '像素客服'],
     thread: [
       { id: 'msg-chat-1-a', sender: '像素客服', content: '欢迎来到 Pixel Mall，有任何商品搭配问题都可以随时咨询我们。', createdAt: '09:30' },
       { id: 'msg-chat-1-b', sender: '我', content: '想了解近期活动和礼盒搭配。', createdAt: '09:36' },
       { id: 'msg-chat-1-c', sender: '像素客服', content: '可以看看会员日限定礼盒，包包和发夹组合更划算。', createdAt: '09:38' },
+      { id: 'msg-chat-1-d', sender: '我', content: '礼盒里能换成浅色系吗？送朋友，希望看起来温柔一点。', createdAt: '10:05' },
+      { id: 'msg-chat-1-e', sender: '像素客服', content: '可以的，建议选草莓云朵像素包搭配奶油色发夹，我们会用粉白外盒和小卡一起包装。', createdAt: '10:08' },
+      { id: 'msg-chat-1-f', sender: '像素客服', content: '会员日礼盒可以帮你预留，今天 18:00 前下单会一起打包。', createdAt: '10:12' },
     ],
   },
   {
@@ -41,10 +44,23 @@ const defaultMessages = [
   },
 ];
 
-const mergeMessageDefaults = (message) => ({
-  ...defaultMessages.find((item) => item.id === message.id),
-  ...message,
-});
+const mergeMessageDefaults = (message) => {
+  const defaultMessage = defaultMessages.find((item) => item.id === message.id);
+  const merged = {
+    ...defaultMessage,
+    ...message,
+  };
+
+  if (defaultMessage?.thread?.length && Array.isArray(message.thread)) {
+    const storedThreadIds = new Set(message.thread.map((item) => item.id));
+    merged.thread = [
+      ...message.thread,
+      ...defaultMessage.thread.filter((item) => !storedThreadIds.has(item.id)),
+    ];
+  }
+
+  return merged;
+};
 
 const mergeDefaultMessages = (storedMessages) => {
   const storedList = Array.isArray(storedMessages) ? storedMessages : [];
@@ -52,6 +68,33 @@ const mergeDefaultMessages = (storedMessages) => {
   const missingDefaults = defaultMessages.filter((message) => !storedIds.has(message.id));
 
   return [...missingDefaults, ...storedList].map(mergeMessageDefaults);
+};
+
+const getChatTime = () => new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+
+const getChatDateTime = () => new Date().toLocaleString('zh-CN', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+});
+
+const getAutoReply = (content, message) => {
+  const text = content.toLowerCase();
+  if (text.includes('发货') || text.includes('多久') || text.includes('物流')) {
+    return '现货商品通常 24 小时内打包发出，节日礼盒会多做一层防压包装。';
+  }
+  if (text.includes('优惠') || text.includes('活动') || text.includes('券')) {
+    return '当前可叠加会员日优惠，结算页会自动展示可用券和满减。';
+  }
+  if (text.includes('颜色') || text.includes('尺寸') || text.includes('材质')) {
+    return '这款实物偏柔和像素色，详情页参数是准的，也可以按你的搭配需求帮你推荐。';
+  }
+  if (message?.productName) {
+    return `收到，关于「${message.productName}」我会按现货、搭配和发货情况帮你确认。`;
+  }
+  return '收到，我先帮你记录需求，稍后会按商品、优惠和发货情况一起确认。';
 };
 
 class MessageService extends SubscribableService {
@@ -111,6 +154,26 @@ class MessageService extends SubscribableService {
     this.list.unshift(chat);
     this._saveData();
     return cloneValue(chat);
+  }
+
+  sendChatMessage(userId, messageId, content) {
+    const trimmedContent = String(content ?? '').trim();
+    const message = this.list.find((item) => item.userId === Number(userId) && item.id === messageId && item.type === 'chat');
+    if (!message || !trimmedContent) {
+      return { success: false, message: '请输入要发送的内容' };
+    }
+
+    const now = getChatTime();
+    const baseId = `${messageId}-${Date.now()}`;
+    const userMessage = { id: `${baseId}-user`, sender: '我', content: trimmedContent, createdAt: now };
+    const reply = { id: `${baseId}-reply`, sender: message.title || '商家客服', content: getAutoReply(trimmedContent, message), createdAt: now };
+    message.thread = [...(Array.isArray(message.thread) ? message.thread : []), userMessage, reply];
+    message.content = reply.content;
+    message.createdAt = getChatDateTime();
+    message.read = true;
+    this.list = [message, ...this.list.filter((item) => item !== message)];
+    this._saveData();
+    return { success: true, message: cloneValue(message) };
   }
 
   markAsRead(userId, messageId) {

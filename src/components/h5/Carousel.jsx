@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { getProductTone } from '../../utils/productDisplay';
 
-const Carousel = ({ items, intervalMs = 2500, className = '' }) => {
+const Carousel = ({ items, intervalMs = 5000, className = '' }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {

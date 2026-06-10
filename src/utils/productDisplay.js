@@ -23,11 +23,12 @@ export const getProductTone = (productId) => {
   return PRODUCT_TONES[parsedId % PRODUCT_TONES.length];
 };
 
-export const getProductPriceInfo = (product = {}) => {
-  const currentPrice = normalizePriceValue(product.currentPrice ?? product.price);
-  const originalCandidate = normalizePriceValue(product.originalPrice);
+export const getProductPriceInfo = (product) => {
+  const source = product ?? {};
+  const currentPrice = normalizePriceValue(source.currentPrice ?? source.price);
+  const originalCandidate = normalizePriceValue(source.originalPrice);
   const originalPrice = originalCandidate >= currentPrice ? originalCandidate : currentPrice;
-  const saleTag = String(product.saleTag ?? '').trim();
+  const saleTag = String(source.saleTag ?? '').trim();
 
   return {
     price: currentPrice,
@@ -64,13 +65,25 @@ export const resolveProductImageSrc = (cover) => {
   return productImageByName[filename] ? `/images/product/${filename}` : source;
 };
 
-export const isLowStockProduct = (product = {}) => {
-  const stock = Number(product.stock);
-  return product.status === 'on-sale' && stock > 0 && stock < 5;
+export const resolveProductImageList = (images, cover, fallback = '/favicon.svg') => {
+  const sourceImages = Array.isArray(images) ? images : images ? [images] : [];
+  const resolvedImages = [...sourceImages, cover]
+    .map(resolveProductImageSrc)
+    .filter(Boolean);
+  const uniqueImages = Array.from(new Set(resolvedImages));
+
+  return uniqueImages.length ? uniqueImages : [resolveProductImageSrc(fallback)].filter(Boolean);
+};
+
+export const isLowStockProduct = (product) => {
+  const source = product ?? {};
+  const stock = Number(source.stock);
+  return source.status === 'on-sale' && stock > 0 && stock < 5;
 };
 
 export const buildProductSnapshot = (product = {}) => {
   const priceInfo = getProductPriceInfo(product);
+  const cover = String(product.cover ?? product.img ?? '').trim();
 
   return {
     id: Number(product.id) || 0,
@@ -79,9 +92,11 @@ export const buildProductSnapshot = (product = {}) => {
     originalPrice: priceInfo.originalPrice,
     currentPrice: priceInfo.currentPrice,
     saleTag: priceInfo.saleTag,
-    cover: String(product.cover ?? product.img ?? '').trim(),
+    cover,
+    images: resolveProductImageList(product.images, cover),
     categoryName: String(product.categoryName ?? '').trim(),
     status: String(product.status ?? '').trim(),
+    sales: Number(product.sales) || 0,
   };
 };
 

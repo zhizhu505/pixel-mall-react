@@ -174,6 +174,93 @@
   transition: transform 150ms steps(3, end), filter 150ms ease;
 }
 
+.pm-image-carousel {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--pm-color-surface) 38%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--pm-color-surface) 38%, transparent) 1px, transparent 1px),
+    var(--pm-color-bg-soft);
+  background-size: 14px 14px, 14px 14px, auto;
+}
+
+.pm-image-carousel > img,
+.pm-image-carousel > .pm-pixel-product {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.pm-image-carousel > .pm-pixel-product {
+  min-height: 100%;
+  border: 0;
+}
+
+.pm-image-carousel-nav,
+.pm-image-carousel-dot {
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  cursor: pointer;
+}
+
+.pm-image-carousel-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  color: var(--pm-color-primary-deep);
+  font-size: var(--pm-text-lg);
+  font-weight: var(--pm-weight-black);
+  line-height: 1;
+  background: color-mix(in srgb, var(--pm-color-surface) 88%, transparent);
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent);
+  transform: translateY(-50%);
+}
+
+.pm-image-carousel-prev {
+  left: var(--pm-space-2);
+}
+
+.pm-image-carousel-next {
+  right: var(--pm-space-2);
+}
+
+.pm-image-carousel-dots {
+  position: absolute;
+  left: 50%;
+  bottom: var(--pm-space-2);
+  z-index: 2;
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  padding: 4px 6px;
+  background: color-mix(in srgb, var(--pm-color-surface) 82%, transparent);
+  border: var(--pm-border-width-thin) solid color-mix(in srgb, var(--pm-color-line) 72%, transparent);
+  transform: translateX(-50%);
+}
+
+.pm-image-carousel-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  background: var(--pm-color-surface);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-line) 18%, transparent);
+}
+
+.pm-image-carousel-dot.is-active {
+  background: var(--pm-color-accent);
+}
+
+
 /* 商品卡标签：默认贴在图片左上角。 */
 .pm-product-card > .pm-tag {
   position: absolute;
@@ -199,7 +286,7 @@
   line-height: var(--pm-line-card);
 }
 
-.pm-product-stock {
+.pm-product-sales {
   display: inline-flex;
   width: max-content;
   padding: 3px 7px;
@@ -209,7 +296,7 @@
   border: 1px solid color-mix(in srgb, var(--pm-color-line) 22%, transparent);
 }
 
-.pm-product-stock.is-low {
+.pm-product-sales.is-low {
   color: var(--pm-color-primary-deep);
   font-weight: var(--pm-weight-black);
   background: color-mix(in srgb, var(--pm-color-accent) 58%, white);

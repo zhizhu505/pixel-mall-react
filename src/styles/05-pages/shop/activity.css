@@ -12,38 +12,14 @@
   grid-template-columns: minmax(0, 1.08fr) minmax(210px, 0.72fr);
   gap: var(--pm-space-3);
   align-items: center;
-  min-height: 260px;
+  min-height: 252px;
   padding: var(--pm-space-3);
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), color-mix(in srgb, var(--pm-color-primary-soft) 38%, white));
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--pm-color-accent) 22%, transparent) 0 7px, transparent 7px),
+    linear-gradient(135deg, var(--pm-color-surface), color-mix(in srgb, var(--pm-color-primary-soft) 24%, var(--pm-color-surface)));
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
-  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent);
-}
-
-.pm-activity-hero::before,
-.pm-activity-hero::after {
-  position: absolute;
-  z-index: 0;
-  content: "";
-  border: var(--pm-border-width-thin) solid var(--pm-color-line);
-  animation: pm-activity-pixel-drift 1800ms steps(4, end) infinite alternate;
-}
-
-.pm-activity-hero::before {
-  top: 12px;
-  right: 18px;
-  width: 14px;
-  height: 14px;
-  background: var(--pm-color-accent);
-}
-
-.pm-activity-hero::after {
-  bottom: 18px;
-  left: 42%;
-  width: 10px;
-  height: 10px;
-  background: var(--pm-white);
-  animation-delay: 220ms;
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-line) 12%, transparent);
 }
 
 .pm-activity-copy {
@@ -64,12 +40,20 @@
 .pm-activity-copy h1 {
   margin: 0;
   font-family: var(--pm-font-title);
-  font-size: clamp(24px, 5vw, 42px);
+  font-size: clamp(24px, 4vw, 36px);
   line-height: var(--pm-line-tight);
+  overflow-wrap: anywhere;
 }
 
 .pm-activity-copy p {
   margin: 0;
+}
+
+.pm-activity-subtitle {
+  color: var(--pm-color-text);
+  font-size: var(--pm-text-base);
+  font-weight: var(--pm-weight-black);
+  line-height: var(--pm-line-card);
 }
 
 .pm-activity-desc {
@@ -84,14 +68,13 @@
   overflow: hidden;
   background: var(--pm-color-bg-soft);
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
-  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-line) 12%, transparent);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-line) 10%, transparent);
 }
 
 .pm-activity-media img {
   display: block;
   width: 100%;
   image-rendering: pixelated;
-  animation: pm-activity-cover-bob 1600ms steps(4, end) infinite alternate;
 }
 
 .pm-activity-section {
@@ -111,11 +94,11 @@
 }
 
 .pm-activity-highlight {
-  min-height: 58px;
+  min-height: 50px;
   padding: var(--pm-space-2) var(--pm-space-3);
   background: var(--pm-color-surface);
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
-  box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-accent) 24%, transparent);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-accent) 16%, transparent);
   font-size: var(--pm-text-sm);
   line-height: var(--pm-line-card);
   transition: transform 120ms steps(2, end), box-shadow 120ms ease;
@@ -123,27 +106,7 @@
 
 .pm-activity-highlight:hover {
   transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-accent) 28%, transparent);
-}
-
-@keyframes pm-activity-cover-bob {
-  from {
-    transform: translateY(0);
-  }
-
-  to {
-    transform: translateY(-4px);
-  }
-}
-
-@keyframes pm-activity-pixel-drift {
-  from {
-    transform: translate(0, 0);
-  }
-
-  to {
-    transform: translate(6px, -4px);
-  }
+  box-shadow: 1px 1px 0 color-mix(in srgb, var(--pm-color-accent) 20%, transparent);
 }
 
 .pm-h5-shell .pm-activity-page {
@@ -156,11 +119,11 @@
 }
 
 .pm-h5-shell .pm-activity-hero {
-  grid-template-columns: minmax(0, 1fr) minmax(108px, 0.52fr);
+  grid-template-columns: 1fr;
   gap: var(--pm-space-2);
-  min-height: 178px;
+  min-height: auto;
   padding: var(--pm-space-2);
-  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-line) 12%, transparent);
 }
 
 .pm-h5-shell .pm-activity-copy {
@@ -168,35 +131,34 @@
 }
 
 .pm-h5-shell .pm-activity-copy h1 {
-  font-size: clamp(20px, 8vw, 30px);
+  font-size: 24px;
 }
 
+.pm-h5-shell .pm-activity-subtitle,
 .pm-h5-shell .pm-activity-desc {
   font-size: var(--pm-text-xs);
 }
 
+.pm-h5-shell .pm-activity-media {
+  aspect-ratio: 16 / 9;
+}
+
 .pm-h5-shell .pm-activity-media img {
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .pm-h5-shell .pm-activity-highlight-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: var(--pm-space-2);
 }
 
 .pm-h5-shell .pm-activity-highlight {
-  min-height: 74px;
+  min-height: auto;
   padding: var(--pm-space-2);
   font-size: var(--pm-text-xs);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pm-activity-hero::before,
-  .pm-activity-hero::after,
-  .pm-activity-media img {
-    animation: none;
-  }
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-accent) 12%, transparent);
 }
 
 @media (max-width: 760px) {

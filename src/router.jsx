@@ -6,6 +6,7 @@ import AdminShell from './components/admin/AdminShell';
 import { RequireAdminAuth, RequirePermission } from './components/admin/PermissionGate';
 import { h5Routes } from './router/h5Routes';
 import AdminCategoriesPage from './pages/admin/AdminCategoriesPage';
+import AdminAnalyticsPage from './pages/admin/AdminAnalyticsPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminOrdersPage from './pages/admin/AdminOrdersPage';
@@ -38,6 +39,14 @@ const router = createBrowserRouter([
             element: (
               <RequirePermission permission="dashboard:view">
                 <AdminDashboardPage />
+              </RequirePermission>
+            ),
+          },
+          {
+            path: 'analytics',
+            element: (
+              <RequirePermission permission="analytics:view">
+                <AdminAnalyticsPage />
               </RequirePermission>
             ),
           },

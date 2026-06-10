@@ -1,6 +1,17 @@
 import Button from './Button';
 
-const Modal = ({ open, title, children, onClose, onConfirm, confirmText = '确认', cancelText = '取消' }) => {
+const Modal = ({
+  open,
+  title,
+  children,
+  onClose,
+  onConfirm,
+  confirmText = '确认',
+  cancelText = '取消',
+  confirmDisabled = false,
+  confirmClassName = '',
+  confirmVariant = 'danger',
+}) => {
   if (!open) {
     return null;
   }
@@ -20,7 +31,11 @@ const Modal = ({ open, title, children, onClose, onConfirm, confirmText = '确�
         {showActions ? (
           <div className="pm-modal-actions">
             {cancelText ? <Button type="button" variant="ghost" onClick={onClose}>{cancelText}</Button> : null}
-            {confirmText ? <Button type="button" variant="danger" onClick={onConfirm}>{confirmText}</Button> : null}
+            {confirmText ? (
+              <Button type="button" variant={confirmVariant} className={confirmClassName} disabled={confirmDisabled} onClick={onConfirm}>
+                {confirmText}
+              </Button>
+            ) : null}
           </div>
         ) : null}
       </div>

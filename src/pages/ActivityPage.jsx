@@ -27,7 +27,7 @@ const ActivityPage = () => {
         <div className="pm-activity-copy">
           <p className="pm-activity-kicker">Pixel Mall 活动</p>
           <h1>{activity.title}</h1>
-          <p>{activity.subtitle}</p>
+          <p className="pm-activity-subtitle">{activity.subtitle}</p>
           <p className="pm-activity-desc">{activity.description}</p>
           {activity.cta ? <Link className="pm-btn pm-btn-primary" to={activity.cta.to}>{activity.cta.label}</Link> : null}
         </div>

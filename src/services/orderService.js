@@ -7,6 +7,14 @@ import { cloneValue, loadFromStorage, saveToStorage } from '../utils/storage';
 import SubscribableService from './subscribableService';
 
 const ORDER_KEY = 'pixelMall:orders';
+const defaultReviewsByGoodId = defaultOrders.flatMap((order) => order.reviews || []).reduce((map, review) => {
+  const goodId = Number(review.goodId);
+  if (!map.has(goodId)) {
+    map.set(goodId, []);
+  }
+  map.get(goodId).push(review);
+  return map;
+}, new Map());
 
 const RETURN_STATUS_TEXT = {
   pending: '待审核',
@@ -32,25 +40,31 @@ class OrderService extends SubscribableService {
     this._loadData();
   }
 
-  createOrder(userId, goodId, price, quantity = 1, address) {
+  createOrder(userId, goodId, price, quantity = 1, address, options = {}) {
     const product = goodService.getGoodById(goodId);
     const user = userService.getUserById(userId) || userService.getCurrentUser();
     const parsedQuantity = Math.max(1, Number(quantity) || 1);
+    const variant = product?.variants?.find((entry) => entry.id === options.variantId) || null;
+    const availableStock = Number(variant?.stock ?? product?.stock ?? 0) || 0;
 
-    if (!product || product.status !== 'on-sale' || product.stock < parsedQuantity) {
+    if (!product || product.status !== 'on-sale' || availableStock < parsedQuantity) {
       return null;
     }
 
     const priceInfo = getProductPriceInfo(product);
-    const unitPrice = priceInfo.currentPrice || Number(price) || 0;
+    const unitPrice = Number(variant?.price ?? (priceInfo.currentPrice || price)) || 0;
+    const originalPrice = Number(variant?.originalPrice ?? priceInfo.originalPrice) || unitPrice;
     const linePrice = unitPrice * parsedQuantity;
     const itemSnapshot = {
       goodId: product.id,
       quantity: parsedQuantity,
       price: unitPrice,
-      originalPrice: priceInfo.originalPrice,
-      currentPrice: priceInfo.currentPrice,
+      originalPrice,
+      currentPrice: unitPrice,
       saleTag: priceInfo.saleTag,
+      selectedSpecs: options.selectedSpecs || {},
+      variantId: variant?.id || options.variantId || '',
+      specText: options.specText || '',
       goodSnapshot: buildProductSnapshot(product),
     };
 
@@ -66,7 +80,12 @@ class OrderService extends SubscribableService {
     });
 
     this.list.unshift(order);
-    goodService.updateGood({ ...product, stock: product.stock - parsedQuantity });
+    const nextVariants = variant
+      ? product.variants.map((entry) => (
+        entry.id === variant.id ? { ...entry, stock: Math.max(0, Number(entry.stock) - parsedQuantity) } : entry
+      ))
+      : product.variants;
+    goodService.updateGood({ ...product, stock: product.stock - parsedQuantity, variants: nextVariants });
     this._saveData();
     this.notify();
     return cloneValue(order);
@@ -82,13 +101,18 @@ class OrderService extends SubscribableService {
     const user = userService.getUserById(userId) || userService.getCurrentUser();
     const items = validation.items.map((cartItem) => {
       const priceInfo = getProductPriceInfo(cartItem.product);
+      const unitPrice = Number(cartItem.variant?.price ?? priceInfo.currentPrice) || 0;
+      const originalPrice = Number(cartItem.variant?.originalPrice ?? priceInfo.originalPrice) || unitPrice;
       return {
         goodId: cartItem.goodId,
         quantity: cartItem.count,
-        price: priceInfo.currentPrice,
-        originalPrice: priceInfo.originalPrice,
-        currentPrice: priceInfo.currentPrice,
+        price: unitPrice,
+        originalPrice,
+        currentPrice: unitPrice,
         saleTag: priceInfo.saleTag,
+        selectedSpecs: cartItem.selectedSpecs || {},
+        variantId: cartItem.variant?.id || cartItem.variantId || '',
+        specText: cartItem.specText || '',
         goodSnapshot: buildProductSnapshot(cartItem.product),
       };
     });
@@ -108,7 +132,12 @@ class OrderService extends SubscribableService {
     items.forEach((item) => {
       const product = goodService.getGoodById(item.goodId);
       if (product) {
-        goodService.updateGood({ ...product, stock: product.stock - item.quantity });
+        const nextVariants = item.variantId
+          ? product.variants.map((entry) => (
+            entry.id === item.variantId ? { ...entry, stock: Math.max(0, Number(entry.stock) - item.quantity) } : entry
+          ))
+          : product.variants;
+        goodService.updateGood({ ...product, stock: product.stock - item.quantity, variants: nextVariants });
       }
     });
 
@@ -136,6 +165,13 @@ class OrderService extends SubscribableService {
       );
     }
 
+    (order.items || []).forEach((item) => {
+      const product = goodService.getGoodById(item.goodId);
+      if (product) {
+        goodService.updateGood({ ...product, sales: (Number(product.sales) || 0) + (Number(item.quantity) || 1) });
+      }
+    });
+
     this._saveData();
     this.notify();
     return { success: true };
@@ -152,7 +188,13 @@ class OrderService extends SubscribableService {
       (order.items || []).forEach((item) => {
         const product = goodService.getGoodById(item.goodId);
         if (product) {
-          goodService.updateGood({ ...product, stock: product.stock + (Number(item.quantity) || 1) });
+          const quantity = Number(item.quantity) || 1;
+          const nextVariants = item.variantId
+            ? product.variants.map((entry) => (
+              entry.id === item.variantId ? { ...entry, stock: Number(entry.stock) + quantity } : entry
+            ))
+            : product.variants;
+          goodService.updateGood({ ...product, stock: product.stock + quantity, variants: nextVariants });
         }
       });
       order.stockReleased = true;
@@ -564,6 +606,20 @@ class OrderService extends SubscribableService {
     return order ? cloneValue(order) : null;
   }
 
+  getProductReviews(goodId) {
+    const parsedGoodId = Number(goodId);
+    return this.list
+      .flatMap((order) => (order.reviews || []).map((review) => ({
+        ...review,
+        orderId: order.id,
+        orderNo: order.orderNo,
+        userSnapshot: cloneValue(order.userSnapshot),
+      })))
+      .filter((review) => Number(review.goodId) === parsedGoodId && review.status === 'published')
+      .sort((left, right) => String(right.createdAt).localeCompare(String(left.createdAt)))
+      .map((review) => cloneValue(review));
+  }
+
   getReturnRequests(filters = {}) {
     const { status = 'all' } = filters;
 
@@ -719,9 +775,19 @@ class OrderService extends SubscribableService {
         ? input.logistics
         : [{ time: input.createTime || new Date().toLocaleString(), text: '订单已创建，等待后续处理。' }],
       stockReleased: Boolean(input.stockReleased),
-      reviews: this._normalizeReviews(input.reviews, input),
+      reviews: this._normalizeReviews(this._mergeDefaultReviews(input), input),
       returns: this._normalizeReturns(input.returns, input),
     };
+  }
+
+  _mergeDefaultReviews(order) {
+    const reviews = Array.isArray(order.reviews) ? order.reviews : [];
+    const reviewIds = new Set(reviews.map((review) => review.id));
+    const defaultReviews = defaultReviewsByGoodId.get(Number(order.goodId)) || [];
+    return [
+      ...reviews,
+      ...defaultReviews.filter((review) => !reviewIds.has(review.id)),
+    ];
   }
 
   _normalizeReviews(reviews, order) {
@@ -736,6 +802,19 @@ class OrderService extends SubscribableService {
       content: String(review.content || ''),
       createdAt: review.createdAt || order.createTime || new Date().toLocaleString(),
       status: review.status || 'published',
+      nickname: String(review.nickname || order.userSnapshot?.nickname || '匿名买家'),
+      avatar: String(review.avatar || order.userSnapshot?.nickname?.slice(0, 1) || '买'),
+      specText: String(review.specText || ''),
+      media: Array.isArray(review.media) ? review.media.map((item) => ({ ...item })) : [],
+      followUp: review.followUp && typeof review.followUp === 'object'
+        ? {
+          createdAt: review.followUp.createdAt || review.createdAt || order.createTime || '',
+          content: String(review.followUp.content || ''),
+        }
+        : null,
+      tags: Array.isArray(review.tags) ? review.tags.map((tag) => String(tag)).filter(Boolean) : [],
+      isNegative: Boolean(review.isNegative) || Number(review.rating) <= 2,
+      helpfulCount: Number(review.helpfulCount) || 0,
       adminReply: review.adminReply || '',
       repliedAt: review.repliedAt || '',
     }));

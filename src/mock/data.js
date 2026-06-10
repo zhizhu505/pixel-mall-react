@@ -19,6 +19,86 @@ const productImages = {
   15: '/images/product/15-cream-season-gift-box.svg',
 };
 
+const productGalleryImages = {
+  1: [productImages[1], productImages[4], productImages[5]],
+  2: [productImages[2], productImages[7]],
+  3: [productImages[3]],
+  4: [productImages[4], productImages[1], productImages[6], productImages[15]],
+  5: [productImages[5], productImages[1], productImages[8]],
+  6: [productImages[6], productImages[14]],
+  7: [productImages[7], productImages[2], productImages[9], productImages[13]],
+  8: [productImages[8], productImages[7]],
+  9: [productImages[9]],
+  10: [productImages[10], productImages[12], productImages[11]],
+  11: [productImages[11], productImages[10]],
+  12: [productImages[12], productImages[10], productImages[3]],
+  13: [productImages[13], productImages[14]],
+  14: [productImages[14], productImages[13], productImages[7]],
+  15: [productImages[15], productImages[2], productImages[14], productImages[13]],
+};
+
+const reviewNicknames = ['奶油收藏家', '认真挑礼物', '通勤小包控', '桌面布置员', '像素甜品师', '周末出逃人'];
+const reviewAvatars = ['奶', '礼', '通', '桌', '甜', '周'];
+const reviewAngles = [
+  { rating: 5, tag: '买家秀', content: '实物颜色比页面看起来更柔和，包装也很完整，打开的时候没有异味。' },
+  { rating: 4, tag: '追评', content: '用了几天以后感觉细节挺稳，日常搭配不突兀，送人也拿得出手。' },
+  { rating: 5, tag: '好评', content: '尺寸和描述基本一致，像素图案很清楚，客服回复速度也比较快。' },
+];
+
+const buildDefaultQaItems = (item) => [
+  {
+    question: `${item.name}适合日常使用吗？`,
+    answer: `适合，${item.categoryName || '这款商品'}的尺寸和重量都偏日常，通勤、出门或送礼都比较好安排。`,
+    count: 10 + Number(item.id),
+    source: '已购买用户',
+  },
+  {
+    question: `${item.name}会有明显色差吗？`,
+    answer: '不同屏幕会有轻微差异，实际颜色以柔和奶油像素风为主，发货前会做基础质检。',
+    count: 7 + (Number(item.id) % 5) * 3,
+    source: '官方客服',
+  },
+  {
+    question: `${item.name}可以作为礼物吗？`,
+    answer: '可以，默认会做基础防护包装，备注送礼时客服会优先检查外包装完整度。',
+    count: 6 + (Number(item.id) % 4) * 4,
+    source: '已购买用户',
+  },
+];
+
+const buildDefaultReviews = (item) => reviewAngles.map((angle, index) => ({
+  id: `default-review-${item.id}-${index + 1}`,
+  goodId: item.id,
+  rating: angle.rating,
+  content: `${item.name}${angle.content}`,
+  createdAt: `2026-06-${String(6 + ((Number(item.id) + index) % 4)).padStart(2, '0')} ${10 + index}:2${index}:00`,
+  status: 'published',
+  nickname: reviewNicknames[(Number(item.id) + index) % reviewNicknames.length],
+  avatar: reviewAvatars[(Number(item.id) + index) % reviewAvatars.length],
+  specText: item.categoryName || '默认规格',
+  media: index === 0 ? [{ type: 'image', src: item.cover, title: `${item.name}实拍` }] : [],
+  followUp: index === 1 ? { createdAt: '2026-06-10 19:20:00', content: '追评一下，连续用下来没有发现明显松动或掉色。' } : null,
+  tags: [angle.tag],
+  helpfulCount: 12 + Number(item.id) * 2 + index * 5,
+  adminReply: index === 2 ? '感谢反馈，后续也会继续优化包装和质检。' : '',
+  repliedAt: index === 2 ? '2026-06-10 09:30:00' : '',
+}));
+
+const withProductGalleryImages = (items) => items.map((item) => {
+  const images = productGalleryImages[item.id] || [item.cover].filter(Boolean);
+  return {
+    ...item,
+    images,
+    qaItems: [...(Array.isArray(item.qaItems) ? item.qaItems : []), ...buildDefaultQaItems(item)].slice(0, 4),
+    reviews: [...(Array.isArray(item.reviews) ? item.reviews : []), ...buildDefaultReviews(item)].slice(0, 4),
+  };
+});
+
+const withShopGalleryImages = (items) => items.map((item) => ({
+  ...item,
+  images: item.productIds?.map((productId) => productImages[productId]).filter(Boolean) || [item.cover].filter(Boolean),
+}));
+
 export const defaultCategories = [
   { id: 'cat-bag',       name: '像素包包', description: '适合日常搭配的像素包袋，每款均有专属像素绣片。', sort: 1 },
   { id: 'cat-accessory', name: '发夹饰品', description: '奶油色系发夹、耳夹与胸针小饰品。',              sort: 2 },
@@ -27,7 +107,7 @@ export const defaultCategories = [
   { id: 'cat-gift',      name: '限定礼盒', description: '节日限量组合礼盒，粉白缎带包装，开盒惊喜。',   sort: 5 },
 ];
 
-export const defaultProducts = [
+export const defaultProducts = withProductGalleryImages([
   /* ── 像素包包 ─────────────────────────────────────────── */
   {
     id: 1,
@@ -42,6 +122,45 @@ export const defaultProducts = [
     description: '柔和粉色的像素包，前袋绣有云朵 + 草莓像素图案，轻量帆布材质，日常通勤首选。',
     stock: 66,
     status: 'on-sale',
+    media: [
+      { type: 'image', src: productImages[1], title: '草莓云朵正面' },
+      { type: 'image', src: productImages[4], title: '同系列奶油包型参考' },
+      { type: 'image', src: productImages[5], title: '粉色穿搭场景' },
+    ],
+    specGroups: [
+      { id: 'color', name: '颜色', options: [{ id: 'strawberry', label: '草莓粉' }, { id: 'cream', label: '奶油白' }, { id: 'rose', label: '玫瑰格' }] },
+      { id: 'size', name: '尺寸', options: [{ id: 'mini', label: '迷你款' }, { id: 'daily', label: '日常款' }] },
+      { id: 'package', name: '套餐', options: [{ id: 'basic', label: '单包' }, { id: 'gift', label: '礼盒装' }] },
+      { id: 'presale', name: '发货', options: [{ id: 'spot', label: '现货' }, { id: 'presale', label: '预售 7 天' }] },
+    ],
+    variants: [
+      { id: 'strawberry-daily-basic-spot', specs: { color: 'strawberry', size: 'daily', package: 'basic', presale: 'spot' }, stock: 12, price: 109, originalPrice: 129, delivery: '48 小时内发货' },
+      { id: 'strawberry-daily-gift-spot', specs: { color: 'strawberry', size: 'daily', package: 'gift', presale: 'spot' }, stock: 5, price: 129, originalPrice: 149, delivery: '48 小时内发货' },
+      { id: 'cream-mini-basic-spot', specs: { color: 'cream', size: 'mini', package: 'basic', presale: 'spot' }, stock: 3, price: 99, originalPrice: 119, delivery: '库存较少，拍下优先发出' },
+      { id: 'rose-daily-gift-presale', specs: { color: 'rose', size: 'daily', package: 'gift', presale: 'presale' }, stock: 18, price: 119, originalPrice: 139, delivery: '预售款预计 7 天内发货' },
+    ],
+    services: [
+      { key: 'authentic', label: '正品保障', summary: '店铺承诺官方质检', detail: '商品出库前完成材质、缝线和五金检查，支持凭订单申请售后核验。' },
+      { key: 'freight', label: '运费险', summary: '退换无忧', detail: '符合退换条件的订单可享运费险服务，具体赔付以平台规则为准。' },
+      { key: 'return7', label: '7天无理由退换', summary: '未使用可退换', detail: '商品吊牌、包装和赠品完整，签收 7 天内可申请无理由退换。' },
+      { key: 'repair', label: '五金维护', summary: '扣件免费检修', detail: '签收 30 天内如出现扣件松动，可联系商家安排一次免费检修。' },
+    ],
+    promotionInfo: {
+      shipping: '江浙沪包邮，偏远地区按实际运费补差。',
+      tags: ['限时直降', '收藏降价提醒', '会员满减'],
+      coupons: ['店铺满 129 减 10', '满 199 减 20', '会员积分抵 5 元'],
+    },
+    detailSections: [
+      { title: '商品参数', items: [['材质', '轻量帆布 + 合金扣件'], ['尺寸', '约 24 × 18 × 9cm'], ['肩带', '可调节 92-118cm'], ['重量', '约 410g']] },
+      { title: '使用场景', content: '适合通勤、约会和周末出行，可容纳短款钱包、口红、纸巾、手机和钥匙。' },
+      { title: '养护建议', content: '建议使用软布局部擦拭，避免长时间暴晒和水洗，五金件保持干燥。' },
+    ],
+    qaItems: [
+      { question: '可以放下 6.7 寸手机吗？', answer: '可以，日常款可放下大屏手机和短款钱包。', count: 18, source: '已购买用户' },
+      { question: '肩带可以拆卸吗？', answer: '肩带可拆卸也可调节长度，手提和斜挎都可以。', count: 12, source: '官方客服' },
+      { question: '礼盒装包含什么？', answer: '礼盒装包含防尘袋、同色像素挂件和祝福卡。', count: 9, source: '官方客服' },
+    ],
+    shopBadges: ['金牌包袋店', '描述高于同行 12%', '48小时发货'],
     createdAt: seedTime,
     updatedAt: seedTime,
   },
@@ -238,12 +357,49 @@ export const defaultProducts = [
     description: '杏仁奶油发夹 × 像素印章套装 × 草莓牛奶便签本三件组合，粉白天地盖礼盒 + 缎带，节日限量。',
     stock: 58,
     status: 'on-sale',
+    media: [
+      { type: 'image', src: productImages[15], title: '季节礼盒全套' },
+      { type: 'image', src: productImages[2], title: '杏仁奶油发夹' },
+      { type: 'image', src: productImages[14], title: '像素印章套装' },
+      { type: 'image', src: productImages[13], title: '草莓牛奶便签本' },
+    ],
+    specGroups: [
+      { id: 'version', name: '版本', options: [{ id: 'standard', label: '标准礼盒' }, { id: 'deluxe', label: '豪华礼盒' }] },
+      { id: 'wrap', name: '包装', options: [{ id: 'cream', label: '奶油缎带' }, { id: 'berry', label: '莓果缎带' }] },
+      { id: 'delivery', name: '发货批次', options: [{ id: 'spot', label: '现货' }, { id: 'presale', label: '预售 10 天' }] },
+    ],
+    variants: [
+      { id: 'standard-cream-spot', specs: { version: 'standard', wrap: 'cream', delivery: 'spot' }, stock: 9, price: 298, originalPrice: 328, delivery: '现货 48 小时内发出' },
+      { id: 'standard-berry-spot', specs: { version: 'standard', wrap: 'berry', delivery: 'spot' }, stock: 6, price: 298, originalPrice: 328, delivery: '现货 48 小时内发出' },
+      { id: 'deluxe-cream-presale', specs: { version: 'deluxe', wrap: 'cream', delivery: 'presale' }, stock: 24, price: 358, originalPrice: 398, delivery: '预售款预计 10 天内发货' },
+    ],
+    services: [
+      { key: 'authentic', label: '正品保障', summary: '官方礼盒配置', detail: '礼盒内商品均来自 Pixel Mall 店铺正品库存，出库前核对套装清单。' },
+      { key: 'freight', label: '运费险', summary: '签收更安心', detail: '支持符合规则的退换运费保障，礼盒外包装破损可联系客服处理。' },
+      { key: 'return7', label: '7天无理由退换', summary: '未拆封可退换', detail: '礼盒塑封、吊牌和赠品完整时，签收 7 天内支持无理由退换。' },
+      { key: 'gift-card', label: '代写贺卡', summary: '免费附赠', detail: '下单备注祝福语，商家可免费代写 40 字以内礼物卡。' },
+    ],
+    promotionInfo: {
+      shipping: '礼盒商品默认包邮，节日前夕会按批次顺序发货。',
+      tags: ['节日限定', '赠礼优选', '套装优惠'],
+      coupons: ['礼盒满 299 减 30', '会员双倍积分'],
+    },
+    detailSections: [
+      { title: '礼盒清单', items: [['杏仁奶油发夹', '1 件'], ['像素印章套装', '6 枚 + 双色印台'], ['草莓牛奶便签本', 'A6 / 100 张'], ['礼物卡', '1 张']] },
+      { title: '包装说明', content: '粉白天地盖礼盒搭配可替换缎带，内衬缓冲纸丝，适合直接作为生日或节日礼物。' },
+      { title: '适用场景', content: '适合朋友礼物、办公桌小惊喜、节日交换礼物，也可拆分自用。' },
+    ],
+    qaItems: [
+      { question: '能指定贺卡内容吗？', answer: '可以，在订单备注里写下 40 字以内祝福语即可。', count: 26, source: '官方客服' },
+      { question: '豪华版多了什么？', answer: '豪华版额外包含像素挂件和香氛贴纸，包装也会升级。', count: 14, source: '已购买用户' },
+    ],
+    shopBadges: ['节日礼盒优选', '包装高评分', '支持代写贺卡'],
     createdAt: seedTime,
     updatedAt: seedTime,
   },
-];
+]);
 
-export const defaultShops = [
+export const defaultShops = withShopGalleryImages([
   {
     id: 'shop-pixel-bag',
     name: '云朵像素包袋店',
@@ -274,7 +430,7 @@ export const defaultShops = [
     productIds: [10, 11, 12, 13, 14, 15],
     featured: true,
   },
-];
+]);
 
 export const defaultUsers = [
   {
@@ -310,6 +466,7 @@ export const defaultAdmins = [
 
 export const adminMenuCatalog = [
   { key: 'dashboard', label: '后台首页', permission: 'dashboard:view' },
+  { key: 'analytics', label: '分析中心', permission: 'analytics:view' },
   { key: 'products', label: '商品管理', permission: 'products:view' },
   { key: 'categories', label: '分类管理', permission: 'categories:view' },
   { key: 'orders', label: '订单管理', permission: 'orders:view' },
@@ -318,6 +475,7 @@ export const adminMenuCatalog = [
 
 export const adminPermissionCatalog = [
   { key: 'dashboard:view', label: '查看后台首页', group: 'dashboard' },
+  { key: 'analytics:view', label: '查看分析中心', group: 'analytics' },
   { key: 'products:view', label: '查看商品管理', group: 'products' },
   { key: 'products:manage', label: '管理商品', group: 'products' },
   { key: 'products:discount', label: '设置商品折扣', group: 'products' },
@@ -333,9 +491,10 @@ export const defaultRoleDefinitions = [
     id: 'admin',
     name: '管理员',
     description: '拥有后台全部查看与管理能力。',
-    menus: ['dashboard', 'products', 'categories', 'orders', 'roles'],
+    menus: ['dashboard', 'analytics', 'products', 'categories', 'orders', 'roles'],
     permissions: [
       'dashboard:view',
+      'analytics:view',
       'products:view',
       'products:manage',
       'products:discount',
@@ -350,8 +509,8 @@ export const defaultRoleDefinitions = [
     id: 'operator',
     name: '运营',
     description: '默认可查看商品与订单，适合日常运营巡检。',
-    menus: ['dashboard', 'products', 'orders'],
-    permissions: ['dashboard:view', 'products:view', 'orders:view'],
+    menus: ['dashboard', 'analytics', 'products', 'orders'],
+    permissions: ['dashboard:view', 'analytics:view', 'products:view', 'orders:view'],
   },
 ];
 
@@ -412,6 +571,277 @@ export const defaultOrders = [
       { time: seedTime, text: '订单支付成功。' },
       { time: '2026-06-04 14:00:00', text: '订单已发货，物流单号 PIXEL-1' },
     ],
+    reviews: [
+      {
+        id: 'review-1-1-photo',
+        goodId: 1,
+        rating: 5,
+        content: '包包比图片更柔和，草莓绣片很精致，日常通勤放手机、口红和短钱包刚好。',
+        createdAt: '2026-06-06 20:18:00',
+        status: 'published',
+        nickname: '像素顾客',
+        avatar: '像',
+        specText: '草莓粉 / 日常款 / 单包 / 现货',
+        media: [
+          { type: 'image', src: productImages[1], title: '上身正面' },
+          { type: 'image', src: productImages[5], title: '粉色穿搭' },
+        ],
+        followUp: {
+          createdAt: '2026-06-09 19:42:00',
+          content: '背了三天肩带没有勒痕，五金扣也挺稳。',
+        },
+        tags: ['买家秀', '追评'],
+        helpfulCount: 42,
+        adminReply: '谢谢喜欢，五金件 30 天内都可以联系客服做免费检修。',
+        repliedAt: '2026-06-07 09:12:00',
+      },
+      {
+        id: 'review-1-1-video',
+        goodId: 1,
+        rating: 4,
+        content: '容量适合轻出门，视频里能看出包型比较挺。奶油白会比草莓粉更百搭。',
+        createdAt: '2026-06-07 12:30:00',
+        status: 'published',
+        nickname: '奶油收藏家',
+        avatar: '奶',
+        specText: '奶油白 / 迷你款 / 单包 / 现货',
+        media: [
+          { type: 'video', cover: productImages[4], title: '容量展示', duration: '00:12' },
+        ],
+        tags: ['买家秀', '视频'],
+        helpfulCount: 28,
+        adminReply: '',
+        repliedAt: '',
+      },
+      {
+        id: 'review-1-1-negative',
+        goodId: 1,
+        rating: 2,
+        content: '包身颜色好看，但我收到时外包装有压痕，送礼会介意。客服补发了礼袋，处理速度还可以。',
+        createdAt: '2026-06-08 09:05:00',
+        status: 'published',
+        nickname: '认真挑礼物',
+        avatar: '礼',
+        specText: '玫瑰格 / 日常款 / 礼盒装 / 预售 7 天',
+        media: [],
+        isNegative: true,
+        tags: ['差评'],
+        helpfulCount: 17,
+        adminReply: '很抱歉影响送礼体验，我们已加强礼盒外箱缓冲，后续会优先复核包装。',
+        repliedAt: '2026-06-08 11:20:00',
+      },
+    ],
+  },
+  {
+    id: 2,
+    userId: 2,
+    orderNo: 'PM202606050002',
+    createTime: '2026-06-05 11:16:00',
+    payTime: '2026-06-05 11:18:00',
+    status: 3,
+    price: 298,
+    goodId: 15,
+    source: 'buy-now',
+    address: {
+      receiver: '体验用户',
+      phone: '13800000002',
+      detail: '莓果路 15 号',
+    },
+    userSnapshot: {
+      id: 2,
+      nickname: '体验用户',
+      username: 'guest',
+    },
+    items: [
+      {
+        goodId: 15,
+        quantity: 1,
+        price: 298,
+        originalPrice: 328,
+        currentPrice: 298,
+        saleTag: '节日限定',
+        goodSnapshot: {
+          id: 15,
+          name: '奶油季节礼盒',
+          price: 298,
+          originalPrice: 328,
+          currentPrice: 298,
+          saleTag: '节日限定',
+          cover: productImages[15],
+          categoryName: '限定礼盒',
+          status: 'on-sale',
+        },
+      },
+    ],
+    goodSnapshot: {
+      id: 15,
+      name: '奶油季节礼盒',
+      price: 298,
+      originalPrice: 328,
+      currentPrice: 298,
+      saleTag: '节日限定',
+      cover: productImages[15],
+      categoryName: '限定礼盒',
+      status: 'on-sale',
+    },
+    logistics: [
+      { time: '2026-06-05 11:18:00', text: '订单支付成功。' },
+      { time: '2026-06-06 09:30:00', text: '订单已发货，物流单号 PIXEL-2' },
+      { time: '2026-06-08 18:00:00', text: '买家已确认收货，交易完成。' },
+    ],
+    reviews: [
+      {
+        id: 'review-2-15-photo',
+        goodId: 15,
+        rating: 5,
+        content: '礼盒包装很完整，送朋友不用再二次包装，里面三件小物都很实用。',
+        createdAt: '2026-06-09 10:12:00',
+        status: 'published',
+        nickname: '体验用户',
+        avatar: '体',
+        specText: '标准礼盒 / 奶油缎带 / 现货',
+        media: [
+          { type: 'image', src: productImages[15], title: '礼盒全套' },
+          { type: 'video', cover: productImages[13], title: '礼盒细节展示', duration: '00:18' },
+        ],
+        tags: ['买家秀', '视频'],
+        helpfulCount: 36,
+        adminReply: '谢谢反馈，礼盒后续还会补充节日限定色。',
+        repliedAt: '2026-06-09 11:04:00',
+      },
+    ],
+  },
+];
+
+export const defaultAdminActivities = [
+  {
+    id: 'act-admin-1-1',
+    adminId: 'admin-1',
+    module: '订单管理',
+    action: '审核售后申请',
+    detail: '核对 PM202606040001 的物流记录与退款条件',
+    time: '2026-06-10 09:18:00',
+    score: 92,
+  },
+  {
+    id: 'act-admin-1-2',
+    adminId: 'admin-1',
+    module: '商品管理',
+    action: '调整促销价格',
+    detail: '检查莓果直降商品的原价与现价展示',
+    time: '2026-06-10 10:36:00',
+    score: 88,
+  },
+  {
+    id: 'act-admin-1-3',
+    adminId: 'admin-1',
+    module: '角色权限',
+    action: '复核运营权限',
+    detail: '确认运营账号可查看商品、订单与分析中心',
+    time: '2026-06-09 17:24:00',
+    score: 95,
+  },
+  {
+    id: 'act-admin-1-4',
+    adminId: 'admin-1',
+    module: '分析中心',
+    action: '查看经营概览',
+    detail: '记录低库存、成交额和待发货指标',
+    time: '2026-06-09 15:42:00',
+    score: 90,
+  },
+  {
+    id: 'act-operator-1',
+    adminId: 'admin-2',
+    module: '商品管理',
+    action: '巡检上架商品',
+    detail: '核对首页热销商品的封面、销量与库存',
+    time: '2026-06-10 08:55:00',
+    score: 86,
+  },
+  {
+    id: 'act-operator-2',
+    adminId: 'admin-2',
+    module: '订单管理',
+    action: '整理发货队列',
+    detail: '筛选已支付订单并准备物流单号',
+    time: '2026-06-10 11:20:00',
+    score: 91,
+  },
+  {
+    id: 'act-operator-3',
+    adminId: 'admin-2',
+    module: '分析中心',
+    action: '复盘活动表现',
+    detail: '关注礼盒、包包与饰品分类转化情况',
+    time: '2026-06-09 16:05:00',
+    score: 89,
+  },
+];
+
+export const defaultAdminSchedules = [
+  {
+    id: 'schedule-admin-1-1',
+    adminId: 'admin-1',
+    date: '2026-06-10',
+    title: '售后审核复盘',
+    type: '售后',
+    priority: 'high',
+    time: '10:30',
+  },
+  {
+    id: 'schedule-admin-1-2',
+    adminId: 'admin-1',
+    date: '2026-06-12',
+    title: '权限配置检查',
+    type: '权限',
+    priority: 'medium',
+    time: '15:00',
+  },
+  {
+    id: 'schedule-admin-1-3',
+    adminId: 'admin-1',
+    date: '2026-06-18',
+    title: '月中经营分析',
+    type: '经营',
+    priority: 'high',
+    time: '09:30',
+  },
+  {
+    id: 'schedule-admin-1-4',
+    adminId: 'admin-1',
+    date: '2026-06-25',
+    title: '库存风险巡检',
+    type: '商品',
+    priority: 'medium',
+    time: '14:00',
+  },
+  {
+    id: 'schedule-operator-1',
+    adminId: 'admin-2',
+    date: '2026-06-10',
+    title: '待发货订单整理',
+    type: '订单',
+    priority: 'high',
+    time: '11:30',
+  },
+  {
+    id: 'schedule-operator-2',
+    adminId: 'admin-2',
+    date: '2026-06-14',
+    title: '热销商品补货提醒',
+    type: '商品',
+    priority: 'medium',
+    time: '16:00',
+  },
+  {
+    id: 'schedule-operator-3',
+    adminId: 'admin-2',
+    date: '2026-06-21',
+    title: '会员日活动复盘',
+    type: '活动',
+    priority: 'medium',
+    time: '10:00',
   },
 ];
 

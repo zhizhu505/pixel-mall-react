@@ -7,6 +7,7 @@ import Button from '../common/Button';
 
 const navItems = [
   { key: 'dashboard', label: '后台首页', to: '/admin', permission: 'dashboard:view' },
+  { key: 'analytics', label: '分析中心', to: '/admin/analytics', permission: 'analytics:view' },
   { key: 'products', label: '商品管理', to: '/admin/products', permission: 'products:view' },
   { key: 'categories', label: '分类管理', to: '/admin/categories', permission: 'categories:view' },
   { key: 'orders', label: '订单管理', to: '/admin/orders', permission: 'orders:view' },

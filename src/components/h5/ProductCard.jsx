@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { formatPrice, getProductPriceInfo, getProductTone, isLowStockProduct, resolveProductImageSrc } from '../../utils/productDisplay';
+import { formatPrice, getProductPriceInfo, getProductTone, resolveProductImageSrc } from '../../utils/productDisplay';
 
 const ProductCard = ({
   product,
@@ -13,14 +13,13 @@ const ProductCard = ({
   isCartAnimating = false,
   className = '',
 }) => {
-  const tone = getProductTone(product.id);
   const sticker = String(index + 1).padStart(2, '0');
   const isSoldOut = product.stock <= 0 || product.status !== 'on-sale';
-  const isLowStock = isLowStockProduct(product);
   const priceInfo = getProductPriceInfo(product);
   const imageSrc = resolveProductImageSrc(product.cover);
   const [failedImageSrc, setFailedImageSrc] = useState('');
   const shouldShowImage = imageSrc && failedImageSrc !== imageSrc;
+  const sales = Number(product.sales) || 0;
 
   return (
     <article className={`pm-product-card pm-product-card-collectible pm-home-product-card ${className}`.trim()}>
@@ -31,15 +30,13 @@ const ProductCard = ({
         {shouldShowImage ? (
           <img src={imageSrc} alt={product.name} onError={() => setFailedImageSrc(imageSrc)} />
         ) : (
-          <div className={`pm-pixel-product ${tone}`} />
+          <div className={`pm-pixel-product ${getProductTone(product.id)}`} />
         )}
       </div>
       <div className="pm-home-product-meta">
         <span>{product.categoryName || '像素好物'}</span>
         <h3 className="pm-product-title">{product.name}</h3>
-        <span className={`pm-product-stock${isLowStock ? ' is-low' : ''}`}>
-          {isLowStock ? `库存告急 · 仅剩 ${product.stock} 件` : `库存 ${product.stock}`}
-        </span>
+        <span className="pm-product-sales">已售 {sales} 件</span>
         <div className="pm-product-foot">
           <div className="pm-product-price-stack">
             <strong className="pm-price">{formatPrice(priceInfo.currentPrice)}</strong>

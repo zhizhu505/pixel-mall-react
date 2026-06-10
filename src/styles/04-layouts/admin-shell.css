@@ -358,7 +358,8 @@
 .pm-admin-page,
 .pm-admin-products-page,
 .pm-admin-categories-page,
-.pm-admin-orders-page {
+.pm-admin-orders-page,
+.pm-admin-analytics-page {
   display: grid;
   gap: var(--pm-admin-panel-gap);
 }
@@ -525,6 +526,12 @@
 
 .pm-admin-form-wide {
   grid-column: 1 / -1;
+}
+
+.pm-admin-json-textarea {
+  min-height: 150px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  line-height: 1.45;
 }
 
 .pm-admin-inline-actions {
@@ -855,6 +862,8 @@
 .pm-admin-page-header,
 .pm-admin-dashboard-hero,
 .pm-admin-dashboard-section,
+.pm-admin-analytics-hero,
+.pm-admin-analytics-panel,
 .pm-admin-table-panel,
 .pm-admin-panel,
   .pm-role-card,
@@ -873,6 +882,8 @@
   .pm-admin-page-header,
   .pm-admin-dashboard-hero,
   .pm-admin-dashboard-section,
+  .pm-admin-analytics-hero,
+  .pm-admin-analytics-panel,
   .pm-admin-table-panel,
   .pm-admin-panel,
   .pm-role-card,

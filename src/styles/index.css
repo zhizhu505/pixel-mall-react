@@ -72,6 +72,7 @@
 /* 05-pages/admin：后台管理页面专属布局和占位样式。 */
 @import "./05-pages/admin/admin-login.css";
 @import "./05-pages/admin/admin-dashboard.css";
+@import "./05-pages/admin/admin-analytics.css";
 @import "./05-pages/admin/admin-roles.css";
 @import "./05-pages/admin/admin-products.css";
 @import "./05-pages/admin/admin-categories.css";

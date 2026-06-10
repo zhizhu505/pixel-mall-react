@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import EmptyState from '../components/common/EmptyState';
 import Pagination from '../components/h5/Pagination';
@@ -30,6 +30,7 @@ const SearchHeaderBar = ({ initialValue, onSubmit }) => {
 
 const SearchPage = () => {
   const { good, search, user } = useServices();
+  const navigate = useNavigate();
   useServiceVersion(good);
   const currentUser = useServiceSnapshot(user, (service) => service.getCurrentUser());
   const history = useServiceSnapshot(search, (service) => (
@@ -78,6 +79,7 @@ const SearchPage = () => {
 
   return (
     <main className="pm-page pm-search-page">
+      <button className="pm-btn pm-btn-ghost pm-back-btn" type="button" onClick={() => navigate(-1)}>返回</button>
       <header className="pm-search-header">
         <p className="pm-section-eyebrow">Smart Search</p>
         <h1>搜索商品</h1>

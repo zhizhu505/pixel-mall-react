@@ -197,13 +197,44 @@
   line-height: var(--pm-line-card);
 }
 
-.pm-chat-compose-placeholder {
-  padding: var(--pm-space-2);
-  color: var(--pm-color-text-muted);
-  font-size: var(--pm-text-xs);
-  text-align: center;
-  background: color-mix(in srgb, var(--pm-color-bg-soft) 76%, white);
-  border: var(--pm-border-width-thin) dashed var(--pm-color-line);
+.pm-chat-compose {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--pm-space-2);
+  align-items: end;
+  padding-top: var(--pm-space-2);
+  border-top: var(--pm-border-width-thin) solid color-mix(in srgb, var(--pm-color-line) 60%, transparent);
+}
+
+.pm-chat-compose textarea {
+  width: 100%;
+  min-height: 46px;
+  max-height: 92px;
+  padding: 8px 10px;
+  resize: vertical;
+  color: var(--pm-color-text);
+  font: inherit;
+  font-size: var(--pm-text-sm);
+  line-height: var(--pm-line-card);
+  background: var(--pm-color-bg-soft);
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: inset 2px 2px 0 color-mix(in srgb, var(--pm-color-line) 8%, transparent);
+}
+
+.pm-chat-compose textarea:focus {
+  outline: 2px solid color-mix(in srgb, var(--pm-color-primary) 42%, transparent);
+  outline-offset: 1px;
+}
+
+.pm-chat-compose .pm-btn {
+  min-height: 46px;
+  padding-inline: var(--pm-space-3);
+}
+
+.pm-chat-compose .pm-btn:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.35);
+  opacity: 0.62;
 }
 
 .pm-message-detail-page {
@@ -287,6 +318,33 @@
 .pm-h5-shell .pm-chat-dialog,
 .pm-h5-shell .pm-message-detail-page {
   padding: var(--pm-space-2);
+}
+
+.pm-h5-shell .pm-chat-dialog {
+  max-height: calc(100vh - var(--pm-bottom-bar-height) - 156px);
+  overflow: hidden;
+}
+
+.pm-h5-shell .pm-chat-thread {
+  max-height: min(420px, calc(100vh - var(--pm-bottom-bar-height) - 270px));
+  padding-right: 2px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pm-h5-shell .pm-chat-compose {
+  grid-template-columns: minmax(0, 1fr) 58px;
+}
+
+.pm-h5-shell .pm-chat-compose textarea {
+  min-height: 42px;
+  font-size: var(--pm-text-xs);
+}
+
+.pm-h5-shell .pm-chat-compose .pm-btn {
+  min-height: 42px;
+  padding-inline: 8px;
+  font-size: var(--pm-text-xs);
 }
 
 @media (prefers-reduced-motion: reduce) {

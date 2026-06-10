@@ -27,17 +27,28 @@ class CartService extends SubscribableService {
     return item ? item.count : 0;
   }
 
+  _buildSpecKey(selectedSpecs = {}) {
+    return Object.entries(selectedSpecs)
+      .filter(([, value]) => value)
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([key, value]) => `${key}:${value}`)
+      .join('|');
+  }
+
   getEnrichedCartItems(userId) {
     return this.getCartItems(userId).map((item) => {
       const product = goodService.getGoodById(item.goodId);
       const productSource = product || item.goodSnapshot;
       const priceInfo = getProductPriceInfo(productSource);
+      const variant = product?.variants?.find((entry) => entry.id === item.variantId) || null;
+      const stock = Number(variant?.stock ?? product?.stock ?? 0) || 0;
       return {
         ...item,
         product,
-        lineTotal: productSource ? priceInfo.currentPrice * item.count : 0,
-        isAvailable: Boolean(product && product.status === 'on-sale' && product.stock > 0),
-        stock: product?.stock ?? 0,
+        variant,
+        lineTotal: productSource ? Number(variant?.price ?? priceInfo.currentPrice) * item.count : 0,
+        isAvailable: Boolean(product && product.status === 'on-sale' && stock > 0),
+        stock,
       };
     });
   }
@@ -52,7 +63,8 @@ class CartService extends SubscribableService {
         return sum;
       }
       const maxCount = Math.min(item.count, item.stock);
-      return sum + getProductPriceInfo(item.product).currentPrice * maxCount;
+      const priceInfo = getProductPriceInfo(item.product);
+      return sum + Number(item.variant?.price ?? priceInfo.currentPrice) * maxCount;
     }, 0);
   }
 
@@ -113,32 +125,47 @@ class CartService extends SubscribableService {
     this._saveData();
   }
 
-  addItem(userId, goodId, count = 1) {
+  addItem(userId, goodId, count = 1, options = {}) {
     const product = goodService.getGoodById(goodId);
 
     if (!product || product.status !== 'on-sale') {
       return { success: false, message: '商品不可加入购物车。' };
     }
 
-    const existing = this.carts.find((item) => item.userId === Number(userId) && item.goodId === Number(goodId));
+    const selectedSpecs = options.selectedSpecs && typeof options.selectedSpecs === 'object' ? options.selectedSpecs : {};
+    const specKey = this._buildSpecKey(selectedSpecs);
+    const variant = options.variant && typeof options.variant === 'object' ? options.variant : null;
+    const availableStock = Number(variant?.stock ?? product.stock) || 0;
+    const existing = this.carts.find((item) => (
+      item.userId === Number(userId)
+      && item.goodId === Number(goodId)
+      && this._buildSpecKey(item.selectedSpecs) === specKey
+    ));
 
     if (existing) {
       const nextCount = existing.count + count;
-      if (nextCount > product.stock) {
+      if (nextCount > availableStock) {
         return { success: false, message: '超过库存上限。' };
       }
       existing.count = nextCount;
+      existing.selectedSpecs = selectedSpecs;
+      existing.variantId = variant?.id || existing.variantId || '';
+      existing.specText = options.specText || existing.specText || '';
       existing.goodSnapshot = buildProductSnapshot(product);
     } else {
-      if (count > product.stock) {
+      if (count > availableStock) {
         return { success: false, message: '超过库存上限。' };
       }
+      const itemId = specKey ? `${userId}-${goodId}-${specKey}` : `${userId}-${goodId}`;
       this.carts.push({
-        id: `${userId}-${goodId}`,
+        id: itemId,
         userId: Number(userId),
         goodId: Number(goodId),
         count,
         checked: true,
+        selectedSpecs,
+        variantId: variant?.id || '',
+        specText: options.specText || '',
         goodSnapshot: buildProductSnapshot(product),
       });
     }
@@ -167,7 +194,10 @@ class CartService extends SubscribableService {
       return { success: false, message: '商品不可购买。' };
     }
 
-    if (nextCount > product.stock) {
+    const variant = product.variants?.find((entry) => entry.id === item.variantId) || null;
+    const stock = Number(variant?.stock ?? product.stock) || 0;
+
+    if (nextCount > stock) {
       return { success: false, message: '数量不能超过库存。' };
     }
 
@@ -225,6 +255,9 @@ class CartService extends SubscribableService {
         id: item.id ? String(item.id) : `${userId}-${goodId}`,
         userId,
         goodId,
+        selectedSpecs: item.selectedSpecs && typeof item.selectedSpecs === 'object' ? item.selectedSpecs : {},
+        variantId: item.variantId || '',
+        specText: item.specText || '',
         checked: item.checked === true,
       };
     });

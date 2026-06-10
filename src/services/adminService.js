@@ -1,13 +1,25 @@
-import { adminMenuCatalog, adminPermissionCatalog, defaultAdmins, defaultRoleDefinitions } from '../mock/data';
+import {
+  adminMenuCatalog,
+  adminPermissionCatalog,
+  defaultAdminActivities,
+  defaultAdminSchedules,
+  defaultAdmins,
+  defaultRoleDefinitions,
+} from '../mock/data';
 import { cloneValue, loadFromStorage, removeFromStorage, saveToStorage } from '../utils/storage';
 import SubscribableService from './subscribableService';
 
 const ADMIN_LIST_KEY = 'pixelMall:admins';
 const CURRENT_ADMIN_KEY = 'pixelMall:adminUser';
 const ROLE_LIST_KEY = 'pixelMall:adminRoles';
+const ROLE_ANALYTICS_MIGRATION_KEY = 'pixelMall:adminRolesAnalyticsMigrated';
+const ADMIN_ACTIVITY_KEY = 'pixelMall:adminActivities';
+
+const hasStoredValue = (key) => typeof window !== 'undefined' && window.localStorage.getItem(key) !== null;
 
 const groupLabelMap = {
   dashboard: '后台首页',
+  analytics: '分析中心',
   products: '商品管理',
   categories: '分类管理',
   orders: '订单管理',
@@ -18,6 +30,7 @@ class AdminService extends SubscribableService {
   admins = [];
   currentAdmin = null;
   roles = [];
+  activities = [];
 
   constructor() {
     super();
@@ -44,6 +57,12 @@ class AdminService extends SubscribableService {
     };
 
     saveToStorage(CURRENT_ADMIN_KEY, this.currentAdmin);
+    this.recordActivity({
+      module: '后台登录',
+      action: '登录后台',
+      detail: `${this.currentAdmin.nickname}进入 Pixel Mall Admin`,
+      score: 90,
+    });
     return { success: true, admin: this.getCurrentAdmin() };
   }
 
@@ -93,6 +112,38 @@ class AdminService extends SubscribableService {
     return cloneValue(adminMenuCatalog);
   }
 
+  getAdminActivities(adminId = this.currentAdmin?.id) {
+    return this.activities
+      .filter((activity) => activity.adminId === adminId)
+      .map((activity) => cloneValue(activity));
+  }
+
+  recordActivity({ module, action, detail, score = 88 }) {
+    if (!this.currentAdmin) {
+      return null;
+    }
+
+    const activity = {
+      id: `act-${this.currentAdmin.id}-${Date.now()}`,
+      adminId: this.currentAdmin.id,
+      module,
+      action,
+      detail,
+      time: new Date().toLocaleString('sv-SE'),
+      score,
+    };
+    this.activities = [activity, ...this.activities].slice(0, 80);
+    this._saveActivities();
+    this.notify();
+    return cloneValue(activity);
+  }
+
+  getAdminSchedules(adminId = this.currentAdmin?.id) {
+    return defaultAdminSchedules
+      .filter((schedule) => schedule.adminId === adminId)
+      .map((schedule) => cloneValue(schedule));
+  }
+
   updateRoleAccess(roleId, { permissions = [], menus = [] }) {
     const role = this._findRole(roleId);
 
@@ -113,7 +164,12 @@ class AdminService extends SubscribableService {
     role.permissions = normalizedPermissions;
     role.menus = normalizedMenus;
     this._saveRoles();
-    this.notify();
+    this.recordActivity({
+      module: '角色权限',
+      action: '更新角色权限',
+      detail: `调整 ${role.name} 的 ${normalizedPermissions.length} 项权限与 ${normalizedMenus.length} 个菜单`,
+      score: 94,
+    });
     return { success: true, message: '角色权限已更新。' };
   }
 
@@ -142,12 +198,53 @@ class AdminService extends SubscribableService {
     saveToStorage(ROLE_LIST_KEY, this.roles);
   }
 
+  _saveActivities() {
+    saveToStorage(ADMIN_ACTIVITY_KEY, this.activities);
+  }
+
   _loadData() {
+    const shouldMigrateAnalyticsRole = hasStoredValue(ROLE_LIST_KEY) && !loadFromStorage([ROLE_ANALYTICS_MIGRATION_KEY], false);
     this.admins = loadFromStorage([ADMIN_LIST_KEY], defaultAdmins);
-    this.roles = loadFromStorage([ROLE_LIST_KEY], defaultRoleDefinitions);
+    this.roles = this._mergeRoleDefaults(loadFromStorage([ROLE_LIST_KEY], defaultRoleDefinitions), shouldMigrateAnalyticsRole);
+    this.activities = this._mergeActivityDefaults(loadFromStorage([ADMIN_ACTIVITY_KEY], defaultAdminActivities));
     this.currentAdmin = loadFromStorage([CURRENT_ADMIN_KEY], null);
     saveToStorage(ADMIN_LIST_KEY, this.admins);
     this._saveRoles();
+    this._saveActivities();
+    if (shouldMigrateAnalyticsRole) {
+      saveToStorage(ROLE_ANALYTICS_MIGRATION_KEY, true);
+    }
+  }
+
+  _mergeRoleDefaults(roles, shouldMigrateAnalyticsRole = false) {
+    return roles.map((role) => {
+      const defaultRole = defaultRoleDefinitions.find((item) => item.id === role.id);
+
+      if (!defaultRole || !shouldMigrateAnalyticsRole) {
+        return role;
+      }
+
+      const menus = role.menus || [];
+      const permissions = role.permissions || [];
+      if (!defaultRole.menus.includes('analytics') || permissions.includes('analytics:view')) {
+        return role;
+      }
+
+      return {
+        ...role,
+        menus: menus.includes('analytics') ? menus : [...menus, 'analytics'],
+        permissions: [...permissions, 'analytics:view'],
+      };
+    });
+  }
+
+  _mergeActivityDefaults(activities) {
+    const activityList = Array.isArray(activities) ? activities : [];
+    const activityIds = new Set(activityList.map((activity) => activity.id));
+    return [
+      ...activityList,
+      ...defaultAdminActivities.filter((activity) => !activityIds.has(activity.id)),
+    ];
   }
 }
 

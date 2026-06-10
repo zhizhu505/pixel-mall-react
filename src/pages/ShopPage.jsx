@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Button from '../components/common/Button';
 import EmptyState from '../components/common/EmptyState';
 import ProductCard from '../components/h5/ProductCard';
-import { useServices, useServiceVersion } from '../hooks/useServices';
+import { useServices, useServiceSnapshot, useServiceVersion } from '../hooks/useServices';
 import { showPixelToast } from '../utils/pixelToast';
 
 const ShopPage = () => {
@@ -14,6 +15,17 @@ const ShopPage = () => {
   const shop = good.getShopById(shopId);
   const products = shop ? good.getGoodsByShopId(shop.id) : [];
   const currentUser = user.getCurrentUser();
+  const [animatingProductId, setAnimatingProductId] = useState(null);
+  const cartQuantityMap = useServiceSnapshot(cart, (service) => {
+    if (!currentUser) {
+      return {};
+    }
+
+    return service.getCartItems(currentUser.id).reduce((map, item) => ({
+      ...map,
+      [item.goodId]: item.count,
+    }), {});
+  });
 
   const handleAddToCart = (product) => {
     if (!currentUser) {
@@ -23,7 +35,14 @@ const ShopPage = () => {
     const result = cart.addItem(currentUser.id, product.id, 1);
     if (!result.success) {
       showPixelToast(result.message);
+      return;
     }
+
+    setAnimatingProductId(null);
+    window.requestAnimationFrame(() => {
+      setAnimatingProductId(product.id);
+      window.setTimeout(() => setAnimatingProductId(null), 700);
+    });
   };
 
   if (!shop) {
@@ -41,7 +60,7 @@ const ShopPage = () => {
 
       <section className="pm-shop-hero" aria-labelledby="shop-title">
         <div className="pm-shop-cover">
-          <img src={shop.cover} alt="" />
+          <img src={shop.cover} alt={shop.name} />
         </div>
         <div className="pm-shop-hero-copy">
           <p className="pm-section-eyebrow">Pixel Store</p>
@@ -56,8 +75,9 @@ const ShopPage = () => {
       </section>
 
       <section className="pm-shop-products" aria-labelledby="shop-products-title">
-        <div className="pm-home-section-heading">
+        <div className="pm-shop-section-heading">
           <h2 id="shop-products-title">店内精选</h2>
+          <span>{products.length} 件好物</span>
         </div>
         {products.length ? (
           <div className="pm-shop-product-grid">
@@ -68,7 +88,10 @@ const ShopPage = () => {
                 index={index}
                 showAddLink
                 showSticker={false}
+                cartQuantity={cartQuantityMap[product.id] || 0}
+                isCartAnimating={animatingProductId === product.id}
                 onAddToCart={handleAddToCart}
+                className="pm-shop-product-card"
               />
             ))}
           </div>

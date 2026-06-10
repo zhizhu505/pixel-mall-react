@@ -5,6 +5,8 @@ export const CategoryPage = lazy(() => import('../pages/CategoryPage'));
 export const LoginPage = lazy(() => import('../pages/LoginPage'));
 export const SearchPage = lazy(() => import('../pages/SearchPage'));
 export const DetailPage = lazy(() => import('../pages/DetailPage'));
+export const ProductReviewsPage = lazy(() => import('../pages/ProductReviewsPage'));
+export const ProductQaPage = lazy(() => import('../pages/ProductQaPage'));
 export const ShopPage = lazy(() => import('../pages/ShopPage'));
 export const FeaturedShopsPage = lazy(() => import('../pages/FeaturedShopsPage'));
 export const CartPage = lazy(() => import('../pages/CartPage'));
