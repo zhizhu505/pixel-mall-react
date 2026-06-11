@@ -125,28 +125,28 @@ const AdminAnalyticsPage = () => {
         </div>
       </section>
 
-      <section className="pm-admin-analytics-stat-grid">
-        <div className="pm-admin-analytics-stat">
+      <section className="pm-admin-stat-grid pm-admin-analytics-stat-grid">
+        <div className="pm-admin-stat pm-admin-analytics-stat">
           <span>累计销量</span>
           <strong>{totalSales}</strong>
           <p>来自 {products.length} 个有效商品</p>
         </div>
-        <div className="pm-admin-analytics-stat">
+        <div className="pm-admin-stat pm-admin-analytics-stat">
           <span>成交额</span>
           <strong>{formatPrice(revenue)}</strong>
           <p>{paidOrders.length} 笔已支付订单</p>
         </div>
-        <div className="pm-admin-analytics-stat">
+        <div className="pm-admin-stat pm-admin-analytics-stat">
           <span>待发货</span>
           <strong>{orderStats.paid}</strong>
           <p>需要订单处理</p>
         </div>
-        <div className="pm-admin-analytics-stat">
+        <div className="pm-admin-stat pm-admin-analytics-stat">
           <span>库存预警</span>
           <strong>{productStats.lowStockCount}</strong>
           <p>低库存商品</p>
         </div>
-        <div className="pm-admin-analytics-stat">
+        <div className="pm-admin-stat pm-admin-analytics-stat">
           <span>待办日程</span>
           <strong>{sortedSchedules.length}</strong>
           <p>{currentMonthLabel}</p>

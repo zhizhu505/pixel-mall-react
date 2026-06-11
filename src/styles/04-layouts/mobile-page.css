@@ -151,6 +151,12 @@
     linear-gradient(180deg, color-mix(in srgb, var(--pm-color-surface) 92%, var(--pm-color-accent)), color-mix(in srgb, var(--pm-color-primary-soft) 44%, var(--pm-color-surface)));
 }
 
+.pm-pixel-toast-success {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, #9dd4b5 82%, transparent) 0 5px, transparent 5px),
+    linear-gradient(180deg, color-mix(in srgb, #edf9f1 92%, var(--pm-color-surface)), color-mix(in srgb, #ccefd9 58%, var(--pm-color-surface)));
+}
+
 .pm-pixel-toast-icon {
   display: block;
   width: 14px;
@@ -306,7 +312,9 @@
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  background: var(--pm-color-surface);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--pm-color-surface) 92%, transparent) 0 72%, color-mix(in srgb, var(--pm-color-primary-soft) 42%, transparent) 72%),
+    var(--pm-color-surface);
   box-shadow: none;
 }
 
@@ -346,9 +354,11 @@
 .pm-h5-shell .pm-home-page {
   box-sizing: border-box;
   width: 100%;
+  min-height: 100%;
   max-width: none;
   margin-inline: 0;
   padding-inline: var(--pm-space-3);
+  background-color: transparent;
 }
 
 .pm-h5-shell .pm-bottom-bar {
@@ -650,6 +660,10 @@
   gap: 5px;
 }
 
+.pm-h5-shell .pm-product-card-link {
+  gap: 5px;
+}
+
 .pm-h5-shell .pm-product-title {
   font-size: 11px;
   line-height: 1.28;
@@ -667,19 +681,12 @@
 }
 
 .pm-h5-shell .pm-product-foot {
+  align-items: flex-start;
   gap: 4px;
 }
 
 .pm-h5-shell .pm-product-price-stack {
   gap: 3px;
-}
-
-.pm-h5-shell .pm-product-foot a,
-.pm-h5-shell .pm-product-add-btn {
-  min-height: 24px;
-  padding: 2px 5px;
-  font-size: 10px;
-  line-height: 1;
 }
 
 .pm-h5-shell .pm-product-card-collectible {
@@ -859,13 +866,12 @@
 }
 
 .pm-h5-shell .pm-category-product-card {
-  grid-template-rows: 92px minmax(0, 1fr);
-  height: 216px;
-  min-height: 216px;
-  max-height: 216px;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  align-self: start;
   padding: 6px;
   gap: 5px;
-  overflow: hidden;
 }
 
 .pm-h5-shell .pm-category-product-card .pm-product-media {
@@ -900,8 +906,7 @@
 .pm-h5-shell .pm-category-product-card .pm-product-foot {
   flex-wrap: wrap;
   align-items: end;
-  min-height: 48px;
-  overflow: hidden;
+  min-height: 0;
 }
 
 .pm-h5-shell .pm-category-product-card .pm-product-foot a,

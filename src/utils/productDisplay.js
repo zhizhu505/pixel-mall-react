@@ -4,15 +4,6 @@ const PRODUCT_TONES = [
   'pm-pixel-product-gold',
 ];
 
-const productImageModules = import.meta.glob('../assets/images/product/*', {
-  eager: true,
-  query: '?url',
-  import: 'default',
-});
-const productImageByName = Object.fromEntries(
-  Object.entries(productImageModules).map(([path, src]) => [path.split('/').pop(), src]),
-);
-
 const normalizePriceValue = (value) => {
   const amount = Number(value);
   return Number.isFinite(amount) && amount >= 0 ? amount : 0;
@@ -62,7 +53,7 @@ export const resolveProductImageSrc = (cover) => {
     return `/${source}`;
   }
   const filename = source.split('/').pop();
-  return productImageByName[filename] ? `/images/product/${filename}` : source;
+  return filename ? `/images/product/${filename}` : source;
 };
 
 export const resolveProductImageList = (images, cover, fallback = '/favicon.svg') => {

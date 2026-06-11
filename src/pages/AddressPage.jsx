@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../components/common/Button';
 import EmptyState from '../components/common/EmptyState';
 import { useServices } from '../hooks/useServices';
+import { showPixelToast } from '../utils/pixelToast';
 import { collectErrors, validatePhone, validateRequired } from '../utils/validation';
 
 const emptyForm = {
@@ -28,7 +29,6 @@ const AddressPage = () => {
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState({});
-  const [feedback, setFeedback] = useState('');
 
   void listVersion;
   const addresses = currentUser?.id ? address.getAddressesByUser(currentUser.id) : [];
@@ -52,7 +52,6 @@ const AddressPage = () => {
       isDefault: item.isDefault,
     });
     setErrors({});
-    setFeedback('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -68,15 +67,14 @@ const AddressPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setFeedback('');
 
     if (!validateForm()) {
-      setFeedback('请完善收货人、手机号和详细地址后再提交。');
+      showPixelToast('请完善收货人、手机号和详细地址后再提交。');
       return;
     }
 
     if (!currentUser?.id) {
-      window.alert('请先登录后再管理地址。');
+      showPixelToast('请先登录后再管理地址。');
       return;
     }
 
@@ -85,19 +83,19 @@ const AddressPage = () => {
     if (editingId) {
       const updated = await api.addresses.update(currentUser.id, { id: editingId, ...form });
       if (!updated) {
-        setFeedback('地址更新失败，请重试。');
+        showPixelToast('地址更新失败，请重试。');
         return;
       }
       savedId = updated.id;
-      setFeedback('地址已更新。');
+      showPixelToast('地址已更新。', { tone: 'success' });
     } else {
       const created = await api.addresses.create(currentUser.id, form);
       if (!created) {
-        setFeedback('地址添加失败，请重试。');
+        showPixelToast('地址添加失败，请重试。');
         return;
       }
       savedId = created.id;
-      setFeedback('地址已添加，可在下方列表查看。');
+      showPixelToast('地址已添加，可在下方列表查看。', { tone: 'success' });
     }
 
     resetForm();
@@ -123,13 +121,13 @@ const AddressPage = () => {
     if (editingId === id) {
       resetForm();
     }
-    setFeedback('地址已删除。');
+    showPixelToast('地址已删除。', { tone: 'success' });
     bumpList();
   };
 
   const handleSetDefault = async (id) => {
     await api.addresses.setDefault(currentUser.id, id);
-    setFeedback('已设为默认地址。');
+    showPixelToast('已设为默认地址。', { tone: 'success' });
     bumpList();
   };
 
@@ -149,7 +147,6 @@ const AddressPage = () => {
   const addressForm = (
     <form className="pm-address-form" onSubmit={handleSubmit}>
       <h2>{editingId ? '编辑地址' : '新增地址'}</h2>
-      {feedback ? <p className="pm-address-feedback">{feedback}</p> : null}
       <div className="pm-control pm-address-control">
         <label className="pm-label" htmlFor="addr-receiver">收货人</label>
         <input

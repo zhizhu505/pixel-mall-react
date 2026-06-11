@@ -4,7 +4,7 @@
 /* 后台首页容器：控制概览、统计和快捷入口间距。 */
 .pm-admin-dashboard-page {
   display: grid;
-  gap: var(--pm-admin-panel-gap);
+  gap: 8px;
 }
 
 /* 后台首页头部：展示欢迎语、角色信息和快捷操作。 */
@@ -18,9 +18,9 @@
   align-items: start;
   justify-content: space-between;
   overflow: visible;
-  min-height: 84px;
+  min-height: 0;
   margin-top: 0;
-  padding: 1px 30px 10px;
+  padding: 14px 18px 6px;
   z-index: 8;
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--pm-color-surface) 28%, transparent) 1px, transparent 1px),
@@ -33,16 +33,17 @@
 
 .pm-admin-dashboard-hero::before {
   position: absolute;
-  top: -18px;
+  top: -14px;
   left: 18px;
   z-index: 2;
-  width: 78px;
-  height: 26px;
+  width: 62px;
+  height: 18px;
   content: "";
   background:
     linear-gradient(90deg, var(--pm-color-primary) 0 70%, var(--pm-color-accent) 70%),
     var(--pm-color-primary-soft);
   transform: rotate(-4deg);
+  pointer-events: none;
 }
 
 .pm-admin-dashboard-hero::after {
@@ -90,7 +91,7 @@
 
 .pm-admin-dashboard-hero .pm-help,
 .pm-admin-dashboard-section .pm-help {
-  margin-top: 6px;
+  margin-top: 2px;
 }
 
 .pm-admin-dashboard-actions .pm-btn {

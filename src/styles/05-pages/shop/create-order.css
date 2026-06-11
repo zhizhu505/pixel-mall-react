@@ -59,6 +59,49 @@
   line-height: 1.45;
 }
 
+.pm-create-order-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--pm-space-2);
+  margin-inline: var(--pm-space-3);
+}
+
+.pm-create-order-overview-card {
+  display: grid;
+  gap: 4px;
+  min-height: 72px;
+  padding: var(--pm-space-3);
+  background:
+    linear-gradient(135deg, var(--pm-color-surface) 0 70%, color-mix(in srgb, var(--pm-color-primary-soft) 24%, var(--pm-color-surface)) 70%),
+    linear-gradient(145deg, color-mix(in srgb, var(--pm-color-surface) 92%, white), color-mix(in srgb, var(--pm-color-primary-soft) 18%, var(--pm-color-surface)));
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 14%, transparent);
+}
+
+.pm-create-order-overview-card strong {
+  color: var(--pm-color-primary-deep);
+  font-size: var(--pm-text-xl);
+  line-height: 1;
+}
+
+.pm-create-order-overview-card span {
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-xs);
+  font-weight: var(--pm-weight-black);
+}
+
+.pm-create-order-overview-card-2 {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--pm-color-primary-soft) 54%, var(--pm-color-surface)) 0 70%, color-mix(in srgb, var(--pm-color-accent) 18%, var(--pm-color-surface)) 70%),
+    color-mix(in srgb, var(--pm-color-primary-soft) 52%, var(--pm-color-surface));
+}
+
+.pm-create-order-overview-card-3 {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--pm-color-accent) 18%, var(--pm-color-surface)) 0 70%, color-mix(in srgb, var(--pm-color-accent-2) 18%, var(--pm-color-surface)) 70%),
+    color-mix(in srgb, var(--pm-color-accent) 18%, var(--pm-color-surface));
+}
+
 .pm-create-order-product {
   display: grid;
   grid-template-columns: 88px minmax(0, 1fr);
@@ -67,7 +110,9 @@
   align-items: start;
   margin-inline: var(--pm-space-3);
   padding: var(--pm-space-3);
-  background: var(--pm-color-surface);
+  background:
+    linear-gradient(135deg, var(--pm-color-surface) 0 76%, color-mix(in srgb, var(--pm-color-primary-soft) 28%, var(--pm-color-surface)) 76%),
+    var(--pm-color-surface);
   border: var(--pm-border-width) solid var(--pm-color-line);
   box-shadow: 5px 5px 0 color-mix(in srgb, var(--pm-color-primary) 14%, transparent);
 }
@@ -199,7 +244,9 @@
   gap: var(--pm-space-3);
   justify-items: start;
   padding: var(--pm-space-4);
-  background: var(--pm-color-surface);
+  background:
+    linear-gradient(135deg, var(--pm-color-surface) 0 74%, color-mix(in srgb, var(--pm-color-primary-soft) 26%, var(--pm-color-surface)) 74%),
+    var(--pm-color-surface);
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
 }
 
@@ -221,7 +268,9 @@
   gap: var(--pm-space-2);
   align-items: center;
   padding: var(--pm-space-2);
-  background: var(--pm-color-surface);
+  background:
+    linear-gradient(135deg, var(--pm-color-surface) 0 72%, color-mix(in srgb, var(--pm-color-primary-soft) 24%, var(--pm-color-surface)) 72%),
+    var(--pm-color-surface);
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
   box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-primary) 12%, transparent);
 }
@@ -245,7 +294,9 @@
   align-items: center;
   margin-top: auto;
   padding: var(--pm-space-3) var(--pm-space-4);
-  background: var(--pm-color-surface);
+  background:
+    linear-gradient(135deg, var(--pm-color-surface) 0 84%, color-mix(in srgb, var(--pm-color-primary-soft) 24%, var(--pm-color-surface)) 84%),
+    var(--pm-color-surface);
   border-top: var(--pm-border-width) solid var(--pm-color-line);
   box-shadow: 0 -4px 0 color-mix(in srgb, var(--pm-color-primary) 12%, transparent);
 }
@@ -287,7 +338,9 @@
   display: grid;
   gap: var(--pm-space-3);
   padding: var(--pm-space-4);
-  background: var(--pm-color-surface);
+  background:
+    linear-gradient(135deg, var(--pm-color-surface) 0 74%, color-mix(in srgb, var(--pm-color-primary-soft) 28%, var(--pm-color-surface)) 74%),
+    var(--pm-color-surface);
   border: var(--pm-border-width) solid var(--pm-color-line);
   box-shadow: var(--pm-shadow-md);
 }
@@ -296,4 +349,10 @@
   display: flex;
   justify-content: space-between;
   gap: var(--pm-space-3);
+}
+
+@media (max-width: 760px) {
+  .pm-create-order-overview {
+    grid-template-columns: 1fr;
+  }
 }

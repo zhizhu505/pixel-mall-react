@@ -6,13 +6,20 @@
   position: relative;
   isolation: isolate;
   display: grid;
-  gap: var(--pm-space-2);
+  gap: 8px;
   min-width: 0;
-  padding: var(--pm-space-2);
+  padding: 10px;
   background: var(--pm-color-surface);
   border: var(--pm-border-width) solid var(--pm-color-line);
   border-radius: var(--pm-radius);
   box-shadow: var(--pm-shadow-md);
+}
+
+.pm-product-card-link {
+  display: grid;
+  gap: inherit;
+  color: inherit;
+  text-decoration: none;
 }
 
 /* 商品卡右上角装饰块：增强像素贴纸感。 */
@@ -73,7 +80,7 @@
 
 .pm-product-cart-badge {
   right: var(--pm-space-2);
-  bottom: var(--pm-space-2);
+  bottom: 34px;
   padding: 4px 8px;
   font-size: var(--pm-text-xs);
   font-weight: var(--pm-weight-bold);
@@ -273,8 +280,8 @@
 .pm-product-title {
   margin: 0;
   overflow-wrap: anywhere;
-  font-size: var(--pm-text-md);
-  line-height: var(--pm-line-card);
+  font-size: var(--pm-text-sm);
+  line-height: 1.28;
 }
 
 /* 商品描述：弱化显示，用于一句话卖点或规格摘要。 */
@@ -288,15 +295,23 @@
 
 .pm-product-sales {
   display: inline-flex;
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
   width: max-content;
-  padding: 3px 7px;
-  color: var(--pm-color-text-muted);
-  font-size: var(--pm-text-xs);
-  background: color-mix(in srgb, var(--pm-color-bg-soft) 82%, white);
-  border: 1px solid color-mix(in srgb, var(--pm-color-line) 22%, transparent);
+  padding: 3px 6px;
+  color: var(--pm-color-primary-deep);
+  font-size: 10px;
+  font-weight: var(--pm-weight-black);
+  line-height: 1.1;
+  background: color-mix(in srgb, rgba(255, 255, 255, 0.92) 88%, var(--pm-color-bg-soft));
+  border: 1px solid color-mix(in srgb, var(--pm-color-line) 30%, transparent);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-primary) 12%, transparent);
 }
 
 .pm-product-sales.is-low {
+  position: absolute;
   color: var(--pm-color-primary-deep);
   font-weight: var(--pm-weight-black);
   background: color-mix(in srgb, var(--pm-color-accent) 58%, white);
@@ -304,56 +319,46 @@
   box-shadow: 3px 3px 0 color-mix(in srgb, var(--pm-color-primary) 20%, transparent);
 }
 
+.pm-product-title-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: end;
+}
+
 /* 商品卡底部：价格和操作按钮左右分布。 */
 .pm-product-foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--pm-space-2);
+  gap: 8px;
   min-width: 0;
 }
 
 .pm-product-price-stack {
   display: grid;
   justify-items: start;
-  gap: 3px;
+  gap: 2px;
   min-width: 0;
-}
-
-.pm-product-foot a,
-.pm-product-add-btn {
-  flex: 0 0 auto;
-  white-space: nowrap;
-}
-
-.pm-product-add-btn {
-  min-height: 30px;
-  padding: 4px 8px;
-  font-size: var(--pm-text-xs);
-  line-height: 1;
-  transition: transform 110ms steps(2, end), box-shadow 110ms ease, background-color 110ms ease;
-}
-
-.pm-product-add-btn:active {
-  transform: translate(2px, 2px);
 }
 
 /* 当前价格：全站价格主视觉，使用主题深色。 */
 .pm-price {
   color: var(--pm-color-primary-deep);
-  font-size: var(--pm-text-lg);
+  font-size: var(--pm-text-base);
   font-weight: var(--pm-weight-black);
   line-height: 1;
+  white-space: nowrap;
 }
 
 /* 原价：用于促销前价格，显示删除线。 */
 .pm-old-price {
   display: inline-flex;
   align-items: center;
-  min-height: 22px;
-  padding: 0 6px;
+  min-height: 18px;
+  padding: 0 4px;
   color: var(--pm-color-text-muted);
-  font-size: var(--pm-text-xs);
+  font-size: 10px;
   text-decoration: line-through;
   text-decoration-thickness: 2px;
   text-decoration-color: color-mix(in srgb, var(--pm-color-primary) 72%, transparent);
@@ -363,8 +368,8 @@
 
 /* 收藏卡商品变体：用于首页、收藏页和推荐区的错位贴纸式商品卡。 */
 .pm-product-card-collectible {
-  gap: var(--pm-space-2);
-  padding: var(--pm-space-2);
+  gap: 8px;
+  padding: 10px;
   background: color-mix(in srgb, var(--pm-color-surface) 88%, transparent);
   border-width: var(--pm-border-width-thin);
   box-shadow:
@@ -397,6 +402,11 @@
 .pm-product-card-collectible:focus-within .pm-pixel-product {
   filter: saturate(1.08);
   transform: translateY(-2px) scale(1.02);
+}
+
+.pm-home-product-meta {
+  display: grid;
+  gap: 5px;
 }
 
 /* 像素商品占位图：用 CSS 绘制统一像素商品图，保证无图片时也有完整风格。 */

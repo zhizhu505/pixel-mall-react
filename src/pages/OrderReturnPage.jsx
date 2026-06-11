@@ -5,6 +5,7 @@ import EmptyState from '../components/common/EmptyState';
 import StatusTag from '../components/common/StatusTag';
 import { useServices, useServiceVersion } from '../hooks/useServices';
 import { formatPrice } from '../utils/productDisplay';
+import { showPixelToast } from '../utils/pixelToast';
 
 const returnReasons = ['七天无理由', '商品破损', '与描述不符', '错发漏发', '其他原因'];
 
@@ -30,7 +31,6 @@ const OrderReturnPage = () => {
   const currentOrder = order.getOrderById(orderId);
   const [forms, setForms] = useState({});
   const [shipmentForms, setShipmentForms] = useState({});
-  const [message, setMessage] = useState('');
 
   if (!currentOrder || currentOrder.userId !== currentUser.id || currentOrder.status !== 3) {
     return (
@@ -60,7 +60,7 @@ const OrderReturnPage = () => {
   const handleRequestReturn = (goodId) => {
     const form = forms[goodId] || { type: 'return-refund', reason: returnReasons[0], description: '' };
     const result = order.requestReturn(currentOrder.id, currentUser.id, { goodId, ...form });
-    setMessage(result.message);
+    showPixelToast(result.message, { tone: result.success ? 'success' : 'warning' });
     if (result.success) {
       setForms((current) => ({ ...current, [goodId]: { type: 'return-refund', reason: returnReasons[0], description: '' } }));
     }
@@ -68,7 +68,7 @@ const OrderReturnPage = () => {
 
   const handleSubmitShipment = (returnId) => {
     const result = order.submitReturnShipment(currentOrder.id, currentUser.id, returnId, shipmentForms[returnId]);
-    setMessage(result.message);
+    showPixelToast(result.message, { tone: result.success ? 'success' : 'warning' });
     if (result.success) {
       setShipmentForms((current) => ({ ...current, [returnId]: '' }));
     }
@@ -90,7 +90,6 @@ const OrderReturnPage = () => {
           <StatusTag value="finished">已完成</StatusTag>
         </header>
         <p className="pm-order-desc">订单号：{currentOrder.orderNo}</p>
-        {message ? <p className="pm-order-service-message">{message}</p> : null}
       </section>
 
       <section className="pm-order-service-list">

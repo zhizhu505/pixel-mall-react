@@ -632,9 +632,9 @@
 }
 
 .pm-home-product-grid .pm-home-product-card {
-  gap: 10px;
+  gap: 8px;
   margin: 0;
-  padding: 14px;
+  padding: 10px;
   background: color-mix(in srgb, var(--pm-color-surface) 92%, transparent);
   border-width: var(--pm-border-width-thin);
   box-shadow:
@@ -679,14 +679,7 @@
 }
 
 .pm-home-product-meta {
-  display: grid;
-  gap: 7px;
-}
-
-.pm-home-product-meta > span {
-  color: var(--pm-color-primary-deep);
-  font-size: var(--pm-text-xs);
-  font-weight: var(--pm-weight-black);
+  gap: 5px;
 }
 
 /* 底部信息条：从表格框改成漂浮说明贴纸。 */
@@ -848,8 +841,8 @@
 
 .pm-h5-shell .pm-home-product-grid .pm-home-product-card:nth-child(n) {
   margin-top: 0;
-  padding: var(--pm-space-2);
-  gap: var(--pm-space-2);
+  padding: 8px;
+  gap: 8px;
   transform: none;
   box-shadow:
     5px 5px 0 color-mix(in srgb, var(--pm-color-primary) 16%, transparent),

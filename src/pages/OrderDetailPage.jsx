@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import EmptyState from '../components/common/EmptyState';
+import Modal from '../components/common/Modal';
 import StatusTag from '../components/common/StatusTag';
 import { useServices, useServiceVersion } from '../hooks/useServices';
 import { formatPrice, getProductPriceInfo } from '../utils/productDisplay';
+import { showPixelToast } from '../utils/pixelToast';
 
 const OrderDetailPage = () => {
   const { orderId } = useParams();
@@ -13,6 +16,8 @@ const OrderDetailPage = () => {
   const currentUser = user.getCurrentUser();
   const parsedOrderId = Number(orderId);
   const currentOrder = order.getOrderById(parsedOrderId);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [confirmingReceipt, setConfirmingReceipt] = useState(false);
 
   if (!currentOrder || currentOrder.userId !== currentUser.id) {
     return (
@@ -31,13 +36,12 @@ const OrderDetailPage = () => {
   }
 
   const handleConfirmReceipt = async () => {
-    if (!window.confirm('确认已收到商品？')) {
-      return;
-    }
-
+    setConfirmingReceipt(true);
     const result = await api.orders.confirmReceipt(currentOrder.id, currentUser.id);
-    if (!result.success) {
-      window.alert(result.message);
+    showPixelToast(result.message, { tone: result.success ? 'success' : 'warning' });
+    setConfirmingReceipt(false);
+    if (result.success) {
+      setConfirmModalOpen(false);
     }
   };
 
@@ -129,7 +133,7 @@ const OrderDetailPage = () => {
         </Link>
       ) : null}
       {currentOrder.status === 2 ? (
-        <button className="pm-btn pm-btn-primary" type="button" onClick={handleConfirmReceipt}>
+        <button className="pm-btn pm-btn-primary" type="button" onClick={() => setConfirmModalOpen(true)}>
           确认收货
         </button>
       ) : null}
@@ -143,6 +147,17 @@ const OrderDetailPage = () => {
           </div>
         </section>
       ) : null}
+      <Modal
+        open={confirmModalOpen}
+        title="确认收货"
+        onClose={() => !confirmingReceipt && setConfirmModalOpen(false)}
+        onConfirm={handleConfirmReceipt}
+        confirmText={confirmingReceipt ? '确认中...' : '确认收货'}
+        confirmDisabled={confirmingReceipt}
+        confirmVariant="primary"
+      >
+        <p className="pm-help">确认已收到这笔订单的商品后，订单状态会更新为已完成。</p>
+      </Modal>
     </main>
   );
 };

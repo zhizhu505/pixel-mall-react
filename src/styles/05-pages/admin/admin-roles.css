@@ -8,8 +8,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--pm-admin-panel-gap);
-  height: calc(100vh - 170px);
-  overflow: hidden;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .pm-role-workspace {
@@ -17,17 +17,17 @@
   display: grid;
   grid-template-columns: minmax(200px, 250px) minmax(0, 1fr);
   gap: 16px;
-  align-items: start;
+  align-items: stretch;
   min-height: 0;
   height: 100%;
-  overflow: hidden;
 }
 
 .pm-role-list {
   display: grid;
   gap: 10px;
   align-content: start;
-  min-height: 100%;
+  min-height: 0;
+  height: 100%;
   padding: 12px;
   overflow: auto;
   background:
@@ -186,7 +186,8 @@
 }
 
 .pm-role-editor > .pm-role-section:first-of-type {
-  flex: 0 1 auto;
+  flex: 1 1 360px;
+  min-height: 0;
   overflow: auto;
 }
 
@@ -194,6 +195,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 12px;
+  align-items: start;
   border: 0;
 }
 
@@ -202,7 +204,8 @@
   --pm-role-group-strong: var(--pm-color-primary);
   display: grid;
   gap: 8px;
-  min-height: 136px;
+  min-height: 0;
+  align-content: start;
   padding: 12px 12px 14px;
   background:
     linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
@@ -248,21 +251,24 @@
 
 .pm-role-toggle-list {
   display: grid;
-  gap: 6px;
+  gap: 8px;
 }
 
 .pm-role-menu-list {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 8px;
+  gap: 10px;
+  align-items: start;
   border: 0;
 }
 
 .pm-role-toggle {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: 3px 8px;
-  align-items: start;
-  padding: 8px 10px;
+  gap: 8px;
+  align-items: center;
+  min-height: 84px;
+  height: 84px;
+  padding: 10px 12px;
   background:
     linear-gradient(90deg, rgba(255, 159, 199, 0.04) 1px, transparent 1px),
     linear-gradient(rgba(255, 159, 199, 0.04) 1px, transparent 1px),
@@ -281,15 +287,10 @@
 }
 
 .pm-role-toggle span {
+  display: block;
   font-size: var(--pm-text-sm);
   font-weight: var(--pm-weight-black);
-}
-
-.pm-role-toggle small {
-  grid-column: 2;
-  color: var(--pm-color-text-muted);
-  font-size: var(--pm-text-xs);
-  word-break: break-word;
+  line-height: 1.35;
 }
 
 .pm-role-toggle.is-checked {
@@ -318,7 +319,8 @@
 }
 
 .pm-role-menu-list .pm-role-toggle {
-  min-height: 74px;
+  min-height: 84px;
+  height: 84px;
   border: 2px solid rgba(61, 47, 59, 0.18);
   box-shadow: 3px 3px 0 rgba(143, 215, 255, 0.18), inset 0 5px 0 rgba(143, 215, 255, 0.32);
 }

@@ -3,12 +3,18 @@
 
 /* 地址卡外壳：显示收货人、电话、地址和操作按钮。 */
 .pm-address-card {
+  --pm-address-card-slice: color-mix(in srgb, var(--pm-color-primary-soft) 32%, var(--pm-color-surface));
+
   display: grid;
   gap: var(--pm-space-2);
   padding: var(--pm-space-4);
-  background: var(--pm-color-surface);
+  background:
+    linear-gradient(135deg, var(--pm-color-surface) 0 74%, var(--pm-address-card-slice) 74%),
+    var(--pm-color-surface);
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-md);
+  box-shadow:
+    4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 14%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--pm-color-surface) 52%, transparent);
 }
 
 /* 地址卡头部和操作区：用于姓名/默认标签、编辑/删除按钮排布。 */
@@ -45,5 +51,8 @@
 }
 
 .pm-address-card.is-default {
-  background: var(--pm-color-bg-soft);
+  --pm-address-card-slice: color-mix(in srgb, var(--pm-color-accent) 24%, var(--pm-color-surface));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--pm-color-bg-soft) 86%, var(--pm-color-surface)) 0 74%, var(--pm-address-card-slice) 74%),
+    var(--pm-color-bg-soft);
 }

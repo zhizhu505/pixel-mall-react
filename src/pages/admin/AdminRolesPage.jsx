@@ -196,7 +196,6 @@ const AdminRolesPage = () => {
                               onChange={() => togglePermission(permission.key)}
                             />
                             <span>{permission.label}</span>
-                            <small>{permission.key}</small>
                           </label>
                         );
                       })}
@@ -224,7 +223,6 @@ const AdminRolesPage = () => {
                         onChange={() => toggleMenu(menu.key)}
                       />
                       <span>{menu.label}</span>
-                      <small>{menu.permission}</small>
                     </label>
                   );
                 })}

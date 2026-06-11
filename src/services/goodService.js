@@ -26,6 +26,11 @@ const defaultProductDetailById = Object.fromEntries(defaultProducts.map((product
 const shopIdByProductId = Object.fromEntries(
   defaultShops.flatMap((shop) => shop.productIds.map((productId) => [productId, shop.id])),
 );
+const mergeMissingDefaultProducts = (products) => {
+  const existingIds = new Set((Array.isArray(products) ? products : []).map((product) => Number(product?.id)).filter(Boolean));
+  const missingDefaults = defaultProducts.filter((product) => !existingIds.has(Number(product.id)));
+  return [...(Array.isArray(products) ? products : []), ...missingDefaults.map((product) => cloneValue(product))];
+};
 
 const normalizeText = (value) => String(value ?? '').trim();
 const normalizeMoney = (value) => {
@@ -158,7 +163,7 @@ class GoodService extends SubscribableService {
   }
 
   advancedSearchProducts(filters = {}) {
-    const { keyword = '', categoryId = 'all', discount = 'all', stock = 'all', price = 'all', sort = 'default' } = filters;
+    const { keyword = '', categoryId = 'all', discount = 'all', stock = 'all', price = 'all', sort = 'sales-desc' } = filters;
     const [minPrice, maxPrice] = String(price).split('-').map((value) => Number(value));
     const hasPriceRange = price !== 'all' && Number.isFinite(minPrice) && Number.isFinite(maxPrice);
     const products = this.getPublicGoodList({ keyword, categoryId }).filter((product) => {
@@ -181,9 +186,13 @@ class GoodService extends SubscribableService {
     return products.sort((left, right) => {
       const leftPrice = getProductPriceInfo(left).currentPrice;
       const rightPrice = getProductPriceInfo(right).currentPrice;
+      const leftSales = Number(left.sales) || 0;
+      const rightSales = Number(right.sales) || 0;
+      if (sort === 'sales-desc' || sort === 'stock-desc') {
+        return rightSales - leftSales || left.id - right.id;
+      }
       if (sort === 'price-asc') return leftPrice - rightPrice;
       if (sort === 'price-desc') return rightPrice - leftPrice;
-      if (sort === 'stock-desc') return right.stock - left.stock;
       return left.id - right.id;
     });
   }
@@ -520,8 +529,9 @@ class GoodService extends SubscribableService {
       : legacyProducts.length
         ? legacyProducts
         : defaultProducts;
+    const mergedProductSource = mergeMissingDefaultProducts(productSource);
 
-    this.products = productSource.map((product) => {
+    this.products = mergedProductSource.map((product) => {
       const productId = Number(product.id);
       const defaultCover = defaultProductCoverById[productId];
       const defaultDetail = defaultProductDetailById[productId] || {};

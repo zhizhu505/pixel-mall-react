@@ -47,9 +47,6 @@ const H5Shell = () => {
   return (
     <div className="pm-h5-viewport">
       <div className="pm-h5-shell">
-        <span className="pm-h5-side-button pm-h5-side-button-left-one" aria-hidden />
-        <span className="pm-h5-side-button pm-h5-side-button-left-two" aria-hidden />
-        <span className="pm-h5-side-button pm-h5-side-button-right" aria-hidden />
         <div className="pm-h5-status-bar" aria-label="手机状态栏">
           <span className="pm-h5-status-time">9:41</span>
           <span className="pm-h5-dynamic-island" aria-hidden />

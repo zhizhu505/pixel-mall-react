@@ -3,14 +3,20 @@
 
 /* 空状态外壳：居中展示图标、标题、说明和操作。 */
 .pm-empty-state {
+  --pm-empty-state-slice: color-mix(in srgb, var(--pm-color-primary-soft) 32%, var(--pm-color-surface));
+
   display: grid;
   gap: var(--pm-space-3);
   justify-items: center;
   padding: var(--pm-space-8) var(--pm-space-4);
   text-align: center;
-  background: var(--pm-color-surface);
+  background:
+    linear-gradient(135deg, var(--pm-color-surface) 0 74%, var(--pm-empty-state-slice) 74%),
+    var(--pm-color-surface);
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-md);
+  box-shadow:
+    5px 5px 0 color-mix(in srgb, var(--pm-color-primary) 14%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--pm-color-surface) 56%, transparent);
 }
 
 /* 空状态图标：可放文字、图标或像素素材占位。 */

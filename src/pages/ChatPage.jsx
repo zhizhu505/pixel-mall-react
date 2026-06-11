@@ -51,6 +51,12 @@ const ChatPage = () => {
     );
   }
 
+  const summaryStats = [
+    { label: '会话成员', value: selectedMessage.participants?.length || (selectedMessage.type === 'chat' ? 2 : 1) },
+    { label: '消息条数', value: thread.length || 1 },
+    { label: '状态', value: selectedMessage.read ? '已读' : '未读' },
+  ];
+
   return (
     <main className="pm-page pm-chat-page">
       <header className="pm-chat-header">
@@ -58,12 +64,25 @@ const ChatPage = () => {
         <div>
           <p className="pm-section-eyebrow">{selectedMessage.type === 'chat' ? 'Merchant Chat' : 'Notice Detail'}</p>
           <h1>{selectedMessage.title}</h1>
+          <p className="pm-chat-header-note">
+            {selectedMessage.type === 'chat'
+              ? '在同一屏内查看上下文、商品线索和回复输入区，适合移动端连续沟通。'
+              : '通知详情会保留完整正文和触发时间，方便回看活动与物流提醒。'}
+          </p>
         </div>
       </header>
 
       {selectedMessage.type === 'chat' ? (
         <section className="pm-chat-dialog" aria-label="聊天记录">
           {selectedMessage.productName ? <p className="pm-chat-product">咨询商品：{selectedMessage.productName}</p> : null}
+          <div className="pm-chat-summary" aria-label="聊天概览">
+            {summaryStats.map((item) => (
+              <article key={item.label}>
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </article>
+            ))}
+          </div>
           <div className="pm-chat-thread">
             {thread.map((item) => (
               <div key={item.id} className={`pm-chat-bubble${item.sender === '我' ? ' is-own' : ''}`}>

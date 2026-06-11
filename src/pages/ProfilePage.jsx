@@ -3,26 +3,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import ThemePanel from '../components/common/ThemePanel';
 import { ORDER_STATUS_TABS, orderListPathForStatus } from '../constants/orderTabs';
 import { useServices, useServiceSnapshot } from '../hooks/useServices';
-import IconAll from '../assets/images/profile/icon-all.svg';
-import IconUnpaid from '../assets/images/profile/icon-unpaid.svg';
-import IconPaid from '../assets/images/profile/icon-paid.svg';
-import IconShipped from '../assets/images/profile/icon-shipped.svg';
-import IconFinished from '../assets/images/profile/icon-finished.svg';
-import IconFavorites from '../assets/images/profile/icon-favorites.svg';
-import IconAddress from '../assets/images/profile/icon-address.svg';
-import IconFootprints from '../assets/images/profile/icon-footprints.svg';
-import IconAdmin from '../assets/images/profile/icon-admin.svg';
 
 const iconMap = {
-  all: IconAll,
-  unpaid: IconUnpaid,
-  paid: IconPaid,
-  shipped: IconShipped,
-  finished: IconFinished,
-  favorites: IconFavorites,
-  address: IconAddress,
-  footprints: IconFootprints,
-  admin: IconAdmin,
+  all: '/images/profile/icon-all.svg',
+  unpaid: '/images/profile/icon-unpaid.svg',
+  paid: '/images/profile/icon-paid.svg',
+  shipped: '/images/profile/icon-shipped.svg',
+  finished: '/images/profile/icon-finished.svg',
+  favorites: '/images/profile/icon-favorites.svg',
+  address: '/images/profile/icon-address.svg',
+  footprints: '/images/profile/icon-footprints.svg',
+  admin: '/images/profile/icon-admin.svg',
 };
 
 const ProfilePage = () => {
@@ -59,46 +50,48 @@ const ProfilePage = () => {
         </div>
       </section>
 
-      <section className="pm-profile-panel" aria-labelledby="profile-orders-title">
-        <h2 className="pm-profile-panel-title" id="profile-orders-title">
-          我的订单
-        </h2>
-        <nav className="pm-profile-order-tabs" aria-label="订单筛选">
-          {ORDER_STATUS_TABS.map((tab) => (
-            <Link
-              key={tab.key}
-              className="pm-profile-order-tab"
-              to={orderListPathForStatus(tab.key)}
-            >
-              <img src={iconMap[tab.icon]} alt="" className="pm-profile-order-tab-icon" aria-hidden />
-              <span className="pm-profile-order-tab-label">{tab.label}</span>
-            </Link>
-          ))}
-        </nav>
-      </section>
+      <section className="pm-profile-panel pm-profile-quick-panel" aria-labelledby="profile-orders-title">
+        <div className="pm-profile-quick-section">
+          <h2 className="pm-profile-panel-title" id="profile-orders-title">
+            我的订单
+          </h2>
+          <nav className="pm-profile-order-tabs" aria-label="订单筛选">
+            {ORDER_STATUS_TABS.map((tab) => (
+              <Link
+                key={tab.key}
+                className="pm-profile-order-tab"
+                to={orderListPathForStatus(tab.key)}
+              >
+                <img src={iconMap[tab.icon]} alt="" className="pm-profile-order-tab-icon" aria-hidden />
+                <span className="pm-profile-order-tab-label">{tab.label}</span>
+              </Link>
+            ))}
+          </nav>
+        </div>
 
-      <section className="pm-profile-panel" aria-labelledby="profile-menu-title">
-        <h2 className="pm-profile-panel-title" id="profile-menu-title">
-          常用功能
-        </h2>
-        <nav className="pm-profile-links-grid" aria-label="我的功能">
-          <Link className="pm-profile-link-item" to="/favorites">
-            <img src={iconMap.favorites} alt="" className="pm-profile-link-icon" aria-hidden />
-            <span className="pm-profile-link-label">收藏</span>
-          </Link>
-          <Link className="pm-profile-link-item" to="/address">
-            <img src={iconMap.address} alt="" className="pm-profile-link-icon" aria-hidden />
-            <span className="pm-profile-link-label">地址</span>
-          </Link>
-          <Link className="pm-profile-link-item" to="/footprints">
-            <img src={iconMap.footprints} alt="" className="pm-profile-link-icon" aria-hidden />
-            <span className="pm-profile-link-label">足迹</span>
-          </Link>
-          <Link className="pm-profile-link-item pm-profile-link-item-admin" to="/admin/login">
-            <img src={iconMap.admin} alt="" className="pm-profile-link-icon" aria-hidden />
-            <span className="pm-profile-link-label">后台</span>
-          </Link>
-        </nav>
+        <div className="pm-profile-quick-section">
+          <h2 className="pm-profile-panel-title" id="profile-menu-title">
+            常用功能
+          </h2>
+          <nav className="pm-profile-links-grid" aria-label="我的功能">
+            <Link className="pm-profile-link-item" to="/favorites">
+              <img src={iconMap.favorites} alt="" className="pm-profile-link-icon" aria-hidden />
+              <span className="pm-profile-link-label">收藏</span>
+            </Link>
+            <Link className="pm-profile-link-item" to="/address">
+              <img src={iconMap.address} alt="" className="pm-profile-link-icon" aria-hidden />
+              <span className="pm-profile-link-label">地址</span>
+            </Link>
+            <Link className="pm-profile-link-item" to="/footprints">
+              <img src={iconMap.footprints} alt="" className="pm-profile-link-icon" aria-hidden />
+              <span className="pm-profile-link-label">足迹</span>
+            </Link>
+            <Link className="pm-profile-link-item pm-profile-link-item-admin" to="/admin/login">
+              <img src={iconMap.admin} alt="" className="pm-profile-link-icon" aria-hidden />
+              <span className="pm-profile-link-label">后台</span>
+            </Link>
+          </nav>
+        </div>
       </section>
 
       <section className="pm-profile-panel pm-profile-theme-panel" aria-labelledby="profile-theme-title">

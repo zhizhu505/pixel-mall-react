@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import EmptyState from '../components/common/EmptyState';
 import ProductCard from '../components/h5/ProductCard';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
-import { useServices, useServiceSnapshot, useServiceVersion } from '../hooks/useServices';
+import { useServices, useServiceVersion } from '../hooks/useServices';
 import { splitCategoryLabel } from '../utils/categoryLabel';
-import { showPixelToast } from '../utils/pixelToast';
 
 const CategoryChipLabel = ({ name }) => {
   const { line1, line2 } = splitCategoryLabel(name);
@@ -19,7 +18,7 @@ const CategoryChipLabel = ({ name }) => {
   );
 };
 
-const CategoryProductFeed = ({ products, onAddToCart, cartQuantityMap, animatingProductId }) => {
+const CategoryProductFeed = ({ products }) => {
   const { visibleItems, sentinelRef } = useInfiniteScroll(products, 6);
 
   if (!products.length) {
@@ -42,10 +41,6 @@ const CategoryProductFeed = ({ products, onAddToCart, cartQuantityMap, animating
             product={product}
             index={index}
             showSticker={false}
-            showAddLink
-            cartQuantity={cartQuantityMap[product.id] || 0}
-            isCartAnimating={animatingProductId === product.id}
-            onAddToCart={onAddToCart}
             className="pm-category-product-card"
           />
         ))}
@@ -56,25 +51,12 @@ const CategoryProductFeed = ({ products, onAddToCart, cartQuantityMap, animating
 };
 
 const CategoryPage = () => {
-  const { good, user, cart, api } = useServices();
+  const { good, api } = useServices();
   const goodRevision = useServiceVersion(good);
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCategoryId = searchParams.get('categoryId') || 'all';
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
-  const [animatingProductId, setAnimatingProductId] = useState(null);
-  const currentUser = user.getCurrentUser();
-  const cartQuantityMap = useServiceSnapshot(cart, (service) => {
-    if (!currentUser) {
-      return {};
-    }
-
-    return service.getCartItems(currentUser.id).reduce((map, item) => ({
-      ...map,
-      [item.goodId]: item.count,
-    }), {});
-  });
 
   useEffect(() => {
     let isMounted = true;
@@ -101,25 +83,6 @@ const CategoryPage = () => {
       next.set('categoryId', categoryId);
     }
     setSearchParams(next);
-  };
-
-  const handleAddToCart = async (product) => {
-    if (!currentUser) {
-      navigate(`/login?redirect=${encodeURIComponent('/category')}`);
-      return;
-    }
-
-    const result = await api.cart.add(currentUser.id, product.id, 1);
-    if (!result.success) {
-      showPixelToast(result.message);
-      return;
-    }
-
-    setAnimatingProductId(null);
-    window.requestAnimationFrame(() => {
-      setAnimatingProductId(product.id);
-      window.setTimeout(() => setAnimatingProductId(null), 700);
-    });
   };
 
   return (
@@ -149,9 +112,6 @@ const CategoryPage = () => {
           <CategoryProductFeed
             key={activeCategoryId}
             products={products}
-            cartQuantityMap={cartQuantityMap}
-            animatingProductId={animatingProductId}
-            onAddToCart={handleAddToCart}
           />
         </section>
       </div>

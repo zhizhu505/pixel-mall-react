@@ -799,6 +799,19 @@
   gap: 5px;
 }
 
+.pm-order-list-item.is-finished .pm-order-list-info {
+  grid-template-rows: auto auto auto auto auto 1fr;
+}
+
+.pm-order-list-item.is-finished {
+  height: 144px;
+  min-height: 144px;
+}
+
+.pm-order-list-item.is-finished .pm-order-foot {
+  margin-bottom: 4px;
+}
+
 .pm-order-list-item .pm-order-foot .pm-btn {
   min-height: 26px;
   padding: 4px 8px;

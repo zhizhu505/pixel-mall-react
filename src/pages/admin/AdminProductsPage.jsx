@@ -11,34 +11,153 @@ import { useServiceSnapshot } from '../../hooks/useServices';
 import { usePagination } from '../../hooks/usePagination';
 import { formatPrice, getProductPriceInfo } from '../../utils/productDisplay';
 
-const DEFAULT_CAROUSEL_IMAGES_TEXT = ['/favicon.svg', '/favicon.svg'].join('\n');
+const DEFAULT_PRODUCT_COVER = '/favicon.svg';
 
-const formatJsonText = (value) => JSON.stringify(value ?? null, null, 2);
+const splitLines = (value) => String(value || '')
+  .split(/\r?\n/)
+  .map((item) => item.trim())
+  .filter(Boolean);
 
-const parseJsonText = (value, fallback, label) => {
-  const text = String(value || '').trim();
-  if (!text) return fallback;
-  try {
-    return JSON.parse(text);
-  } catch {
-    throw new Error(`${label} 必须是有效 JSON。`);
+const formatServicesText = (services = []) => (Array.isArray(services) ? services : [])
+  .map((service) => [service.label, service.summary, service.detail].filter(Boolean).join('｜'))
+  .filter(Boolean)
+  .join('\n');
+
+const parseServicesText = (value) => {
+  const lines = splitLines(value);
+  return lines.map((line, index) => {
+    const [label = '', summary = '', detail = ''] = line.split('｜').map((item) => item.trim());
+    const normalizedLabel = label || `服务 ${index + 1}`;
+    return {
+      key: `service-${index + 1}`,
+      label: normalizedLabel,
+      summary: summary || normalizedLabel,
+      detail: detail || summary || normalizedLabel,
+    };
+  });
+};
+
+const formatSpecGroupsText = (groups = []) => (Array.isArray(groups) ? groups : [])
+  .map((group) => {
+    const options = Array.isArray(group.options) ? group.options.map((option) => option.label || option.name).filter(Boolean).join(' / ') : '';
+    return [group.name, options].filter(Boolean).join('：');
+  })
+  .filter(Boolean)
+  .join('\n');
+
+const slugifySpec = (value, fallback) => {
+  const normalized = String(value || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\u4e00-\u9fa5]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  return normalized || fallback;
+};
+
+const parseSpecGroupsText = (value) => splitLines(value)
+  .map((line, index) => {
+    const [name = '', optionsText = ''] = line.split('：');
+    const options = optionsText.split('/').map((item) => item.trim()).filter(Boolean);
+    const normalizedName = name.trim() || `规格 ${index + 1}`;
+    return {
+      id: slugifySpec(normalizedName, `spec-${index + 1}`),
+      name: normalizedName,
+      options: options.map((option, optionIndex) => ({
+        id: slugifySpec(option, `option-${index + 1}-${optionIndex + 1}`),
+        label: option,
+      })),
+    };
+  })
+  .filter((group) => group.options.length);
+
+const formatVariantsText = (variants = []) => (Array.isArray(variants) ? variants : [])
+  .map((variant) => {
+    const specText = Object.values(variant.specs || {}).filter(Boolean).join('/');
+    const parts = [specText || variant.id, `库存 ${variant.stock ?? 0}`];
+    if (variant.price !== undefined) parts.push(`现价 ${variant.price}`);
+    if (variant.originalPrice !== undefined) parts.push(`原价 ${variant.originalPrice}`);
+    if (variant.delivery) parts.push(`发货 ${variant.delivery}`);
+    return parts.join('｜');
+  })
+  .filter(Boolean)
+  .join('\n');
+
+const parseVariantsText = (value, fallbackPrice, fallbackOriginalPrice, fallbackStock, specGroups) => {
+  const lines = splitLines(value);
+  if (!lines.length) {
+    const firstSpecGroup = specGroups[0];
+    const firstOption = firstSpecGroup?.options?.[0];
+    return [{
+      id: 'variant-default',
+      specs: firstSpecGroup && firstOption ? { [firstSpecGroup.id]: firstOption.id } : {},
+      stock: fallbackStock,
+      price: fallbackPrice,
+      originalPrice: fallbackOriginalPrice,
+      delivery: '',
+    }];
   }
+
+  return lines.map((line, index) => {
+    const [specText = '', stockText = '', priceText = '', originalPriceText = '', deliveryText = ''] = line.split('｜').map((item) => item.trim());
+    const selectedOptions = specText.split('/').map((item) => item.trim()).filter(Boolean);
+    const specs = {};
+    specGroups.forEach((group, groupIndex) => {
+      const selectedLabel = selectedOptions[groupIndex];
+      const matchedOption = group.options.find((option) => option.label === selectedLabel) || group.options[groupIndex === 0 ? 0 : 0];
+      if (matchedOption) {
+        specs[group.id] = matchedOption.id;
+      }
+    });
+    const parseNumber = (text, prefix, fallback) => {
+      const amount = Number(String(text || '').replace(prefix, '').trim());
+      return Number.isFinite(amount) ? amount : fallback;
+    };
+
+    return {
+      id: `variant-${index + 1}`,
+      specs,
+      stock: parseNumber(stockText, '库存', fallbackStock),
+      price: parseNumber(priceText, '现价', fallbackPrice),
+      originalPrice: parseNumber(originalPriceText, '原价', fallbackOriginalPrice),
+      delivery: String(deliveryText || '').replace('发货', '').trim(),
+    };
+  });
 };
 
-const formatImagesText = (images = [], cover = '/favicon.svg') => (
-  (images.length ? images : [cover, '/favicon.svg'])
-    .filter(Boolean)
-    .join('\n')
-);
+const formatDetailSectionsText = (sections = []) => (Array.isArray(sections) ? sections : [])
+  .map((section) => [section.title, section.content].filter(Boolean).join('｜'))
+  .filter(Boolean)
+  .join('\n');
 
-const parseImagesText = (imagesText, cover) => {
-  const images = String(imagesText || '')
-    .split(/\r?\n/)
-    .map((item) => item.trim())
-    .filter(Boolean);
+const parseDetailSectionsText = (value, fallbackDescription) => {
+  const lines = splitLines(value);
+  if (!lines.length) {
+    return [{ title: '商品亮点', content: fallbackDescription }];
+  }
 
-  return images.length ? images : [cover || '/favicon.svg', '/favicon.svg'];
+  return lines.map((line, index) => {
+    const [title = '', content = ''] = line.split('｜').map((item) => item.trim());
+    return {
+      title: title || `亮点 ${index + 1}`,
+      content: content || title || fallbackDescription,
+    };
+  });
 };
+
+const formatQaText = (items = []) => (Array.isArray(items) ? items : [])
+  .map((item) => [item.question, item.answer].filter(Boolean).join('｜'))
+  .filter(Boolean)
+  .join('\n');
+
+const parseQaText = (value) => splitLines(value).map((line, index) => {
+  const [question = '', answer = ''] = line.split('｜').map((item) => item.trim());
+  return {
+    id: `qa-${index + 1}`,
+    question: question || `常见问题 ${index + 1}`,
+    answer: answer || '欢迎咨询客服获取更多信息',
+    count: 1,
+  };
+});
 
 const createInitialForm = (categories) => ({
   id: null,
@@ -48,16 +167,15 @@ const createInitialForm = (categories) => ({
   saleTag: '',
   categoryId: categories[0]?.id || '',
   stock: 0,
-  cover: '/favicon.svg',
-  imagesText: DEFAULT_CAROUSEL_IMAGES_TEXT,
-  mediaText: '[]',
-  specGroupsText: '[]',
-  variantsText: '[]',
-  servicesText: '[]',
-  promotionInfoText: '{\n  "shipping": "",\n  "tags": [],\n  "coupons": []\n}',
-  detailSectionsText: '[]',
-  qaItemsText: '[]',
-  shopBadgesText: '[]',
+  shippingText: '',
+  promoTagsText: '',
+  couponText: '',
+  servicesText: '',
+  specGroupsText: '',
+  variantsText: '',
+  detailSectionsText: '',
+  qaItemsText: '',
+  shopBadgesText: '',
   description: '',
   status: 'on-sale',
 });
@@ -130,31 +248,39 @@ const AdminProductsPage = () => {
       return;
     }
 
-    const images = parseImagesText(form.imagesText, form.cover);
-    const cover = form.cover.trim() || images[0] || '/favicon.svg';
-    let detailPayload;
-
-    try {
-      detailPayload = {
-        media: parseJsonText(form.mediaText, [], '媒体配置'),
-        specGroups: parseJsonText(form.specGroupsText, [], '规格组配置'),
-        variants: parseJsonText(form.variantsText, [], 'SKU 配置'),
-        services: parseJsonText(form.servicesText, [], '服务保障配置'),
-        promotionInfo: parseJsonText(form.promotionInfoText, {}, '优惠配置'),
-        detailSections: parseJsonText(form.detailSectionsText, [], '详情模块配置'),
-        qaItems: parseJsonText(form.qaItemsText, [], '问大家配置'),
-        shopBadges: parseJsonText(form.shopBadgesText, [], '店铺标签配置'),
-      };
-    } catch (error) {
-      setMessage(error.message);
-      return;
-    }
+    const specGroups = parseSpecGroupsText(form.specGroupsText);
+    const variants = parseVariantsText(form.variantsText, currentPrice, originalPrice, Math.max(0, Number(form.stock) || 0), specGroups);
+    const services = parseServicesText(form.servicesText);
+    const detailSections = parseDetailSectionsText(form.detailSectionsText, form.description.trim());
+    const qaItems = parseQaText(form.qaItemsText);
+    const promotionInfo = {
+      shipping: form.shippingText.trim(),
+      tags: splitLines(form.promoTagsText),
+      coupons: splitLines(form.couponText),
+    };
+    const shopBadges = splitLines(form.shopBadgesText);
+    const cover = editingId ? (products.find((item) => item.id === editingId)?.cover || DEFAULT_PRODUCT_COVER) : DEFAULT_PRODUCT_COVER;
+    const images = editingId ? (products.find((item) => item.id === editingId)?.images || [cover]) : [cover];
+    const media = images.map((src, index) => ({
+      type: 'image',
+      src,
+      cover: src,
+      title: `商品图片 ${index + 1}`,
+      duration: '',
+    }));
 
     const payload = {
       ...form,
-      ...detailPayload,
       cover,
       images,
+      media,
+      specGroups,
+      variants,
+      services,
+      promotionInfo,
+      detailSections,
+      qaItems,
+      shopBadges,
       originalPrice: canEditDiscount ? originalPrice : currentPrice,
       currentPrice,
       price: currentPrice,
@@ -195,16 +321,15 @@ const AdminProductsPage = () => {
       saleTag: priceInfo.saleTag,
       categoryId: product.categoryId,
       stock: product.stock,
-      cover: product.cover,
-      imagesText: formatImagesText(product.images, product.cover),
-      mediaText: formatJsonText(product.media || []),
-      specGroupsText: formatJsonText(product.specGroups || []),
-      variantsText: formatJsonText(product.variants || []),
-      servicesText: formatJsonText(product.services || []),
-      promotionInfoText: formatJsonText(product.promotionInfo || {}),
-      detailSectionsText: formatJsonText(product.detailSections || []),
-      qaItemsText: formatJsonText(product.qaItems || []),
-      shopBadgesText: formatJsonText(product.shopBadges || []),
+      shippingText: product.promotionInfo?.shipping || '',
+      promoTagsText: (product.promotionInfo?.tags || []).join('\n'),
+      couponText: (product.promotionInfo?.coupons || []).join('\n'),
+      servicesText: formatServicesText(product.services || []),
+      specGroupsText: formatSpecGroupsText(product.specGroups || []),
+      variantsText: formatVariantsText(product.variants || []),
+      detailSectionsText: formatDetailSectionsText(product.detailSections || []),
+      qaItemsText: formatQaText(product.qaItems || []),
+      shopBadgesText: (product.shopBadges || []).join('\n'),
       description: product.description,
       status: product.status,
     });
@@ -440,6 +565,10 @@ const AdminProductsPage = () => {
                 <p className="pm-label">状态</p>
                 <StatusTag value={viewingProduct.status}>{viewingProduct.status === 'on-sale' ? '上架中' : viewingProduct.status === 'off-sale' ? '已下架' : '已删除'}</StatusTag>
               </div>
+              <div>
+                <p className="pm-label">更新时间</p>
+                <p>{viewingProduct.updatedAt}</p>
+              </div>
             </div>
             <div className="pm-admin-detail-grid">
               <div>
@@ -455,21 +584,57 @@ const AdminProductsPage = () => {
                 <p>{getProductPriceInfo(viewingProduct).saleTag || '无'}</p>
               </div>
               <div>
-                <p className="pm-label">更新时间</p>
-                <p>{viewingProduct.updatedAt}</p>
+                <p className="pm-label">发货说明</p>
+                <p>{viewingProduct.promotionInfo?.shipping || '默认 48 小时内发货'}</p>
               </div>
             </div>
-            <div className="pm-admin-detail-media">
-              <p className="pm-label">封面预览</p>
-              <img src={viewingProduct.cover} alt={viewingProduct.name} />
-            </div>
-            <div>
-              <p className="pm-label">轮播图片</p>
-              <p className="pm-admin-detail-copy">{formatImagesText(viewingProduct.images, viewingProduct.cover)}</p>
-            </div>
-            <div>
+            <div className="pm-admin-detail-section">
               <p className="pm-label">商品描述</p>
               <p className="pm-admin-detail-copy">{viewingProduct.description}</p>
+            </div>
+            <div className="pm-admin-detail-grid pm-admin-detail-summary-grid">
+              <div>
+                <p className="pm-label">活动标签</p>
+                <p className="pm-admin-detail-copy">{(viewingProduct.promotionInfo?.tags || []).join('、') || '未设置'}</p>
+              </div>
+              <div>
+                <p className="pm-label">优惠信息</p>
+                <p className="pm-admin-detail-copy">{(viewingProduct.promotionInfo?.coupons || []).join('、') || '未设置'}</p>
+              </div>
+              <div>
+                <p className="pm-label">服务保障</p>
+                <p className="pm-admin-detail-copy">{(viewingProduct.services || []).map((item) => item.label).join('、') || '未设置'}</p>
+              </div>
+              <div>
+                <p className="pm-label">店铺卖点</p>
+                <p className="pm-admin-detail-copy">{(viewingProduct.shopBadges || []).join('、') || '未设置'}</p>
+              </div>
+            </div>
+            <div className="pm-admin-detail-grid pm-admin-detail-summary-grid">
+              <div>
+                <p className="pm-label">规格说明</p>
+                <p className="pm-admin-detail-copy">
+                  {(viewingProduct.specGroups || []).map((group) => `${group.name}：${(group.options || []).map((option) => option.label).join(' / ')}`).join('\n') || '默认规格'}
+                </p>
+              </div>
+              <div>
+                <p className="pm-label">库存组合</p>
+                <p className="pm-admin-detail-copy">
+                  {(viewingProduct.variants || []).map((variant) => `${Object.values(variant.specs || {}).join('/')}｜库存 ${variant.stock || 0}`).join('\n') || `默认规格｜库存 ${viewingProduct.stock || 0}`}
+                </p>
+              </div>
+            </div>
+            <div className="pm-admin-detail-section">
+              <p className="pm-label">详情文案</p>
+              <p className="pm-admin-detail-copy">
+                {(viewingProduct.detailSections || []).map((section) => `${section.title}：${section.content}`).join('\n') || '未设置'}
+              </p>
+            </div>
+            <div className="pm-admin-detail-section">
+              <p className="pm-label">常见问答</p>
+              <p className="pm-admin-detail-copy">
+                {(viewingProduct.qaItems || []).map((item) => `问：${item.question} 答：${item.answer}`).join('\n') || '未设置'}
+              </p>
             </div>
             <div className="pm-admin-detail-grid">
               <div>

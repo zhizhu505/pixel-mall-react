@@ -32,50 +32,46 @@ const ProductForm = ({ form, categories, onChange, onSubmit, submitText = '保�
         <input className="pm-input" min="0" name="stock" type="number" value={form.stock} onChange={onChange} required disabled={isDiscountMode} />
       </label>
       <label className="pm-control pm-admin-form-wide">
-        <span className="pm-label">封面地址</span>
-        <input className="pm-input" name="cover" value={form.cover} onChange={onChange} required disabled={isDiscountMode} />
-      </label>
-      <label className="pm-control pm-admin-form-wide">
-        <span className="pm-label">轮播图地址</span>
-        <textarea className="pm-textarea" name="imagesText" value={form.imagesText} onChange={onChange} placeholder="每行一个图片地址" disabled={isDiscountMode} />
-      </label>
-      <label className="pm-control pm-admin-form-wide">
         <span className="pm-label">商品描述</span>
-        <textarea className="pm-textarea" name="description" value={form.description} onChange={onChange} required disabled={isDiscountMode} />
+        <textarea className="pm-textarea" name="description" value={form.description} onChange={onChange} required placeholder="一句话概括商品卖点、风格和适用场景" disabled={isDiscountMode} />
       </label>
       {!isDiscountMode ? (
         <>
           <label className="pm-control pm-admin-form-wide">
-            <span className="pm-label">详情媒体 JSON</span>
-            <textarea className="pm-textarea pm-admin-json-textarea" name="mediaText" value={form.mediaText} onChange={onChange} placeholder="图片/视频媒体配置" />
+            <span className="pm-label">发货说明</span>
+            <input className="pm-input" name="shippingText" value={form.shippingText} onChange={onChange} placeholder="如：48 小时内发货" />
           </label>
           <label className="pm-control pm-admin-form-wide">
-            <span className="pm-label">规格组 JSON</span>
-            <textarea className="pm-textarea pm-admin-json-textarea" name="specGroupsText" value={form.specGroupsText} onChange={onChange} placeholder="颜色、尺寸、套餐等规格组" />
+            <span className="pm-label">活动标签</span>
+            <textarea className="pm-textarea pm-admin-compact-textarea" name="promoTagsText" value={form.promoTagsText} onChange={onChange} placeholder="每行一个，如：新品首发 / 送礼推荐 / 人气热卖" />
           </label>
           <label className="pm-control pm-admin-form-wide">
-            <span className="pm-label">SKU 库存 JSON</span>
-            <textarea className="pm-textarea pm-admin-json-textarea" name="variantsText" value={form.variantsText} onChange={onChange} placeholder="规格组合、价格和库存" />
+            <span className="pm-label">优惠信息</span>
+            <textarea className="pm-textarea pm-admin-compact-textarea" name="couponText" value={form.couponText} onChange={onChange} placeholder="每行一句，如：满 199 减 20 / 2 件 95 折" />
           </label>
           <label className="pm-control pm-admin-form-wide">
-            <span className="pm-label">服务保障 JSON</span>
-            <textarea className="pm-textarea pm-admin-json-textarea" name="servicesText" value={form.servicesText} onChange={onChange} placeholder="正品保障、运费险、退换等服务" />
+            <span className="pm-label">服务保障</span>
+            <textarea className="pm-textarea pm-admin-compact-textarea" name="servicesText" value={form.servicesText} onChange={onChange} placeholder="每行一项，如：正品保障｜官方质检｜出库前完成基础检查" />
           </label>
           <label className="pm-control pm-admin-form-wide">
-            <span className="pm-label">优惠信息 JSON</span>
-            <textarea className="pm-textarea pm-admin-json-textarea" name="promotionInfoText" value={form.promotionInfoText} onChange={onChange} placeholder="运费、标签、优惠券" />
+            <span className="pm-label">规格说明</span>
+            <textarea className="pm-textarea pm-admin-compact-textarea" name="specGroupsText" value={form.specGroupsText} onChange={onChange} placeholder="每行一组，如：颜色：草莓粉 / 云朵白" />
           </label>
           <label className="pm-control pm-admin-form-wide">
-            <span className="pm-label">详情模块 JSON</span>
-            <textarea className="pm-textarea pm-admin-json-textarea" name="detailSectionsText" value={form.detailSectionsText} onChange={onChange} placeholder="参数、场景、养护说明" />
+            <span className="pm-label">库存与规格组合</span>
+            <textarea className="pm-textarea pm-admin-compact-textarea" name="variantsText" value={form.variantsText} onChange={onChange} placeholder="每行一条，如：草莓粉｜库存 12｜现价 100｜原价 129｜发货 48 小时内" />
           </label>
           <label className="pm-control pm-admin-form-wide">
-            <span className="pm-label">问大家 JSON</span>
-            <textarea className="pm-textarea pm-admin-json-textarea" name="qaItemsText" value={form.qaItemsText} onChange={onChange} placeholder="商品问答" />
+            <span className="pm-label">详情文案</span>
+            <textarea className="pm-textarea pm-admin-compact-textarea" name="detailSectionsText" value={form.detailSectionsText} onChange={onChange} placeholder="每行一个模块，如：材质亮点｜高密帆布包身，日常通勤更耐用" />
           </label>
           <label className="pm-control pm-admin-form-wide">
-            <span className="pm-label">店铺标签 JSON</span>
-            <textarea className="pm-textarea pm-admin-json-textarea" name="shopBadgesText" value={form.shopBadgesText} onChange={onChange} placeholder="店铺可信标签数组" />
+            <span className="pm-label">常见问答</span>
+            <textarea className="pm-textarea pm-admin-compact-textarea" name="qaItemsText" value={form.qaItemsText} onChange={onChange} placeholder="每行一条，如：能放下平板吗？｜可以放入 11 英寸以内设备" />
+          </label>
+          <label className="pm-control pm-admin-form-wide">
+            <span className="pm-label">店铺卖点</span>
+            <textarea className="pm-textarea pm-admin-compact-textarea" name="shopBadgesText" value={form.shopBadgesText} onChange={onChange} placeholder="每行一个，如：原创设计 / 48 小时发货 / 回购率高" />
           </label>
         </>
       ) : null}

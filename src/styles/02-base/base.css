@@ -31,6 +31,7 @@ body {
 
 /* 页面容器：前台页面默认居中并限制最大宽度。 */
 .pm-page {
+  box-sizing: border-box;
   width: min(var(--pm-page-max), calc(100% - 32px));
   margin: 0 auto;
   padding: var(--pm-space-6) 0 var(--pm-space-12);

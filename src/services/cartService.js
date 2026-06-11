@@ -23,8 +23,9 @@ class CartService extends SubscribableService {
   }
 
   getItemCountByGoodId(userId, goodId) {
-    const item = this.carts.find((cartItem) => cartItem.userId === Number(userId) && cartItem.goodId === Number(goodId));
-    return item ? item.count : 0;
+    return this.carts
+      .filter((cartItem) => cartItem.userId === Number(userId) && cartItem.goodId === Number(goodId))
+      .reduce((count, item) => count + item.count, 0);
   }
 
   _buildSpecKey(selectedSpecs = {}) {
@@ -33,6 +34,68 @@ class CartService extends SubscribableService {
       .sort(([left], [right]) => left.localeCompare(right))
       .map(([key, value]) => `${key}:${value}`)
       .join('|');
+  }
+
+  _buildCartItemId(userId, goodId, selectedSpecs = {}, variantId = '') {
+    const normalizedVariantId = String(variantId || '').trim();
+    const specKey = this._buildSpecKey(selectedSpecs);
+
+    if (normalizedVariantId) {
+      return `${userId}-${goodId}-${normalizedVariantId}`;
+    }
+
+    if (specKey) {
+      return `${userId}-${goodId}-${specKey}`;
+    }
+
+    return `${userId}-${goodId}`;
+  }
+
+  _isSameCartEntry(left, right) {
+    if (Number(left.userId) !== Number(right.userId) || Number(left.goodId) !== Number(right.goodId)) {
+      return false;
+    }
+
+    const leftVariantId = String(left.variantId || '').trim();
+    const rightVariantId = String(right.variantId || '').trim();
+
+    if (leftVariantId && rightVariantId) {
+      return leftVariantId === rightVariantId;
+    }
+
+    const leftSpecKey = this._buildSpecKey(left.selectedSpecs);
+    const rightSpecKey = this._buildSpecKey(right.selectedSpecs);
+
+    if (leftSpecKey || rightSpecKey) {
+      return leftSpecKey === rightSpecKey;
+    }
+
+    return true;
+  }
+
+  _mergeDuplicateItems(items) {
+    return items.reduce((merged, item) => {
+      const existing = merged.find((entry) => this._isSameCartEntry(entry, item));
+
+      if (!existing) {
+        merged.push({
+          ...item,
+          id: this._buildCartItemId(item.userId, item.goodId, item.selectedSpecs, item.variantId),
+        });
+        return merged;
+      }
+
+      const existingSpecs = existing.selectedSpecs && Object.keys(existing.selectedSpecs).length ? existing.selectedSpecs : {};
+      const nextSpecs = item.selectedSpecs && Object.keys(item.selectedSpecs).length ? item.selectedSpecs : {};
+      existing.count += Number(item.count) || 0;
+      existing.checked = existing.checked || item.checked === true;
+      existing.selectedSpecs = Object.keys(existingSpecs).length ? existingSpecs : nextSpecs;
+      existing.variantId = existing.variantId || item.variantId || '';
+      existing.specText = existing.specText || item.specText || '';
+      existing.goodSnapshot = item.goodSnapshot || existing.goodSnapshot;
+      existing.id = this._buildCartItemId(existing.userId, existing.goodId, existing.selectedSpecs, existing.variantId);
+      return merged;
+    }, []);
   }
 
   getEnrichedCartItems(userId) {
@@ -106,6 +169,19 @@ class CartService extends SubscribableService {
     this._saveData();
   }
 
+  removeItemsByIds(userId, itemIds) {
+    const idSet = new Set(itemIds.map((id) => String(id)));
+
+    if (!idSet.size) {
+      return;
+    }
+
+    this.carts = this.carts.filter(
+      (item) => !(item.userId === Number(userId) && idSet.has(String(item.id))),
+    );
+    this._saveData();
+  }
+
   refreshSnapshots(userId) {
     this.carts = this.carts.map((item) => {
       if (item.userId !== Number(userId)) {
@@ -133,14 +209,14 @@ class CartService extends SubscribableService {
     }
 
     const selectedSpecs = options.selectedSpecs && typeof options.selectedSpecs === 'object' ? options.selectedSpecs : {};
-    const specKey = this._buildSpecKey(selectedSpecs);
     const variant = options.variant && typeof options.variant === 'object' ? options.variant : null;
     const availableStock = Number(variant?.stock ?? product.stock) || 0;
-    const existing = this.carts.find((item) => (
-      item.userId === Number(userId)
-      && item.goodId === Number(goodId)
-      && this._buildSpecKey(item.selectedSpecs) === specKey
-    ));
+    const existing = this.carts.find((item) => this._isSameCartEntry(item, {
+      userId: Number(userId),
+      goodId: Number(goodId),
+      selectedSpecs,
+      variantId: variant?.id || options.variantId || '',
+    }));
 
     if (existing) {
       const nextCount = existing.count + count;
@@ -152,13 +228,13 @@ class CartService extends SubscribableService {
       existing.variantId = variant?.id || existing.variantId || '';
       existing.specText = options.specText || existing.specText || '';
       existing.goodSnapshot = buildProductSnapshot(product);
+      existing.id = this._buildCartItemId(existing.userId, existing.goodId, existing.selectedSpecs, existing.variantId);
     } else {
       if (count > availableStock) {
         return { success: false, message: '超过库存上限。' };
       }
-      const itemId = specKey ? `${userId}-${goodId}-${specKey}` : `${userId}-${goodId}`;
       this.carts.push({
-        id: itemId,
+        id: this._buildCartItemId(userId, goodId, selectedSpecs, variant?.id || options.variantId || ''),
         userId: Number(userId),
         goodId: Number(goodId),
         count,
@@ -247,20 +323,23 @@ class CartService extends SubscribableService {
   }
 
   _normalizeCarts() {
-    this.carts = this.carts.map((item) => {
+    this.carts = this._mergeDuplicateItems(this.carts.map((item) => {
       const userId = Number(item.userId);
       const goodId = Number(item.goodId);
+      const selectedSpecs = item.selectedSpecs && typeof item.selectedSpecs === 'object' ? item.selectedSpecs : {};
+      const variantId = item.variantId || '';
       return {
         ...item,
-        id: item.id ? String(item.id) : `${userId}-${goodId}`,
+        id: item.id ? String(item.id) : this._buildCartItemId(userId, goodId, selectedSpecs, variantId),
         userId,
         goodId,
-        selectedSpecs: item.selectedSpecs && typeof item.selectedSpecs === 'object' ? item.selectedSpecs : {},
-        variantId: item.variantId || '',
+        count: Math.max(1, Number(item.count) || 1),
+        selectedSpecs,
+        variantId,
         specText: item.specText || '',
         checked: item.checked === true,
       };
-    });
+    }));
   }
 
   _loadData() {

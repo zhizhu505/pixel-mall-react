@@ -6,6 +6,7 @@ import OrderAddressSummary from '../components/h5/OrderAddressSummary';
 import { useServices } from '../hooks/useServices';
 import { formatPrice, getProductPriceInfo } from '../utils/productDisplay';
 import { readSelectedAddressId } from '../utils/orderAddress';
+import { showPixelToast } from '../utils/pixelToast';
 import { collectErrors, validatePhone, validateRequired } from '../utils/validation';
 
 const CheckoutPage = () => {
@@ -31,6 +32,17 @@ const CheckoutPage = () => {
   void cart.getRevision();
   const selectedItems = cart.getSelectedItems(currentUser.id);
   const total = cart.getSelectedTotal(currentUser.id);
+  const totalCount = selectedItems.reduce((sum, item) => sum + Number(item.count || 0), 0);
+  const discountTotal = selectedItems.reduce((sum, item) => {
+    const priceInfo = getProductPriceInfo(item.product || item.goodSnapshot);
+    const originalPrice = Number(priceInfo.originalPrice || 0) * Number(item.count || 0);
+    return sum + Math.max(0, originalPrice - Number(item.lineTotal || 0));
+  }, 0);
+  const summaryStats = [
+    { label: '结算商品', value: totalCount },
+    { label: '选中款式', value: selectedItems.length },
+    { label: '已省金额', value: discountTotal ? formatPrice(discountTotal) : '¥0' },
+  ];
 
   useEffect(() => {
     if (!navAddressId) {
@@ -41,7 +53,7 @@ const CheckoutPage = () => {
 
   const handleSubmit = async () => {
     if (!shippingAddress) {
-      window.alert('请先添加收货地址。');
+      showPixelToast('请先添加收货地址。');
       return;
     }
 
@@ -59,12 +71,13 @@ const CheckoutPage = () => {
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length) {
+      showPixelToast('请先确认收货地址信息完整。');
       return;
     }
 
     const validation = await api.cart.validateCheckout(currentUser.id);
     if (!validation.success) {
-      window.alert(validation.message);
+      showPixelToast(validation.message);
       navigate('/cart');
       return;
     }
@@ -73,7 +86,7 @@ const CheckoutPage = () => {
     const result = await api.orders.createFromCart(currentUser.id, payload);
 
     if (!result.success) {
-      window.alert(result.message);
+      showPixelToast(result.message);
       setSubmitting(false);
       return;
     }
@@ -103,6 +116,15 @@ const CheckoutPage = () => {
         <h1 className="pm-create-order-title">确认订单</h1>
         <p className="pm-create-order-subtitle">提交后进入支付，支付成功后才清空购物车已购商品</p>
       </header>
+
+      <section className="pm-create-order-overview" aria-label="订单概览">
+        {summaryStats.map((item, index) => (
+          <article className={`pm-create-order-overview-card pm-create-order-overview-card-${index + 1}`} key={item.label}>
+            <strong>{item.value}</strong>
+            <span>{item.label}</span>
+          </article>
+        ))}
+      </section>
 
       <OrderAddressSummary address={shippingAddress} returnTo={returnPath} />
 

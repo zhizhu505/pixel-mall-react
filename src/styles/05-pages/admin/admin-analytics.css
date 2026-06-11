@@ -63,42 +63,7 @@
 }
 
 .pm-admin-analytics-stat-grid {
-  display: grid;
   grid-template-columns: repeat(5, minmax(124px, 1fr));
-  gap: 12px;
-}
-
-.pm-admin-analytics-stat {
-  display: grid;
-  gap: 7px;
-  min-height: 126px;
-  padding: 16px 14px;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px),
-    linear-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px),
-    color-mix(in srgb, var(--pm-color-surface-warm) 82%, white);
-  background-size: 14px 14px, 14px 14px, auto;
-  border: 2px solid rgba(61, 47, 59, 0.78);
-  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent);
-}
-
-.pm-admin-analytics-stat:nth-child(2) {
-  background-color: color-mix(in srgb, var(--pm-color-accent-2) 38%, white);
-  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pm-color-accent-2) 34%, transparent);
-}
-
-.pm-admin-analytics-stat:nth-child(3) {
-  background-color: color-mix(in srgb, var(--pm-color-accent) 38%, white);
-  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pm-color-accent) 28%, transparent);
-}
-
-.pm-admin-analytics-stat:nth-child(4) {
-  background-color: color-mix(in srgb, var(--pm-color-primary-soft) 66%, white);
-}
-
-.pm-admin-analytics-stat:nth-child(5) {
-  background-color: color-mix(in srgb, var(--pm-color-accent-3) 38%, white);
-  box-shadow: 5px 5px 0 color-mix(in srgb, var(--pm-color-accent-3) 28%, transparent);
 }
 
 .pm-admin-analytics-stat span,
@@ -112,7 +77,6 @@
 .pm-admin-analytics-stat strong {
   min-width: 0;
   overflow-wrap: anywhere;
-  font-size: 26px;
   line-height: 1;
 }
 

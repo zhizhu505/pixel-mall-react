@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import EmptyState from '../components/common/EmptyState';
+import Modal from '../components/common/Modal';
 import StatusTag from '../components/common/StatusTag';
 import Pagination from '../components/h5/Pagination';
 import { ORDER_STATUS_TABS, orderListPathForStatus } from '../constants/orderTabs';
@@ -19,6 +20,8 @@ const OrderListPage = () => {
   useServiceVersion(order);
   const [searchParams] = useSearchParams();
   const [serviceForms, setServiceForms] = useState({});
+  const [pendingConfirmOrderId, setPendingConfirmOrderId] = useState(null);
+  const [confirmingReceipt, setConfirmingReceipt] = useState(false);
   const currentUser = user.getCurrentUser();
   const status = searchParams.get('status') || 'all';
   const orders = status === 'service'
@@ -28,13 +31,12 @@ const OrderListPage = () => {
   const { page, setPage, totalPages, slice, total, hasPrev, hasNext } = usePagination(orders, 5);
 
   const handleConfirmReceipt = async (orderId) => {
-    if (!window.confirm('确认已收到商品？')) {
-      return;
-    }
-
+    setConfirmingReceipt(true);
     const result = await api.orders.confirmReceipt(orderId, currentUser.id);
-    if (!result.success) {
-      window.alert(result.message);
+    showPixelToast(result.message, { tone: result.success ? 'success' : 'warning' });
+    setConfirmingReceipt(false);
+    if (result.success) {
+      setPendingConfirmOrderId(null);
     }
   };
 
@@ -130,8 +132,10 @@ const OrderListPage = () => {
                   Number(request.goodId) === firstGoodId && !['rejected', 'refunded'].includes(request.status)
                 ));
 
+                const orderStateClass = item.status === 3 ? ' is-finished' : item.status === 2 ? ' is-shipped' : '';
+
                 return (
-                  <article className={`pm-order-card pm-order-list-item${status === 'service' ? ' is-service-mode' : ''}`} key={item.id}>
+                  <article className={`pm-order-card pm-order-list-item${orderStateClass}${status === 'service' ? ' is-service-mode' : ''}`} key={item.id}>
                     <div className="pm-order-list-media">
                       {imageSrc ? <img src={imageSrc} alt="" /> : <span aria-hidden />}
                     </div>
@@ -209,7 +213,7 @@ const OrderListPage = () => {
                           <button
                             className="pm-btn pm-btn-primary"
                             type="button"
-                            onClick={() => handleConfirmReceipt(item.id)}
+                            onClick={() => setPendingConfirmOrderId(item.id)}
                           >
                             收货
                           </button>
@@ -238,6 +242,17 @@ const OrderListPage = () => {
               onPrev={() => hasPrev && setPage(page - 1)}
               onNext={() => hasNext && setPage(page + 1)}
             />
+            <Modal
+              open={pendingConfirmOrderId !== null}
+              title="确认收货"
+              onClose={() => !confirmingReceipt && setPendingConfirmOrderId(null)}
+              onConfirm={() => handleConfirmReceipt(pendingConfirmOrderId)}
+              confirmText={confirmingReceipt ? '确认中...' : '确认收货'}
+              confirmDisabled={confirmingReceipt || pendingConfirmOrderId === null}
+              confirmVariant="primary"
+            >
+              <p className="pm-help">确认已收到商品后，订单会进入已完成状态，并可继续评价或申请售后。</p>
+            </Modal>
           </>
         )}
       </div>

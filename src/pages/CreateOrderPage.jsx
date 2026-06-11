@@ -7,6 +7,7 @@ import OrderAddressSummary from '../components/h5/OrderAddressSummary';
 import { useServices, useServiceVersion } from '../hooks/useServices';
 import { formatPrice, getProductPriceInfo, getProductTone } from '../utils/productDisplay';
 import { readSelectedAddressId } from '../utils/orderAddress';
+import { showPixelToast } from '../utils/pixelToast';
 import { collectErrors, validatePhone, validateRequired } from '../utils/validation';
 
 const readPendingOrderState = (goodId) => {
@@ -93,7 +94,7 @@ const CreateOrderPage = () => {
 
   const handleSubmit = async () => {
     if (!shippingAddress) {
-      window.alert('请先添加收货地址。');
+      showPixelToast('请先添加收货地址。');
       return;
     }
 
@@ -111,6 +112,7 @@ const CreateOrderPage = () => {
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length) {
+      showPixelToast('请先确认收货地址信息完整。');
       return;
     }
 
@@ -130,6 +132,7 @@ const CreateOrderPage = () => {
 
     if (!created) {
       setErrors({ detail: '商品不可购买或库存不足。' });
+      showPixelToast('商品不可购买或库存不足。');
       setSubmitting(false);
       return;
     }

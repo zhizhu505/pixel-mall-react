@@ -9,9 +9,8 @@ import SearchBar from '../../components/h5/SearchBar';
 import { usePagination } from '../../hooks/usePagination';
 import { useServices, useServiceSnapshot, useServiceVersion } from '../../hooks/useServices';
 import { carouselActivities } from '../../mock/activities';
-import { showPixelToast } from '../../utils/pixelToast';
 
-const HomeProductFeed = ({ products, keywordLabel, onAddToCart, cartQuantityMap, animatingProductId }) => {
+const HomeProductFeed = ({ products, keywordLabel, cartQuantityMap }) => {
   const { page, setPage, totalPages, slice, total, hasPrev, hasNext, pageSize } = usePagination(products, 6);
   const productColumns = slice.reduce(
     (columns, product, index) => {
@@ -47,11 +46,8 @@ const HomeProductFeed = ({ products, keywordLabel, onAddToCart, cartQuantityMap,
                 key={product.id}
                 product={product}
                 index={(page - 1) * pageSize + index}
-                showAddLink
                 cartQuantity={cartQuantityMap[product.id] || 0}
-                isCartAnimating={animatingProductId === product.id}
-                onAddToCart={onAddToCart}
-              />
+                />
             ))}
           </div>
         ))}
@@ -69,18 +65,18 @@ const HomeProductFeed = ({ products, keywordLabel, onAddToCart, cartQuantityMap,
 };
 
 const Home = () => {
-  const { good, user, cart, api } = useServices();
+  const { good, cart, user, api } = useServices();
   const goodRevision = useServiceVersion(good);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const keywordFromUrl = searchParams.get('keyword') || '';
   const [keyword, setKeyword] = useState(keywordFromUrl);
-  const [animatingProductId, setAnimatingProductId] = useState(null);
   const currentUser = user.getCurrentUser();
   const cartQuantityMap = useServiceSnapshot(cart, (service) => {
     if (!currentUser) {
       return {};
     }
+
     return service.getCartItems(currentUser.id).reduce((map, item) => ({
       ...map,
       [item.goodId]: item.count,
@@ -116,23 +112,6 @@ const Home = () => {
     }
   };
 
-  const handleAddToCart = async (product) => {
-    if (!currentUser) {
-      navigate(`/login?redirect=${encodeURIComponent('/home')}`);
-      return;
-    }
-    const result = await api.cart.add(currentUser.id, product.id, 1);
-    if (!result.success) {
-      showPixelToast(result.message);
-      return;
-    }
-    setAnimatingProductId(null);
-    window.requestAnimationFrame(() => {
-      setAnimatingProductId(product.id);
-      window.setTimeout(() => setAnimatingProductId(null), 700);
-    });
-  };
-
   return (
     <main className="pm-page pm-home-page">
       <div className="pm-home-top-bar">
@@ -156,8 +135,6 @@ const Home = () => {
         products={hotProducts}
         keywordLabel={keywordFromUrl}
         cartQuantityMap={cartQuantityMap}
-        animatingProductId={animatingProductId}
-        onAddToCart={handleAddToCart}
       />
     </main>
   );

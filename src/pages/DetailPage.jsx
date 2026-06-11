@@ -8,6 +8,7 @@ import ImageCarousel from '../components/h5/ImageCarousel';
 import ProductCard from '../components/h5/ProductCard';
 import { useServices, useServiceVersion } from '../hooks/useServices';
 import { formatPrice, getProductPriceInfo, getProductTone, isLowStockProduct, resolveProductImageList, resolveProductImageSrc } from '../utils/productDisplay';
+import { showPixelToast } from '../utils/pixelToast';
 
 const defaultServices = [
   { key: 'authentic', label: '正品保障', summary: '官方质检', detail: '商品由 Pixel Mall 店铺发出，出库前完成基础质检。' },
@@ -95,7 +96,6 @@ const DetailPage = () => {
   const { good, user, favorite, footprint, api } = useServices();
   const goodRevision = useServiceVersion(good);
   const favoriteRevision = useServiceVersion(favorite);
-  const [message, setMessage] = useState('');
   const [product, setProduct] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
@@ -108,18 +108,19 @@ const DetailPage = () => {
   const [pendingAction, setPendingAction] = useState('cart');
   const [submittingAction, setSubmittingAction] = useState('');
   const [actionPulse, setActionPulse] = useState('');
-
-  useEffect(() => {
-    if (!message) return undefined;
-    const timer = window.setTimeout(() => setMessage(''), 2400);
-    return () => window.clearTimeout(timer);
-  }, [message]);
+  const [pageCartBurstVisible, setPageCartBurstVisible] = useState(false);
 
   useEffect(() => {
     if (!actionPulse) return undefined;
     const timer = window.setTimeout(() => setActionPulse(''), 900);
     return () => window.clearTimeout(timer);
   }, [actionPulse]);
+
+  useEffect(() => {
+    if (!pageCartBurstVisible) return undefined;
+    const timer = window.setTimeout(() => setPageCartBurstVisible(false), 820);
+    return () => window.clearTimeout(timer);
+  }, [pageCartBurstVisible]);
 
   const parsedGoodId = Number(goodId);
   const currentUser = user.getCurrentUser();
@@ -168,6 +169,11 @@ const DetailPage = () => {
     ['库存', `${variantStock} 件`],
     ['发货', selectedVariant?.delivery || promotionInfo.shipping || '48小时内发货'],
   ];
+  const headlineBadges = [
+    ...(product?.shopBadges || []),
+    ...(shop?.tags || []),
+  ].filter(Boolean).slice(0, 4);
+  const serviceSummary = services.map((service) => service.label).slice(0, 4).join(' · ');
   const recommendationGroups = [
     { key: 'also', title: '大家还买了', products: recommendedProducts.slice(0, 3) },
     { key: 'bundle', title: '搭配推荐', products: (recommendedProducts.length > 3 ? recommendedProducts.slice(3, 6) : recommendedProducts.slice(0, 3)) },
@@ -256,12 +262,12 @@ const DetailPage = () => {
 
   const validateSpecs = () => {
     if (!specsCompleted) {
-      setMessage('请先选择完整规格');
+      showPixelToast('请先选择完整规格');
       return false;
     }
 
     if (isSoldOut) {
-      setMessage(product.status !== 'on-sale' ? '商品已下架' : missingVariant ? '当前规格组合不可购买' : '当前规格库存不足');
+      showPixelToast(product.status !== 'on-sale' ? '商品已下架' : missingVariant ? '当前规格组合不可购买' : '当前规格库存不足');
       return false;
     }
 
@@ -294,8 +300,16 @@ const DetailPage = () => {
         variantId: selectedVariant?.id || '',
         specText,
       });
-      setMessage(result.success ? '已加入购物车，购物车数量已更新' : result.message);
+      showPixelToast(result.success ? '已加入购物车，购物车数量已更新' : result.message, {
+        tone: result.success ? 'success' : 'warning',
+      });
       setActionPulse(result.success ? 'cart' : '');
+      if (result.success) {
+        setPageCartBurstVisible(false);
+        window.requestAnimationFrame(() => {
+          setPageCartBurstVisible(true);
+        });
+      }
       setSpecModalOpen(false);
       setSubmittingAction('');
       return;
@@ -312,7 +326,7 @@ const DetailPage = () => {
       setSubmittingAction('');
       return;
     }
-    setMessage('正在进入确认订单');
+    showPixelToast('正在进入确认订单', { tone: 'success', duration: 1500 });
     setActionPulse('buy');
     setSpecModalOpen(false);
     navigate(`/createOrder/${goodId}`, { state: orderState });
@@ -323,7 +337,7 @@ const DetailPage = () => {
 
     const result = await api.favorites.toggle(currentUser.id, product.id);
     setIsFavorited(Boolean(result.favorited));
-    setMessage(result.message);
+    showPixelToast(result.message, { tone: result.success ? 'success' : 'warning' });
   };
 
   const handleContactMerchant = () => {
@@ -336,11 +350,26 @@ const DetailPage = () => {
 
   const handleShare = async () => {
     const shareText = `${product.name} ${formatPrice(displayPriceInfo.currentPrice)}`;
-    if (navigator.share) {
-      await navigator.share({ title: product.name, text: shareText, url: window.location.href });
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: product.name, text: shareText, url: window.location.href });
+        showPixelToast('已打开系统分享', { tone: 'success' });
+        return;
+      }
+
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(`${shareText} ${window.location.href}`);
+        showPixelToast('已复制商品分享文案', { tone: 'success' });
+        return;
+      }
+    } catch (error) {
+      if (error?.name !== 'AbortError') {
+        showPixelToast('暂时无法分享，请稍后再试');
+      }
       return;
     }
-    setMessage('已复制商品分享文案');
+
+    showPixelToast('请使用浏览器分享功能');
   };
 
   return (
@@ -383,23 +412,34 @@ const DetailPage = () => {
             <div>
               <p className="pm-section-eyebrow">Pixel Mall</p>
               <h1 className="pm-detail-title">{product.name}</h1>
+              {headlineBadges.length ? (
+                <div className="pm-detail-headline-badges">
+                  {headlineBadges.map((badge) => <span key={badge}>{badge}</span>)}
+                </div>
+              ) : null}
             </div>
             {shop ? <span className="pm-detail-shop-level">{product.shopBadges?.[0] || shop.tags?.[0] || '优选店铺'}</span> : null}
           </div>
-          <p className="pm-detail-desc">{product.description}</p>
 
           <section className="pm-detail-price-panel" aria-label="价格与优惠">
+            <div className="pm-detail-price-kicker">
+              <span>{displayPriceInfo.saleTag || '今日到手价'}</span>
+              <strong>{Number(product?.sales) || 0} 人已下单</strong>
+            </div>
             <div className="pm-detail-price-row">
               <strong className="pm-price pm-detail-price">{formatPrice(displayPriceInfo.currentPrice)}</strong>
-              {displayPriceInfo.hasDiscount ? <span className="pm-old-price">{formatPrice(displayPriceInfo.originalPrice)}</span> : null}
-              {displayPriceInfo.saleTag ? <span className="pm-tag pm-tag-sale">{displayPriceInfo.saleTag}</span> : null}
+              <div className="pm-detail-price-side">
+                {displayPriceInfo.hasDiscount ? <span className="pm-old-price">{formatPrice(displayPriceInfo.originalPrice)}</span> : null}
+                <span className="pm-detail-price-note">{promotionInfo.shipping || '下单后 48 小时内发货'}</span>
+              </div>
             </div>
             <div className="pm-detail-promo-list">
               {(promotionInfo.tags || []).map((tag) => <span key={tag}>{tag}</span>)}
               {(promotionInfo.coupons || []).slice(0, 2).map((coupon) => <span key={coupon}>{coupon}</span>)}
-              <span>{promotionInfo.shipping || '下单后 48 小时内发货'}</span>
             </div>
           </section>
+
+          <p className="pm-detail-desc">{product.description}</p>
 
           <dl className="pm-detail-param-grid pm-detail-quick-params">
             {detailParams.map(([label, value]) => (
@@ -425,30 +465,22 @@ const DetailPage = () => {
           <section className="pm-detail-service-entry" aria-label="服务保障">
             <button type="button" onClick={() => setServiceModalOpen(true)}>
               <span>服务保障</span>
-              <strong>{services.map((service) => service.label).slice(0, 4).join(' · ')}</strong>
+              <strong>{serviceSummary}</strong>
               <em>查看</em>
             </button>
           </section>
-
-          {shop ? (
-            <Link className="pm-detail-shop-entry" to={`/shop/${shop.id}`}>
-              <span>店铺</span>
-              <strong>{shop.name}</strong>
-              <em>进店</em>
-            </Link>
-          ) : null}
-
-          {message ? <p className="pm-help pm-detail-message">{message}</p> : null}
 
           <div className="pm-detail-actions">
             <Button
               type="button"
               variant="primary"
-              className={actionPulse === 'cart' ? 'is-action-success' : ''}
+              className={`pm-detail-cart-btn${actionPulse === 'cart' ? ' is-action-success' : ''}`}
               disabled={isSoldOut || submittingAction === 'cart'}
               onClick={() => openSpecModal('cart')}
             >
-              {submittingAction === 'cart' ? '加入中...' : actionPulse === 'cart' ? '已加入' : '加入购物车'}
+              <span className="pm-detail-cart-btn-label">
+                {submittingAction === 'cart' ? '加入中...' : actionPulse === 'cart' ? '已加入' : '加入购物车'}
+              </span>
             </Button>
             <Button
               type="button"
@@ -469,42 +501,8 @@ const DetailPage = () => {
         </article>
       </section>
 
-      <section className="pm-detail-long" aria-label="商品图文详情">
-        {qaItems.length ? (
-          <Link className="pm-detail-section-card pm-detail-qa-card pm-detail-qa-entry" to={`/detail/${product.id}/qa`}>
-            <div className="pm-detail-section-headline">
-              <div>
-                <p className="pm-section-eyebrow">Q&A</p>
-                <h2>问大家</h2>
-              </div>
-              <span>{qaItems.length} 问 · {qaAnswerCount} 人参与</span>
-            </div>
-            <div className="pm-detail-qa-preview">
-              <strong>问：{qaItems[0].question}</strong>
-              <span>答：{qaItems[0].answer}</span>
-            </div>
-            <em>查看全部回答</em>
-          </Link>
-        ) : null}
-
-        {shop ? (
-          <article className="pm-detail-shop-card pm-detail-shop-rich-card">
-            <div>
-              <p className="pm-section-eyebrow">Store</p>
-              <h2>{shop.name}</h2>
-              <span>{shop.slogan}</span>
-              <div className="pm-detail-shop-badges">
-                {(product.shopBadges || shop.tags || []).map((badge) => <em key={badge}>{badge}</em>)}
-              </div>
-            </div>
-            <div className="pm-detail-shop-actions">
-              <Button type="button" variant="ghost" onClick={handleContactMerchant}>联系客服</Button>
-              <Link className="pm-btn pm-btn-primary" to={`/shop/${shop.id}`}>进店逛逛</Link>
-            </div>
-          </article>
-        ) : null}
-
-        <article className="pm-detail-section-card pm-detail-story-card">
+      <section className="pm-detail-long pm-detail-flow-panel" aria-label="商品图文详情">
+        <article className="pm-detail-section-card pm-detail-flow-block pm-detail-story-card">
           <div className="pm-detail-story-media">
             {shouldShowImage ? (
               <img src={imageSrc} alt="" onError={() => setFailedImageSrc(imageSrc)} />
@@ -512,12 +510,12 @@ const DetailPage = () => {
               <div className={`pm-pixel-product ${getProductTone(product.id)}`} />
             )}
           </div>
-          <div className="pm-detail-story-copy">
-            <p className="pm-section-eyebrow">Details</p>
-            <h2>图文参数</h2>
-            {detailSections.map((section) => (
-              <section className="pm-detail-copy-section" key={section.title}>
-                <h3>{section.title}</h3>
+            <div className="pm-detail-story-copy">
+              <p className="pm-section-eyebrow">Details</p>
+              <h2>商品亮点</h2>
+              {detailSections.map((section) => (
+                <section className="pm-detail-copy-section" key={section.title}>
+                  <h3>{section.title}</h3>
                 {Array.isArray(section.items) ? (
                   <dl className="pm-detail-param-grid">
                     {section.items.map(([label, value]) => (
@@ -534,7 +532,7 @@ const DetailPage = () => {
         </article>
 
         {product?.detailImage ? (
-          <article className="pm-detail-section-card pm-detail-info-card">
+          <article className="pm-detail-section-card pm-detail-flow-block pm-detail-info-card">
             <p className="pm-section-eyebrow">Info</p>
             <h2>图文介绍</h2>
             <div className="pm-detail-info-image">
@@ -543,7 +541,24 @@ const DetailPage = () => {
           </article>
         ) : null}
 
-        <article className="pm-detail-section-card">
+        {qaItems.length ? (
+          <Link className="pm-detail-qa-card pm-detail-qa-entry" to={`/detail/${product.id}/qa`}>
+            <div className="pm-detail-section-headline">
+              <div>
+                <p className="pm-section-eyebrow">Q&A</p>
+                <h2>问大家</h2>
+              </div>
+              <span>{qaItems.length} 问 · {qaAnswerCount} 人参与</span>
+            </div>
+            <div className="pm-detail-qa-preview">
+              <strong>问：{qaItems[0].question}</strong>
+              <span>答：{qaItems[0].answer}</span>
+            </div>
+            <em>查看全部回答</em>
+          </Link>
+        ) : null}
+
+        <article className="pm-detail-section-card pm-detail-flow-block">
           <p className="pm-section-eyebrow">Notice</p>
           <h2>购买须知</h2>
           <ul className="pm-detail-note-list">
@@ -573,16 +588,39 @@ const DetailPage = () => {
       ) : null}
 
       <footer className="pm-detail-bottom-bar" aria-label="购买操作栏">
-        <button type="button" onClick={handleContactMerchant}>客服</button>
-        <button type="button" onClick={handleFavorite}>{isFavorited ? '已收藏' : '收藏'}</button>
+        {pageCartBurstVisible ? (
+          <span className="pm-detail-page-cart-burst pm-detail-page-cart-burst-near-cart" aria-hidden>
+            +1
+          </span>
+        ) : null}
+        <div className="pm-detail-bottom-shortcuts" aria-label="快捷入口">
+          {shop ? (
+            <Link className="pm-detail-shortcut" to={`/shop/${shop.id}`} aria-label={`进入${shop.name}`}>
+              <span className="pm-detail-shortcut-icon pm-detail-shortcut-icon-shop" aria-hidden />
+              <span className="pm-detail-shortcut-label">店铺</span>
+            </Link>
+          ) : null}
+          <button className="pm-detail-shortcut" type="button" onClick={handleContactMerchant} aria-label="联系商家客服">
+            <span className="pm-detail-shortcut-icon pm-detail-shortcut-icon-service" aria-hidden />
+            <span className="pm-detail-shortcut-label">客服</span>
+          </button>
+          <button className="pm-detail-shortcut" type="button" onClick={handleFavorite} aria-label={isFavorited ? '取消收藏商品' : '收藏商品'}>
+            <span className={`pm-detail-shortcut-icon pm-detail-shortcut-icon-favorite${isFavorited ? ' is-active' : ''}`} aria-hidden>
+              ★
+            </span>
+            <span className="pm-detail-shortcut-label">收藏</span>
+          </button>
+        </div>
         <Button
           type="button"
           variant="primary"
-          className={actionPulse === 'cart' ? 'is-action-success' : ''}
+          className={`pm-detail-cart-btn${actionPulse === 'cart' ? ' is-action-success' : ''}`}
           disabled={isSoldOut || submittingAction === 'cart'}
           onClick={() => openSpecModal('cart')}
         >
-          {submittingAction === 'cart' ? '加入中...' : actionPulse === 'cart' ? '已加入' : '加入购物车'}
+          <span className="pm-detail-cart-btn-label">
+            {submittingAction === 'cart' ? '加入中...' : actionPulse === 'cart' ? '已加入' : '加入购物车'}
+          </span>
         </Button>
         <Button
           type="button"

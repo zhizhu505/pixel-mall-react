@@ -5,6 +5,7 @@ import Button from '../components/common/Button';
 import EmptyState from '../components/common/EmptyState';
 import { useServices, useServiceVersion } from '../hooks/useServices';
 import { formatPrice, getProductPriceInfo } from '../utils/productDisplay';
+import { showPixelToast } from '../utils/pixelToast';
 
 const PAY_TIMEOUT_SECONDS = 15 * 60;
 const PAY_METHODS = [
@@ -70,13 +71,13 @@ const PayPage = () => {
 
   const handlePay = async () => {
     if (expired) {
-      window.alert('支付已超时，请重新下单。');
+      showPixelToast('支付已超时，请重新下单。');
       return;
     }
 
     const result = await api.orders.pay(parsedOrderId);
     if (!result.success) {
-      window.alert(result.message);
+      showPixelToast(result.message);
       return;
     }
     navigate(`/orderDetail/${parsedOrderId}`);

@@ -7,7 +7,7 @@
 }
 
 .pm-cart-page-has-items {
-  --pm-cart-item-fixed-height: 206px;
+  --pm-cart-item-fixed-height: 156px;
 
   display: flex;
   flex-direction: column;
@@ -75,12 +75,12 @@
 }
 
 .pm-cart-page-has-items .pm-cart-item {
-  grid-template-columns: auto 96px minmax(0, 1fr);
+  grid-template-columns: auto 92px minmax(0, 1fr);
   grid-template-rows: 1fr;
-  align-items: start;
+  align-items: center;
   min-height: var(--pm-cart-item-fixed-height);
   height: var(--pm-cart-item-fixed-height);
-  padding: var(--pm-space-4) calc(var(--pm-space-4) + 34px) var(--pm-space-4) var(--pm-space-3);
+  padding: 12px 46px 12px 12px;
   overflow: hidden;
 }
 
@@ -91,7 +91,7 @@
 
 .pm-cart-page-has-items .pm-cart-media {
   width: 92px;
-  height: 108px;
+  height: 112px;
 }
 
 .pm-cart-page-has-items .pm-cart-media .pm-pixel-product {
@@ -99,25 +99,32 @@
 }
 
 .pm-cart-page-has-items .pm-cart-info {
-  align-self: start;
+  align-self: stretch;
   grid-auto-rows: max-content;
-  gap: 6px;
+  grid-template-rows: auto auto auto auto 1fr;
+  gap: 4px;
   min-height: 0;
+  padding-block: 2px;
 }
 
 .pm-cart-page-has-items .pm-cart-title {
   max-width: 100%;
-  font-size: var(--pm-text-sm);
-  line-height: 1.25;
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .pm-cart-page-has-items .pm-cart-spec {
-  font-size: var(--pm-text-xs);
+  font-size: 11px;
 }
 
 .pm-cart-price-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 4px 8px;
   align-items: center;
   min-width: 0;
@@ -140,6 +147,10 @@
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
 }
 
+.pm-cart-page-has-items .pm-cart-discount-name {
+  display: none;
+}
+
 .pm-cart-discount-name {
   color: var(--pm-color-primary-deep);
   background: var(--pm-color-accent);
@@ -148,22 +159,46 @@
 
 .pm-cart-quantity-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 6px;
-  align-items: center;
+  align-items: end;
+  margin-top: auto;
 }
 
 .pm-cart-quantity-label {
+  flex: 0 0 auto;
+  min-height: 18px;
+  padding: 1px 6px;
   background: color-mix(in srgb, var(--pm-color-primary-soft) 42%, var(--pm-color-surface));
 }
 
 .pm-cart-page-has-items .pm-cart-info .pm-quantity-compact {
   margin-top: 0;
+  grid-template-columns: 30px minmax(34px, auto) 30px;
+  align-self: end;
+}
+
+.pm-cart-page-has-items .pm-cart-info .pm-quantity-compact .pm-quantity-btn {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  min-height: 30px;
+  font-size: 18px;
+}
+
+.pm-cart-page-has-items .pm-cart-info .pm-quantity-compact .pm-quantity-value {
+  min-width: 34px;
+  height: 30px;
+  font-size: 13px;
 }
 
 .pm-cart-page-has-items .pm-cart-remove {
-  top: var(--pm-space-4);
-  right: var(--pm-space-4);
+  top: 12px;
+  right: 12px;
+  width: 26px;
+  min-width: 26px;
+  height: 26px;
+  font-size: 16px;
 }
 
 .pm-cart-check {
@@ -293,4 +328,50 @@
   align-content: start;
   gap: var(--pm-space-2);
   overflow-y: auto;
+}
+
+.pm-h5-shell .pm-cart-page-has-items {
+  --pm-cart-item-fixed-height: 148px;
+}
+
+.pm-h5-shell .pm-cart-page-has-items .pm-cart-item {
+  grid-template-columns: auto 84px minmax(0, 1fr);
+  padding: 10px 42px 10px 10px;
+}
+
+.pm-h5-shell .pm-cart-page-has-items .pm-cart-media {
+  width: 84px;
+  height: 104px;
+}
+
+.pm-h5-shell .pm-cart-page-has-items .pm-cart-title {
+  font-size: 12px;
+}
+
+.pm-h5-shell .pm-cart-page-has-items .pm-cart-price {
+  font-size: 12px;
+}
+
+.pm-h5-shell .pm-cart-page-has-items .pm-cart-quantity-row {
+  gap: 5px;
+}
+
+.pm-h5-shell .pm-cart-page-has-items .pm-cart-quantity-label {
+  font-size: 10px;
+}
+
+.pm-h5-shell .pm-cart-page-has-items .pm-cart-info .pm-quantity-compact {
+  grid-template-columns: 28px minmax(30px, auto) 28px;
+}
+
+.pm-h5-shell .pm-cart-page-has-items .pm-cart-info .pm-quantity-compact .pm-quantity-btn {
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  min-height: 28px;
+}
+
+.pm-h5-shell .pm-cart-page-has-items .pm-cart-info .pm-quantity-compact .pm-quantity-value {
+  min-width: 30px;
+  height: 28px;
 }

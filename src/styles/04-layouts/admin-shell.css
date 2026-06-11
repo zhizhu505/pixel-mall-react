@@ -42,7 +42,7 @@
   grid-template-columns: 210px minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
   grid-template-areas:
-    "brand header"
+    "side header"
     "side main";
   height: 100%;
   min-height: 0;
@@ -51,8 +51,9 @@
 }
 
 .pm-admin-brand-panel {
-  grid-area: brand;
+  grid-area: side;
   align-self: start;
+  z-index: 2;
   padding: 14px 14px 0;
 }
 
@@ -64,15 +65,15 @@
   display: grid;
   align-content: start;
   gap: 12px;
-  padding: 14px;
+  padding: 166px 14px 14px;
   overflow-y: auto;
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--pm-color-primary) 9%, transparent) 1px, transparent 1px),
     linear-gradient(color-mix(in srgb, var(--pm-color-primary) 9%, transparent) 1px, transparent 1px),
     linear-gradient(180deg, color-mix(in srgb, var(--pm-color-surface) 82%, transparent), color-mix(in srgb, var(--pm-color-bg-soft) 58%, transparent) 56%, color-mix(in srgb, var(--pm-color-accent-2) 22%, transparent));
   background-size: 18px 18px, 18px 18px, auto;
-  border-right: 3px solid var(--pm-admin-ink-line);
-  box-shadow: inset -5px 0 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent), 8px 0 0 color-mix(in srgb, var(--pm-color-accent) 16%, transparent);
+  border-right: 1px solid color-mix(in srgb, var(--pm-color-text) 14%, transparent);
+  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--pm-color-surface) 70%, transparent), 10px 0 18px color-mix(in srgb, var(--pm-color-primary) 8%, transparent);
 }
 
 /* 后台 logo：显示管理端名称。 */
@@ -268,8 +269,8 @@
   min-height: 0;
   display: grid;
   align-content: start;
-  gap: var(--pm-admin-panel-gap);
-  padding: 0 22px 22px;
+  gap: 6px;
+  padding: 10px 22px 18px;
   overflow-y: auto;
   background: transparent;
 }
@@ -285,9 +286,9 @@
   gap: 8px;
   align-items: center;
   justify-content: space-between;
-  min-height: 64px;
+  min-height: 58px;
   margin-bottom: 0;
-  padding: 10px 18px 8px;
+  padding: 8px 18px 6px;
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--pm-color-primary) 9%, transparent) 1px, transparent 1px),
     linear-gradient(color-mix(in srgb, var(--pm-color-primary) 9%, transparent) 1px, transparent 1px),
@@ -374,9 +375,9 @@
   gap: 2px;
   align-items: start;
   justify-content: space-between;
-  min-height: 62px;
+  min-height: 0;
   margin-top: 0;
-  padding: 0 26px 6px;
+  padding: 0 12px 2px;
   overflow: visible;
   z-index: 8;
   background:
@@ -389,10 +390,10 @@
 
 .pm-admin-page-header::before {
   position: absolute;
-  bottom: 4px;
-  left: 26px;
-  width: 72px;
-  height: 6px;
+  bottom: 2px;
+  left: 12px;
+  width: 56px;
+  height: 5px;
   content: "";
   background: var(--pm-color-primary);
   box-shadow: 84px 0 0 var(--pm-color-accent-2), 168px 0 0 var(--pm-color-accent);
@@ -402,10 +403,10 @@
 
 .pm-admin-page-header::after {
   position: absolute;
-  right: 22px;
-  top: 12px;
-  width: 72px;
-  height: 34px;
+  right: 12px;
+  top: 2px;
+  width: 56px;
+  height: 24px;
   content: "";
   background:
     linear-gradient(90deg, var(--pm-color-primary) 0 62%, var(--pm-color-accent) 62%),
@@ -426,7 +427,7 @@
 }
 
 .pm-admin-page-header .pm-help {
-  margin-top: 2px;
+  margin-top: 0;
 }
 
 /* 后台筛选区：贴纸式控件集合，无大外框。 */
@@ -436,7 +437,7 @@
   flex-wrap: wrap;
   gap: 12px;
   align-items: end;
-  padding: 6px 0 2px;
+  padding: 2px 0 0;
   background: transparent;
   border: 0;
   box-shadow: none;
@@ -452,7 +453,7 @@
 }
 
 .pm-admin-page-filters::before {
-  top: -6px;
+  top: -2px;
   left: 12px;
   background: var(--pm-color-primary);
   box-shadow: 50px 0 0 var(--pm-color-accent-2), 100px 0 0 var(--pm-color-accent);
@@ -460,7 +461,7 @@
 
 .pm-admin-page-filters::after {
   right: 18px;
-  bottom: -3px;
+  bottom: -1px;
   background: var(--pm-color-accent-2);
   transform: rotate(2deg);
 }
@@ -517,7 +518,7 @@
 .pm-admin-form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 10px;
 }
 
 .pm-admin-form .pm-control {
@@ -528,9 +529,8 @@
   grid-column: 1 / -1;
 }
 
-.pm-admin-json-textarea {
-  min-height: 150px;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+.pm-admin-compact-textarea {
+  min-height: 84px;
   line-height: 1.45;
 }
 
@@ -541,13 +541,13 @@
 }
 
 .pm-admin-detail-panel {
-  gap: 16px;
+  gap: 10px;
 }
 
 .pm-admin-detail-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 10px 14px;
 }
 
 .pm-admin-detail-span {
@@ -556,19 +556,38 @@
 
 .pm-admin-detail-copy {
   margin: 0;
-  line-height: 1.6;
+  line-height: 1.5;
   white-space: pre-wrap;
 }
 
-.pm-admin-detail-media {
+.pm-admin-detail-section,
+.pm-admin-detail-summary-grid > div {
   display: grid;
-  gap: 8px;
+  gap: 4px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.68);
+  border: 2px solid color-mix(in srgb, var(--pm-color-text) 12%, transparent);
+  box-shadow: inset 0 -2px 0 rgba(61, 47, 59, 0.08);
 }
 
-.pm-admin-detail-media img {
-  width: min(100%, 280px);
-  border: 2px solid var(--pm-admin-ink-line);
-  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-accent) 18%, transparent);
+.pm-admin-detail-grid > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.pm-admin-detail-panel .pm-label {
+  margin-bottom: 0;
+}
+
+.pm-admin-detail-panel p,
+.pm-admin-detail-panel strong,
+.pm-admin-detail-panel h3 {
+  margin: 0;
+}
+
+.pm-admin-detail-summary-grid {
+  align-items: start;
 }
 
 .pm-admin-detail-list {

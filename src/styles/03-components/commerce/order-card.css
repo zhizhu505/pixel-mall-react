@@ -3,12 +3,18 @@
 
 /* 订单卡外壳：承载订单头部、商品信息和底部操作。 */
 .pm-order-card {
+  --pm-order-card-slice: color-mix(in srgb, var(--pm-color-primary-soft) 34%, var(--pm-color-surface));
+
   display: grid;
   gap: var(--pm-space-3);
   padding: var(--pm-space-4);
-  background: var(--pm-color-surface);
+  background:
+    linear-gradient(135deg, var(--pm-color-surface) 0 74%, var(--pm-order-card-slice) 74%),
+    var(--pm-color-surface);
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-md);
+  box-shadow:
+    4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 14%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--pm-color-surface) 56%, transparent);
 }
 
 /* 订单头部和底部：两端对齐，适配订单号、状态、价格和按钮。 */

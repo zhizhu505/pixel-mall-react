@@ -6,6 +6,7 @@ import StatusTag from '../components/common/StatusTag';
 import StarRating from '../components/common/StarRating';
 import { useServices, useServiceVersion } from '../hooks/useServices';
 import { formatPrice } from '../utils/productDisplay';
+import { showPixelToast } from '../utils/pixelToast';
 
 const getOrderItems = (order) => (order.items?.length
   ? order.items
@@ -19,7 +20,6 @@ const OrderReviewPage = () => {
   const currentUser = user.getCurrentUser();
   const currentOrder = order.getOrderById(orderId);
   const [forms, setForms] = useState({});
-  const [message, setMessage] = useState('');
 
   if (!currentOrder || currentOrder.userId !== currentUser.id || currentOrder.status !== 3) {
     return (
@@ -48,7 +48,7 @@ const OrderReviewPage = () => {
   const handleSubmit = (goodId) => {
     const form = forms[goodId] || { rating: 5, content: '' };
     const result = order.submitReview(currentOrder.id, currentUser.id, { goodId, ...form, rating: Number(form.rating) || 5 });
-    setMessage(result.message);
+    showPixelToast(result.message, { tone: result.success ? 'success' : 'warning' });
     if (result.success) {
       setForms((current) => ({ ...current, [goodId]: { rating: 5, content: '' } }));
     }
@@ -70,7 +70,6 @@ const OrderReviewPage = () => {
           <StatusTag value="finished">已完成</StatusTag>
         </header>
         <p className="pm-order-desc">订单号：{currentOrder.orderNo}</p>
-        {message ? <p className="pm-order-service-message">{message}</p> : null}
       </section>
 
       <section className="pm-order-service-list">

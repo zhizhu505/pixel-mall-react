@@ -1,26 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180" viewBox="0 0 240 180">
-  <!-- 草莓云朵像素包 - 图文介绍图：容量/收纳建议 -->
-  <rect x="0" y="0" width="240" height="180" fill="#fff0f5"/>
-  <text x="20" y="25" font-size="14" font-weight="bold" fill="#3d2f3b">容量收纳建议图</text>
-  <!-- 包包主体 -->
-  <rect x="60" y="50" width="120" height="90" fill="#ff9fbd" stroke="#3d2f3b" stroke-width="3" rx="8"/>
-  <!-- 内部分层示意 -->
-  <line x1="60" y1="95" x2="180" y2="95" stroke="#3d2f3b" stroke-width="2" stroke-dasharray="6 3"/>
-  <text x="85" y="80" font-size="11" fill="#3d2f3b">主袋</text>
-  <text x="85" y="125" font-size="11" fill="#3d2f3b">内袋</text>
-  <!-- 可收纳物品示意 -->
-  <rect x="15" y="55" width="35" height="25" fill="#fff" stroke="#c0c0c0" stroke-width="1" rx="3"/>
-  <text x="18" y="72" font-size="9" fill="#666">手机</text>
-  <rect x="15" y="90" width="35" height="20" fill="#fff" stroke="#c0c0c0" stroke-width="1" rx="3"/>
-  <text x="18" y="104" font-size="9" fill="#666">钥匙</text>
-  <rect x="15" y="120" width="35" height="15" fill="#fff" stroke="#c0c0c0" stroke-width="1" rx="3"/>
-  <text x="18" y="132" font-size="9" fill="#666">口红</text>
-  <!-- 箭头指示 -->
-  <path d="M52 67 L58 67" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <path d="M52 100 L58 100" stroke="#666" stroke-width="1.5"/>
-  <path d="M52 127 L58 127" stroke="#666" stroke-width="1.5"/>
-  <!-- 尺寸标注 -->
-  <text x="200" y="75" font-size="10" fill="#666">约20×15cm</text>
-  <text x="200" y="95" font-size="10" fill="#666">日常通勤</text>
-  <text x="200" y="115" font-size="10" fill="#666">轻松收纳</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="520" viewBox="0 0 400 520">
+  <rect x="10" y="10" width="380" height="500" fill="#fff5f7" stroke="#ff9fbd" stroke-width="3" rx="8"/>
+  <rect x="20" y="20" width="360" height="480" fill="#fff" stroke="#ffc8d4" stroke-width="2"/>
+  
+  <rect x="30" y="30" width="340" height="160" fill="#ffe8ec" stroke="#ff9fbd" stroke-width="2"/>
+  <text x="200" y="115" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#ff6b8a">🍓 草莓云朵像素包</text>
+  <text x="200" y="145" text-anchor="middle" font-family="Arial" font-size="14" fill="#999">Strawberry Cloud Pixel Bag</text>
+  
+  <rect x="30" y="200" width="340" height="80" fill="#fff8f9" stroke="#ff9fbd" stroke-width="1.5"/>
+  <text x="55" y="225" font-family="Arial" font-size="14" font-weight="bold" fill="#ff6b8a">【产品参数】</text>
+  <text x="55" y="250" font-family="Arial" font-size="12" fill="#666">材质：优质帆布 + 刺绣工艺</text>
+  <text x="55" y="270" font-family="Arial" font-size="12" fill="#666">尺寸：22cm × 18cm × 8cm</text>
+  <text x="220" y="250" font-family="Arial" font-size="12" fill="#666">肩带：可调节长度 80-130cm</text>
+  <text x="220" y="270" font-family="Arial" font-size="12" fill="#666">重量：约280g</text>
+  
+  <rect x="30" y="290" width="340" height="90" fill="#fff8f9" stroke="#ff9fbd" stroke-width="1.5"/>
+  <text x="55" y="315" font-family="Arial" font-size="14" font-weight="bold" fill="#ff6b8a">【设计亮点】</text>
+  <text x="55" y="340" font-family="Arial" font-size="12" fill="#666">★ 可爱草莓刺绣图案</text>
+  <text x="55" y="360" font-family="Arial" font-size="12" fill="#666">★ 云朵造型前袋设计</text>
+  <text x="55" y="380" font-family="Arial" font-size="12" fill="#666">★ 金属拉链头装饰</text>
+  
+  <rect x="30" y="390" width="340" height="80" fill="#fff8f9" stroke="#ff9fbd" stroke-width="1.5"/>
+  <text x="55" y="415" font-family="Arial" font-size="14" font-weight="bold" fill="#ff6b8a">【使用场景】</text>
+  <text x="55" y="440" font-family="Arial" font-size="12" fill="#666">日常通勤 / 校园穿搭 / 约会出游</text>
+  <text x="55" y="460" font-family="Arial" font-size="12" fill="#666">适合搭配休闲、甜美风格服饰</text>
+  
+  <rect x="50" y="480" width="300" height="25" fill="#ff9fbd" rx="12"/>
+  <text x="200" y="498" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#fff">✨ Pixel Mall 品质保证 ✨</text>
 </svg>

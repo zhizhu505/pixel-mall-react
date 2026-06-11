@@ -15,15 +15,22 @@
 
 /* 弹窗主体：像素描边白底面板。 */
 .pm-modal {
+  --pm-modal-slice: color-mix(in srgb, var(--pm-color-primary-soft) 36%, var(--pm-color-surface));
+
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   width: min(100%, 420px);
   max-height: calc(100dvh - var(--pm-space-8));
   min-height: 0;
   padding: var(--pm-space-5);
-  background: var(--pm-color-surface);
+  background:
+    linear-gradient(135deg, var(--pm-color-surface) 0 74%, var(--pm-modal-slice) 74%),
+    var(--pm-color-surface);
   border: var(--pm-border-width) solid var(--pm-color-line);
-  box-shadow: var(--pm-shadow-lg);
+  box-shadow:
+    8px 8px 0 color-mix(in srgb, var(--pm-color-primary) 16%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--pm-color-surface) 60%, transparent);
 }
 
 /* 弹窗头部：标题和关闭按钮左右排列。 */
@@ -50,7 +57,9 @@
   height: 34px;
   font-weight: var(--pm-weight-black);
   cursor: pointer;
-  background: var(--pm-color-primary-soft);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--pm-color-primary-soft) 88%, var(--pm-color-surface)) 0 72%, color-mix(in srgb, var(--pm-color-accent) 20%, var(--pm-color-surface)) 72%),
+    var(--pm-color-primary-soft);
   border: var(--pm-border-width-thin) solid var(--pm-color-line);
 }
 
@@ -93,4 +102,23 @@
 .pm-admin-app .pm-alert {
   border-radius: var(--pm-admin-radius-soft);
   background: linear-gradient(180deg, rgba(255, 251, 241, 0.98), rgba(255, 241, 228, 0.96));
+}
+
+.pm-h5-shell .pm-modal-mask {
+  position: absolute;
+  inset: var(--pm-h5-status-height) 0 calc(var(--pm-bottom-bar-height) + var(--pm-h5-home-indicator-height)) 0;
+  z-index: 80;
+  padding: var(--pm-space-3);
+  overflow: hidden;
+  background: rgba(59, 47, 58, 0.22);
+}
+
+.pm-h5-shell .pm-modal {
+  width: 100%;
+  max-width: none;
+  max-height: 100%;
+  padding: var(--pm-space-4);
+  box-shadow:
+    4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 18%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--pm-color-surface) 56%, transparent);
 }

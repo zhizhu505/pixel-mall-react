@@ -3,10 +3,59 @@
   gap: var(--pm-space-3);
 }
 
+.pm-footprints-head-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.pm-footprints-note {
+  margin: 0;
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-sm);
+  line-height: 1.5;
+}
+
 .pm-footprints-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+}
+
+.pm-footprints-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--pm-space-2);
+}
+
+.pm-footprints-stat {
+  display: grid;
+  gap: 4px;
+  min-height: 80px;
+  padding: var(--pm-space-3);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--pm-color-surface) 92%, white), color-mix(in srgb, var(--pm-color-primary-soft) 18%, var(--pm-color-surface)));
+  border: var(--pm-border-width-thin) solid var(--pm-color-line);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pm-color-primary) 14%, transparent);
+}
+
+.pm-footprints-stat strong {
+  color: var(--pm-color-primary-deep);
+  font-size: var(--pm-text-2xl);
+  line-height: 1;
+}
+
+.pm-footprints-stat span {
+  color: var(--pm-color-text-muted);
+  font-size: var(--pm-text-xs);
+  font-weight: var(--pm-weight-black);
+}
+
+.pm-footprints-stat-2 {
+  background: color-mix(in srgb, var(--pm-color-primary-soft) 54%, var(--pm-color-surface));
+}
+
+.pm-footprints-stat-3 {
+  background: color-mix(in srgb, var(--pm-color-accent) 18%, var(--pm-color-surface));
 }
 
 .pm-footprints-grid,
@@ -35,6 +84,7 @@
 }
 
 @media (max-width: 760px) {
+  .pm-footprints-stats,
   .pm-footprints-grid,
   .pm-profile-footprint-preview {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -53,6 +103,10 @@
   font-size: var(--pm-text-xl);
 }
 
+.pm-h5-shell .pm-footprints-note {
+  font-size: var(--pm-text-xs);
+}
+
 .pm-h5-shell .pm-footprints-actions {
   justify-content: flex-end;
 }
@@ -67,6 +121,21 @@
 .pm-h5-shell .pm-profile-footprint-preview {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px;
+}
+
+.pm-h5-shell .pm-footprints-stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.pm-h5-shell .pm-footprints-stat {
+  min-height: 62px;
+  padding: 6px;
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--pm-color-primary) 14%, transparent);
+}
+
+.pm-h5-shell .pm-footprints-stat strong {
+  font-size: var(--pm-text-base);
 }
 
 .pm-h5-shell .pm-footprints-item .pm-btn {

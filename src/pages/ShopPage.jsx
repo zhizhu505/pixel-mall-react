@@ -1,49 +1,26 @@
-import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Button from '../components/common/Button';
 import EmptyState from '../components/common/EmptyState';
 import ProductCard from '../components/h5/ProductCard';
-import { useServices, useServiceSnapshot, useServiceVersion } from '../hooks/useServices';
-import { showPixelToast } from '../utils/pixelToast';
+import { useServices, useServiceVersion } from '../hooks/useServices';
+import { getProductPriceInfo } from '../utils/productDisplay';
 
 const ShopPage = () => {
   const { shopId } = useParams();
   const navigate = useNavigate();
-  const { good, cart, user } = useServices();
+  const { good } = useServices();
   useServiceVersion(good);
   const shop = good.getShopById(shopId);
   const products = shop ? good.getGoodsByShopId(shop.id) : [];
-  const currentUser = user.getCurrentUser();
-  const [animatingProductId, setAnimatingProductId] = useState(null);
-  const cartQuantityMap = useServiceSnapshot(cart, (service) => {
-    if (!currentUser) {
-      return {};
-    }
-
-    return service.getCartItems(currentUser.id).reduce((map, item) => ({
-      ...map,
-      [item.goodId]: item.count,
-    }), {});
-  });
-
-  const handleAddToCart = (product) => {
-    if (!currentUser) {
-      navigate(`/login?redirect=${encodeURIComponent(`/shop/${shopId}`)}`);
-      return;
-    }
-    const result = cart.addItem(currentUser.id, product.id, 1);
-    if (!result.success) {
-      showPixelToast(result.message);
-      return;
-    }
-
-    setAnimatingProductId(null);
-    window.requestAnimationFrame(() => {
-      setAnimatingProductId(product.id);
-      window.setTimeout(() => setAnimatingProductId(null), 700);
-    });
-  };
+  const lowestPrice = products.length
+    ? Math.min(...products.map((product) => getProductPriceInfo(product).currentPrice))
+    : 0;
+  const discountCount = products.filter((product) => {
+    const priceInfo = getProductPriceInfo(product);
+    return priceInfo.hasDiscount || Boolean(priceInfo.saleTag);
+  }).length;
+  const topCategories = Array.from(new Set(products.map((product) => product.categoryName).filter(Boolean))).slice(0, 3);
 
   if (!shop) {
     return (
@@ -56,27 +33,57 @@ const ShopPage = () => {
 
   return (
     <main className="pm-page pm-shop-page">
-      <button className="pm-btn pm-btn-ghost pm-back-btn" type="button" onClick={() => navigate(-1)}>返回</button>
-
       <section className="pm-shop-hero" aria-labelledby="shop-title">
-        <div className="pm-shop-cover">
-          <img src={shop.cover} alt={shop.name} />
+        <button className="pm-btn pm-btn-ghost pm-back-btn pm-shop-back-btn" type="button" onClick={() => navigate(-1)}>
+          返回
+        </button>
+        <div className="pm-shop-hero-main">
+          <div className="pm-shop-cover">
+            <img src={shop.cover} alt={shop.name} />
+          </div>
+          <div className="pm-shop-hero-copy">
+            <p className="pm-section-eyebrow">Pixel Store</p>
+            <h1 id="shop-title">{shop.name}</h1>
+            <strong>{shop.slogan}</strong>
+            <p>{shop.description}</p>
+            <div className="pm-shop-highlight-row">
+              {topCategories.map((category) => (
+                <span className="pm-shop-highlight-chip" key={category}>{category}</span>
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="pm-shop-hero-copy">
-          <p className="pm-section-eyebrow">Pixel Store</p>
-          <h1 id="shop-title">{shop.name}</h1>
-          <strong>{shop.slogan}</strong>
-          <p>{shop.description}</p>
-          <div className="pm-shop-tags">
+        <div className="pm-shop-hero-side">
+          <div className="pm-shop-highlight-row">
+            <span className="pm-shop-side-label">店铺亮点</span>
             {shop.tags.map((tag) => <span className="pm-tag pm-tag-info" key={tag}>{tag}</span>)}
           </div>
-          <Button type="button" variant="ghost" onClick={() => navigate('/messages')}>联系店铺客服</Button>
+          <div className="pm-shop-facts" aria-label="店铺概览">
+            <article>
+              <strong>{products.length}</strong>
+              <span>上架商品</span>
+            </article>
+            <article>
+              <strong>{discountCount}</strong>
+              <span>优惠进行中</span>
+            </article>
+            <article>
+              <strong>{lowestPrice ? `¥${lowestPrice}` : '--'}</strong>
+              <span>入门价格</span>
+            </article>
+          </div>
+          <div className="pm-shop-cta-row">
+            <Button type="button" variant="ghost" onClick={() => navigate('/messages')}>联系店铺客服</Button>
+          </div>
         </div>
       </section>
 
       <section className="pm-shop-products" aria-labelledby="shop-products-title">
         <div className="pm-shop-section-heading">
-          <h2 id="shop-products-title">店内精选</h2>
+          <div>
+            <h2 id="shop-products-title">店内精选</h2>
+            <p className="pm-shop-section-note">延续首页像素陈列方式，把主推商品、价格标签和购买入口压缩到一屏内更易扫读。</p>
+          </div>
           <span>{products.length} 件好物</span>
         </div>
         {products.length ? (
@@ -86,11 +93,7 @@ const ShopPage = () => {
                 key={product.id}
                 product={product}
                 index={index}
-                showAddLink
                 showSticker={false}
-                cartQuantity={cartQuantityMap[product.id] || 0}
-                isCartAnimating={animatingProductId === product.id}
-                onAddToCart={handleAddToCart}
                 className="pm-shop-product-card"
               />
             ))}

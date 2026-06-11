@@ -27,6 +27,14 @@ const MessagesPage = () => {
   const unreadCount = useServiceSnapshot(message, (service) => (
     currentUser ? service.getUnreadCount(currentUser.id) : 0
   ));
+  const chatCount = messages.filter((item) => item.type === 'chat').length;
+  const systemCount = messages.filter((item) => item.type === 'system').length;
+  const stats = [
+    { label: '未读消息', value: unreadCount },
+    { label: '聊天会话', value: chatCount },
+    { label: '系统通知', value: systemCount },
+  ];
+  const latestMessage = messages[0];
 
   const handleOpenMessage = (item) => {
     message.markAsRead(currentUser.id, item.id);
@@ -39,12 +47,30 @@ const MessagesPage = () => {
 
   return (
     <main className="pm-page pm-messages-page">
-      <header className="pm-messages-header">
-        <div>
+      <header className="pm-messages-header pm-messages-hero">
+        <div className="pm-messages-hero-copy">
           <p className="pm-section-eyebrow">Messages</p>
           <h1>消息</h1>
+          <p className="pm-messages-hero-desc">
+            把客服会话和系统通知压缩到同一块工作区里，重要状态优先露出，减少往返点击。
+          </p>
+          {latestMessage ? (
+            <p className="pm-messages-latest">
+              最新动态：{latestMessage.title} · {latestMessage.createdAt}
+            </p>
+          ) : null}
         </div>
-        <Button type="button" variant="ghost" disabled={!unreadCount} onClick={handleReadAll}>全部已读</Button>
+        <div className="pm-messages-hero-side">
+          <div className="pm-messages-stats" aria-label="消息概览">
+            {stats.map((item, index) => (
+              <article className={`pm-messages-stat pm-messages-stat-${index + 1}`} key={item.label}>
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </article>
+            ))}
+          </div>
+          <Button type="button" variant="ghost" disabled={!unreadCount} onClick={handleReadAll}>全部已读</Button>
+        </div>
       </header>
 
       <div className="pm-messages-tabs" role="tablist" aria-label="消息类型">

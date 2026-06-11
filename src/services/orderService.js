@@ -99,7 +99,7 @@ class OrderService extends SubscribableService {
     }
 
     const user = userService.getUserById(userId) || userService.getCurrentUser();
-    const items = validation.items.map((cartItem) => {
+    const items = this._mergeCartItemsForOrder(validation.items.map((cartItem) => {
       const priceInfo = getProductPriceInfo(cartItem.product);
       const unitPrice = Number(cartItem.variant?.price ?? priceInfo.currentPrice) || 0;
       const originalPrice = Number(cartItem.variant?.originalPrice ?? priceInfo.originalPrice) || unitPrice;
@@ -114,8 +114,9 @@ class OrderService extends SubscribableService {
         variantId: cartItem.variant?.id || cartItem.variantId || '',
         specText: cartItem.specText || '',
         goodSnapshot: buildProductSnapshot(cartItem.product),
+        sourceCartItemIds: [String(cartItem.id)],
       };
-    });
+    }));
 
     const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const order = this._buildOrder({
@@ -159,9 +160,9 @@ class OrderService extends SubscribableService {
     order.logistics.unshift({ time: order.payTime, text: '订单支付成功。' });
 
     if (order.source === 'cart' && Array.isArray(order.items) && order.items.length) {
-      cartService.removeItemsByGoodIds(
+      cartService.removeItemsByIds(
         order.userId,
-        order.items.map((item) => item.goodId),
+        order.items.flatMap((item) => item.sourceCartItemIds || []),
       );
     }
 
@@ -687,6 +688,47 @@ class OrderService extends SubscribableService {
     };
   }
 
+  _buildOrderItemMergeKey(item) {
+    const selectedSpecs = item.selectedSpecs && typeof item.selectedSpecs === 'object' ? item.selectedSpecs : {};
+    const specKey = Object.entries(selectedSpecs)
+      .filter(([, value]) => value)
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([key, value]) => `${key}:${value}`)
+      .join('|');
+    const variantId = String(item.variantId || '').trim();
+    const unitPrice = Number(item.price) || 0;
+
+    return [
+      Number(item.goodId),
+      variantId || specKey || 'default',
+      unitPrice,
+    ].join('::');
+  }
+
+  _mergeCartItemsForOrder(items) {
+    return items.reduce((merged, item) => {
+      const existing = merged.find((entry) => this._buildOrderItemMergeKey(entry) === this._buildOrderItemMergeKey(item));
+
+      if (!existing) {
+        merged.push({
+          ...item,
+          sourceCartItemIds: Array.isArray(item.sourceCartItemIds) ? [...item.sourceCartItemIds] : [],
+        });
+        return merged;
+      }
+
+      existing.quantity += Number(item.quantity) || 0;
+      existing.sourceCartItemIds = [
+        ...new Set([...(existing.sourceCartItemIds || []), ...((item.sourceCartItemIds || []).map((id) => String(id)))]),
+      ];
+      existing.specText = existing.specText || item.specText || '';
+      existing.goodSnapshot = item.goodSnapshot || existing.goodSnapshot;
+      existing.selectedSpecs = Object.keys(existing.selectedSpecs || {}).length ? existing.selectedSpecs : (item.selectedSpecs || {});
+      existing.variantId = existing.variantId || item.variantId || '';
+      return merged;
+    }, []);
+  }
+
   _normalizeOrder(input) {
     const product = goodService.getGoodById(input.goodId);
     const user = userService.getUserById(input.userId);
@@ -740,6 +782,7 @@ class OrderService extends SubscribableService {
             saleTag: priceInfo.saleTag,
           }
           : snapshot,
+        sourceCartItemIds: Array.isArray(item.sourceCartItemIds) ? item.sourceCartItemIds.map((id) => String(id)) : [],
       };
     });
 
