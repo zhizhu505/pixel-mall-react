@@ -22,7 +22,9 @@
 }
 
 .pm-messages-hero-side {
+  flex: 0 0 min(42%, 220px);
   justify-items: end;
+  min-width: 184px;
 }
 
 .pm-messages-hero-desc,
@@ -37,7 +39,7 @@
 .pm-messages-stats,
 .pm-chat-summary {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(56px, 1fr));
   gap: 8px;
   width: 100%;
 }
@@ -45,6 +47,7 @@
 .pm-messages-stat,
 .pm-chat-summary article {
   display: grid;
+  align-content: center;
   gap: 4px;
   min-height: 66px;
   padding: var(--pm-space-2);
@@ -65,6 +68,8 @@
   color: var(--pm-color-text-muted);
   font-size: var(--pm-text-xs);
   font-weight: var(--pm-weight-black);
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .pm-messages-stat-2,
@@ -357,6 +362,22 @@
 .pm-h5-shell .pm-messages-page,
 .pm-h5-shell .pm-chat-page {
   gap: var(--pm-space-2);
+}
+
+@media (max-width: 420px) {
+  .pm-messages-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pm-messages-hero-side {
+    justify-items: stretch;
+    min-width: 0;
+  }
+
+  .pm-messages-stats {
+    grid-template-columns: repeat(3, minmax(76px, 1fr));
+  }
 }
 
 .pm-h5-shell .pm-chat-page {
