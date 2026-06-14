@@ -15,6 +15,7 @@
 | 曹玥（组长） | 23301030 | ___ | ___% |
 | 武芷竹 | 23301018 | ___ | ___% |
 | 周诗晴 | 23301027 | ___ | ___% |
+| 胡雅欣 | 23301121 | ___ | ___% |
 | 张蕾 | ___ | ___ | ___% |
 
 **分工说明（参考分类）：** 产品设计、UI 设计、前台编码、后台编码、PPT 制作、测试、文档撰写等。  
@@ -411,3 +412,5 @@ const router = createBrowserRouter([
 | 项目需要补充单元测试，但不希望额外安装测试框架增加配置复杂度。 | 使用 Node.js 自带的 `node:test` 和 `node:assert/strict` 编写轻量单元测试，并在 `package.json` 中添加 `npm run test` 脚本，覆盖核心工具函数。 |
 | 后台管理页面点击发货、评价回复、售后处理等操作按钮后，列表或弹窗中的订单状态没有自动刷新。 | 在操作处理函数（如 `handleShip`、`handleReplyReview`、`handleReturnAction`）中，API 调用成功后显式调用 `api.orders.reload()` 或 `api.products.reload()` 触发 service 层重新加载数据；同时通过 `useServiceSnapshot` 订阅 service 状态变化，确保 UI 自动同步最新数据。对于发货操作额外加了 reload 调用保证状态及时更新。 |
 | 后台管理的详情弹窗（如商品详情、订单详情）中标签文字过长时会超出屏幕边界，影响阅读体验。 | 对 `.pm-admin-detail-grid` 使用 `grid-template-columns: repeat(2, minmax(0, 1fr))` 并配合子元素 `min-width: 0` 防止 grid 子项溢出；对 `.pm-admin-detail-span`（跨列的收货信息等长文本区域）设置 `grid-column: 1 / -1` 占满整行并使用 `white-space: pre-wrap` 允许换行；对表格内操作按钮区域使用 `flex-wrap: wrap` 防止按钮溢出。 |
+| 项目需要补充单元测试，但不希望额外安装测试框架增加配置复杂度。 | 使用 Node.js 自带的 `node:test` 和 `node:assert/strict` 编写轻量单元测试，并在 `package.json` 中添加 `npm run test` 脚本，覆盖核心工具函数。 |
+| 前台购物车、下单、支付、订单等多个环节共用同一份用户与商品数据，跨页面状态同步时容易出现数据不一致（如库存扣减后购物车未及时刷新）。 | 将购物车、商品、订单的读写操作统一收口到各自 service，页面通过 `useServiceSnapshot` 订阅 service 变更，保证任何一处数据修改后相关页面自动重新渲染，避免手动同步带来的遗漏。 |
