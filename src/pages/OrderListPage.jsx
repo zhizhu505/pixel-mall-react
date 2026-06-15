@@ -11,15 +11,12 @@ import { useServices, useServiceVersion } from '../hooks/useServices';
 import { formatPrice, getProductPriceInfo, resolveProductImageSrc } from '../utils/productDisplay';
 import { showPixelToast } from '../utils/pixelToast';
 
-const returnReasons = ['七天无理由', '商品破损', '与描述不符', '错发漏发', '其他原因'];
-
 const OrderListPage = () => {
   'use no memo';
 
   const { order, user, api } = useServices();
   useServiceVersion(order);
   const [searchParams] = useSearchParams();
-  const [serviceForms, setServiceForms] = useState({});
   const [pendingConfirmOrderId, setPendingConfirmOrderId] = useState(null);
   const [confirmingReceipt, setConfirmingReceipt] = useState(false);
   const currentUser = user.getCurrentUser();
@@ -37,31 +34,6 @@ const OrderListPage = () => {
     setConfirmingReceipt(false);
     if (result.success) {
       setPendingConfirmOrderId(null);
-    }
-  };
-
-  const updateServiceForm = (formKey, patch) => {
-    setServiceForms((current) => ({
-      ...current,
-      [formKey]: {
-        type: 'return-refund',
-        reason: returnReasons[0],
-        description: '',
-        ...(current[formKey] || {}),
-        ...patch,
-      },
-    }));
-  };
-
-  const handleRequestReturn = (currentOrder, goodId, formKey) => {
-    const form = serviceForms[formKey] || { type: 'return-refund', reason: returnReasons[0], description: '' };
-    const result = order.requestReturn(currentOrder.id, currentUser.id, { goodId, ...form });
-    showPixelToast(result.message, { tone: result.success ? 'success' : 'warning' });
-    if (result.success) {
-      setServiceForms((current) => ({
-        ...current,
-        [formKey]: { type: 'return-refund', reason: returnReasons[0], description: '' },
-      }));
     }
   };
 
@@ -124,13 +96,16 @@ const OrderListPage = () => {
                 const saleTags = [...new Set(items.map((orderItem) => getProductPriceInfo(orderItem.goodSnapshot || orderItem).saleTag).filter(Boolean))];
                 const reviewCount = item.reviews?.length || 0;
                 const pendingReturnCount = (item.returns || []).filter((request) => ['pending', 'approved', 'shipped', 'received'].includes(request.status)).length;
-                const firstGoodId = Number(firstItem?.goodId || item.goodId || item.id);
-                const formKey = `${item.id}-${firstGoodId}`;
-                const serviceForm = serviceForms[formKey] || { type: 'return-refund', reason: returnReasons[0], description: '' };
-                const firstReturn = (item.returns || []).find((request) => Number(request.goodId) === firstGoodId);
-                const activeReturn = (item.returns || []).find((request) => (
-                  Number(request.goodId) === firstGoodId && !['rejected', 'refunded'].includes(request.status)
-                ));
+                const returnSummaries = items.map((orderItem, index) => {
+                  const goodId = Number(orderItem.goodId || item.goodId || index);
+                  const relatedRequest = (item.returns || []).find((request) => Number(request.goodId) === goodId);
+
+                  return {
+                    key: `${item.id}-${goodId}-${index}`,
+                    name: orderItem.goodSnapshot?.name || `商品 ${index + 1}`,
+                    request: relatedRequest || null,
+                  };
+                });
 
                 const orderStateClass = item.status === 3 ? ' is-finished' : item.status === 2 ? ' is-shipped' : '';
 
@@ -159,45 +134,21 @@ const OrderListPage = () => {
                       ) : null}
                       {status === 'service' ? (
                         <section className="pm-order-inline-service">
-                          {firstReturn ? (
-                            <div className="pm-order-inline-service-status">
-                              <strong>{order.getReturnTypeText(firstReturn.type)}</strong>
-                              <StatusTag>{order.getReturnStatusText(firstReturn.status)}</StatusTag>
-                              <span>{firstReturn.reason}：{firstReturn.description || '暂无描述'}</span>
-                            </div>
-                          ) : (
-                            <div className="pm-order-inline-service-form">
-                              <select
-                                className="pm-select"
-                                value={serviceForm.type}
-                                onChange={(event) => updateServiceForm(formKey, { type: event.target.value })}
-                              >
-                                <option value="return-refund">退货退款</option>
-                                <option value="refund">仅退款</option>
-                              </select>
-                              <select
-                                className="pm-select"
-                                value={serviceForm.reason}
-                                onChange={(event) => updateServiceForm(formKey, { reason: event.target.value })}
-                              >
-                                {returnReasons.map((reason) => <option value={reason} key={reason}>{reason}</option>)}
-                              </select>
-                              <input
-                                className="pm-input"
-                                value={serviceForm.description}
-                                onChange={(event) => updateServiceForm(formKey, { description: event.target.value })}
-                                placeholder="填写问题描述"
-                              />
-                              <button
-                                className="pm-btn pm-btn-primary"
-                                disabled={Boolean(activeReturn)}
-                                type="button"
-                                onClick={() => handleRequestReturn(item, firstGoodId, formKey)}
-                              >
-                                提交
-                              </button>
-                            </div>
-                          )}
+                          <div className="pm-order-inline-service-summary">
+                            {returnSummaries.map((entry) => (
+                              <div className="pm-order-inline-service-row" key={entry.key}>
+                                <strong>{entry.name}</strong>
+                                <span className={`pm-order-inline-service-badge${entry.request ? ' has-request' : ''}`}>
+                                  {entry.request ? order.getReturnStatusText(entry.request.status) : '可申请售后'}
+                                </span>
+                                <small>
+                                  {entry.request
+                                    ? `${order.getReturnTypeText(entry.request.type)} · ${entry.request.reason}${entry.request.description ? `：${entry.request.description}` : ''}`
+                                    : '进入售后页后可按商品提交申请'}
+                                </small>
+                              </div>
+                            ))}
+                          </div>
                         </section>
                       ) : null}
                       <footer className="pm-order-foot">
@@ -223,10 +174,15 @@ const OrderListPage = () => {
                             <Link className="pm-btn pm-btn-mint" to={`/orderReview/${item.id}`}>
                               评价
                             </Link>
-                            <Link className="pm-btn pm-btn-primary" to="/orderList?status=service">
+                            <Link className="pm-btn pm-btn-primary" to={`/orderReturn/${item.id}`}>
                               售后
                             </Link>
                           </>
+                        ) : null}
+                        {status === 'service' ? (
+                          <Link className="pm-btn pm-btn-primary" to={`/orderReturn/${item.id}`}>
+                            {item.returns?.length ? '查看售后' : '申请售后'}
+                          </Link>
                         ) : null}
                       </footer>
                     </div>

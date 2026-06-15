@@ -830,56 +830,65 @@
     2px 2px 0 color-mix(in srgb, var(--pm-color-accent) 16%, transparent);
 }
 
-.pm-order-inline-service-status {
+.pm-order-inline-service-summary {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 4px 6px;
-  align-items: center;
+  gap: 6px;
   min-width: 0;
 }
 
-.pm-order-inline-service-status strong,
-.pm-order-inline-service-status span {
+.pm-order-inline-service-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3px 6px;
+  align-items: center;
+  min-width: 0;
+  padding-bottom: 5px;
+  border-bottom: var(--pm-border-width-thin) dashed color-mix(in srgb, var(--pm-color-line) 56%, transparent);
+}
+
+.pm-order-inline-service-row:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.pm-order-inline-service-row strong,
+.pm-order-inline-service-row small {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.pm-order-inline-service-row strong {
+  font-size: var(--pm-text-xs);
   white-space: nowrap;
 }
 
-.pm-order-inline-service-status strong {
-  font-size: var(--pm-text-xs);
-}
-
-.pm-order-inline-service-status span {
+.pm-order-inline-service-row small {
   grid-column: 1 / -1;
   color: var(--pm-color-text-muted);
   font-size: 10px;
   font-weight: var(--pm-weight-bold);
+  line-height: 1.35;
+  white-space: normal;
+  word-break: break-word;
 }
 
-.pm-order-inline-service-form {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 5px;
+.pm-order-inline-service-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  padding: 2px 6px;
+  color: var(--pm-color-text-muted);
+  font-size: 9px;
+  font-weight: var(--pm-weight-black);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--pm-color-bg-soft) 76%, var(--pm-color-surface));
+  border: var(--pm-border-width-thin) solid color-mix(in srgb, var(--pm-color-line) 72%, transparent);
 }
 
-.pm-order-inline-service-form .pm-input {
-  grid-column: 1 / -1;
-}
-
-.pm-order-inline-service-form .pm-select,
-.pm-order-inline-service-form .pm-input {
-  min-height: 26px;
-  padding: 4px 6px;
-  font-size: 10px;
-  border-width: var(--pm-border-width-thin);
-}
-
-.pm-order-inline-service-form .pm-btn {
-  grid-column: 1 / -1;
-  min-height: 28px;
-  padding: 4px 8px;
-  font-size: 10px;
+.pm-order-inline-service-badge.has-request {
+  color: var(--pm-color-primary-deep);
+  background: color-mix(in srgb, var(--pm-color-accent) 34%, var(--pm-color-surface));
 }
 
 .pm-orders-body > .pm-pagination {
